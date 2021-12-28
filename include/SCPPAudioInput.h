@@ -5,8 +5,21 @@
 #ifndef SCREENRECLIB_SCPPAUDIOINPUT_H
 #define SCREENRECLIB_SCPPAUDIOINPUT_H
 
+#include "SCPPtools.h"
+#include "SCPPInput.h"
 
-class SCPPAudioInput {
+class SCPPAudioInput: public SCPPInput {
+
+public:
+
+    SCPPAudioInput(char *audio_src, char *audio_url);
+
+    virtual ~SCPPAudioInput();
+
+    AVFormatContext* open() override;
+    int getInputAudioStreamIndex() const;
+    AVFormatContext *getInputAudioFormatContext() const;
+    AVCodecContext *getInputAudioCodecContext() const;
 
 };
 
