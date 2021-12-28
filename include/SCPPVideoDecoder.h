@@ -1,0 +1,14 @@
+//
+// Created by Giulio Carota on 17/10/21.
+//
+
+#ifndef SCREENRECLIB_SCPPVIDEODECODER_H
+#define SCREENRECLIB_SCPPVIDEODECODER_H
+
+
+class SCPPVideoDecoder {
+
+};
+
+
+#endif //SCREENRECLIB_SCPPVIDEODECODER_H

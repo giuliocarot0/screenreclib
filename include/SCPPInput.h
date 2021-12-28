@@ -5,7 +5,7 @@
 #ifndef SCREENRECLIB_SCPPINPUT_H
 #define SCREENRECLIB_SCPPINPUT_H
 
-
+#include "SCPPtools.h"
 class SCPPInput {
     protected:
         char* device_src;

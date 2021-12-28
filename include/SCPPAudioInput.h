@@ -5,7 +5,6 @@
 #ifndef SCREENRECLIB_SCPPAUDIOINPUT_H
 #define SCREENRECLIB_SCPPAUDIOINPUT_H
 
-#include "SCPPtools.h"
 #include "SCPPInput.h"
 
 class SCPPAudioInput: public SCPPInput {
