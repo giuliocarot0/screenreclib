@@ -4,7 +4,8 @@ Interface SCPPInput {
     - AVFormatContext *inFormatContext
     
 
-    + open()
+    +SCPPInput()
+    + open() 
     + getCodec()
     + getFormatContext()
     + getStreamIndex()
@@ -12,25 +13,14 @@ Interface SCPPInput {
 
 
 Class SCPPVideoInput {
-    - AVCodec* inCodec
-    - AVFormatContext *inFormatContext
-    
-
+    + SCPPVideoInput()
     + open()
-    + getCodec()
-    + getFormatContext()
-    + getStreamIndex()
+ 
 }
 
 Class SCPPAudioInput {
-    - AVCodec* inCodec
-    - AVFormatContext *inFormatContext
-    
-
+    + SCPPAudioInput()
     + open()
-    + getCodec()
-    + getFormatContext()
-    + getStreamIndex()
 }
 
 SCPPInput -> SCPPVideoInput
