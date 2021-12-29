@@ -2,17 +2,17 @@
 // Created by Giulio Carota on 17/10/21.
 //
 
-#ifndef SCREENRECLIB_SCPPAUDIODECODER_H
-#define SCREENRECLIB_SCPPAUDIODECODER_H
+#ifndef SCREENRECLIB_SCPPDECODER_H
+#define SCREENRECLIB_SCPPDECODER_H
 
 typedef struct a{
 
 }SRAudioTransceiverOptions;
 
-class SCPPAudioDecoder {
+class SCPPDecoder {
 
 private:
-    SCPPAudioDecoder* _currentOptions;
+    SCPPDecoder* _currentOptions;
     int verifyOptions(SRAudioTransceiverOptions *options);
 public:
     int initOptions(SRAudioTransceiverOptions **);
@@ -22,4 +22,4 @@ public:
 };
 
 
-#endif //SCREENRECLIB_SCPPAUDIODECODER_H
+#endif //SCREENRECLIB_SCPPDECODER_H
