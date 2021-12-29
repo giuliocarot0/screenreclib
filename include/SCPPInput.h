@@ -25,7 +25,7 @@ class SCPPInput {
     virtual ~SCPPInput();
 
     AVFormatContext *getFormatContext() const;
-        AVCodecContext *geCodecContext() const;
+    AVCodecContext *geCodecContext() const;
 
     AVPacket *readPacket();
 };
