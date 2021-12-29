@@ -4,13 +4,14 @@
 Interface SCPPInput {
     - AVCodec* inCodec
     - AVFormatContext *inFormatContext
-    
+    - AVPacket* deliverable_packet
 
-    +SCPPInput()
+    + SCPPInput()
     + open() 
     + getCodec()
     + getFormatContext()
     + getStreamIndex()
+    + readPacket()
 }
 
 
