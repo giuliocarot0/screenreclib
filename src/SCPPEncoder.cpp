@@ -1,8 +1,9 @@
 //
 // Created by Giulio Carota on 17/10/21.
 //
-
-#include <libavcodec/avcodec.h>
+extern "C"{
+    #include <libavcodec/avcodec.h>
+};
 #include <SCPPEncoder.h>
 
 

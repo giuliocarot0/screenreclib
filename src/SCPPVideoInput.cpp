@@ -1,7 +1,6 @@
 //
 // Created by Giulio Carota on 17/10/21.
 //
-
 #include "SCPPVideoInput.h"
 
 
@@ -13,31 +12,27 @@ SCPPVideoInput::SCPPVideoInput(char *video_src, char *video_url, SRResolution re
 
     char s[30];
     int value = 0;
-    sprintf(s,"%", fps);
+    sprintf(s,"%d", fps);
 
     value = av_dict_set(&options, "framerate", s, 0);
     if (value < 0) {
-        cout << "\nerror in setting dictionary value";
-        exit(1);
+        throw openSourceParameterException("Found framerate value wrong while opening video input");
     }
     s[0] = '\0';
     sprintf(s,"%dx%d", res.width, res.height);
 
     value = av_dict_set(&options, "video_size", s, 0);
     if (value < 0) {
-        cout << "\nerror in setting dictionary value";
-        exit(1);
+        throw openSourceParameterException("Found video size value wrong while opening video input");
     }
     value = av_dict_set(&options, "preset", "medium", 0);
     if (value < 0) {
-        cout << "\nerror in setting preset values";
-        exit(1);
+        throw openSourceParameterException("Found preset value wrong while opening video input");
     }
 
     value = av_dict_set(&options, "probesize", "60M", 0);
     if (value < 0) {
-        cout << "\nerror in setting preset values";
-        exit(1);
+        throw openSourceParameterException("Found probesize value wrong while opening video input");
     }
 
 }
@@ -56,8 +51,8 @@ AVFormatContext* SCPPVideoInput::open(){
     inVInputFormat = av_find_input_format(device_src);
     value = avformat_open_input(&inFormatContext, device_url, inVInputFormat, &options);
     if (value != 0) {
-        cout << "\nCannot open selected device";
-        exit(1);
+        std::string msg = (std::string)"Cannot open selected device (" + device_url + ")";
+        throw openSourceException(msg.c_str());
     }
 
 
