@@ -59,8 +59,7 @@ AVFormatContext* SCPPVideoInput::open(){
     //get video stream infos from context
     value = avformat_find_stream_info(inFormatContext, nullptr);
     if (value < 0) {
-        cout << "\nCannot find the stream information";
-        exit(1);
+        throw streamInformationException("Cannot find the stream information");
     }
 
     //find the first video stream with a given code
@@ -72,15 +71,14 @@ AVFormatContext* SCPPVideoInput::open(){
     }
 
     if (streamIndex == -1) {
-        cout << "\nCannot find the video stream index. (-1)";
-        exit(1);
+        throw streamIndexException("Cannot find the video stream index.");
+
     }
 
     AVCodecParameters *params = inFormatContext->streams[streamIndex]->codecpar;
     AVCodec *inVCodec = avcodec_find_decoder(params->codec_id);
     if (inVCodec == nullptr) {
-        cout << "\nCannot find the decoder";
-        exit(1);
+        throw findDecoderException("Cannot find the decoder.");
     }
 
     inCodecContext = avcodec_alloc_context3(inVCodec);
@@ -88,8 +86,8 @@ AVFormatContext* SCPPVideoInput::open(){
 
     value = avcodec_open2(inCodecContext, inVCodec, nullptr);
     if (value < 0) {
-        cout << "\nCannot open the av codec";
-        exit(1);
+        throw openAVCodecException("Cannot open the av codec.");
+
     }
 
     return inFormatContext;

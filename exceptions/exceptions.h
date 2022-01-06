@@ -17,5 +17,25 @@ public:
     explicit openSourceException(const char* msg): std::exception(msg){};
 };
 
+class streamInformationException: public std::exception{
+public:
+    explicit streamInformationException(const char* msg): std::exception(msg){};
+};
+
+class streamIndexException: public std::exception{
+public:
+    explicit streamIndexException(const char* msg): std::exception(msg){};
+};
+
+class findDecoderException: public std::exception{
+public:
+    explicit findDecoderException(const char* msg): std::exception(msg){};
+};
+
+class openAVCodecException: public std::exception{
+public:
+    explicit openAVCodecException(const char* msg): std::exception(msg){};
+};
+
 
 #endif //SCREENRECLIB_EXCEPTIONS_H
