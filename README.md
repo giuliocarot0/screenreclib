@@ -1,14 +1,17 @@
+## Class Diagram
+
 ```plantuml
 Interface SCPPInput {
     - AVCodec* inCodec
     - AVFormatContext *inFormatContext
-    
+    - AVPacket* deliverable_packet
 
-    +SCPPInput()
+    + SCPPInput()
     + open() 
     + getCodec()
     + getFormatContext()
     + getStreamIndex()
+    + readPacket()
 }
 
 
@@ -23,7 +26,27 @@ Class SCPPAudioInput {
     + open()
 }
 
-SCPPInput -> SCPPVideoInput
+Class SCPPDecoder {
+    - inputCodecContext
+    - options
+    
+    + decode(AVPacket* encodedPkt)
+}
 
+Class SCPPEncoder {
+    - outputCodecContext
+    - options
+    + decode(AVPacket* encodedPkt)
+}
+
+Interface SCPPTranscoder {
+    - encoder
+    - decoder 
+
+    
+    + transcode(AVPacket* encodedPkt)
+}
+
+SCPPInput --> SCPPVideoInput
 SCPPInput -> SCPPAudioInput
 ```

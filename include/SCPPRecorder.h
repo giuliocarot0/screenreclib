@@ -9,6 +9,8 @@
 #ifndef SCREENRECLIB_SCPPRECORDER_H
 #define SCREENRECLIB_SCPPRECORDER_H
 
+#include "SCPPtools.h"
+
 typedef struct a{
 
 }SROptions;
@@ -23,6 +25,9 @@ private:
     int stopRecording();
 
 public:
+
+
+
     SCPPRecorder();
 
     int initOptions(SROptions**);

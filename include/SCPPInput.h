@@ -5,7 +5,7 @@
 #ifndef SCREENRECLIB_SCPPINPUT_H
 #define SCREENRECLIB_SCPPINPUT_H
 
-
+#include "SCPPtools.h"
 class SCPPInput {
     protected:
         char* device_src;
@@ -14,37 +14,22 @@ class SCPPInput {
         int streamIndex;
         AVFormatContext* inFormatContext;
         AVCodecContext *inCodecContext;
+        AVPacket* deliverable_packet;
 
     public:
         SCPPInput(char *device_src, char *device_url);
 
-
         virtual AVFormatContext* open() = 0;
         int getStreamIndex() const;
-        AVFormatContext *getFormatContext() const;
-        AVCodecContext *geCodecContext() const;
 
-    };
+    virtual ~SCPPInput();
 
-SCPPInput::SCPPInput(char *device_src, char *device_url) {
-    options = nullptr;
-    streamIndex = -1;
-    inFormatContext = nullptr;
-    inCodecContext = nullptr;
-    this->device_src = device_src;
-    this->device_url = device_url;
-}
+    AVFormatContext *getFormatContext() const;
+    AVCodecContext *geCodecContext() const;
 
-int SCPPInput::getStreamIndex() const {
-    return streamIndex;
-}
+    AVPacket *readPacket();
+};
 
-AVFormatContext *SCPPInput::getFormatContext() const {
-    return inFormatContext;
-}
 
-AVCodecContext *SCPPInput::geCodecContext() const {
-    return inCodecContext;
-}
 
 #endif //SCREENRECLIB_SCPPINPUT_H

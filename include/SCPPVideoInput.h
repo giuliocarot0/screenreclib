@@ -5,7 +5,6 @@
 #ifndef SCREENRECLIB_SCPPVIDEOINPUT_H
 #define SCREENRECLIB_SCPPVIDEOINPUT_H
 
-#include "libavdevice/avdevice.h"
 #include "SCPPInput.h"
 
 class SCPPVideoInput: public SCPPInput{

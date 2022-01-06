@@ -3,9 +3,10 @@ project(screenreclib)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_library(screenreclib src/SCPPVideoDecoder.cpp include/SCPPVideoDecoder.h src/SCPPAudioDecoder.cpp include/SCPPAudioDecoder.h  src/SCPPAudioEncoder.cpp include/SCPPAudioEncoder.h src/SCPPMediaMuxer.cpp include/SCPPMediaMuxer.h src/SCPPVideoInput.cpp include/SCPPVideoInput.h src/SCPPAudioInput.cpp include/SCPPAudioInput.h src/SCPPRecorder.cpp include/SCPPRecorder.h include/SCPPtools.h)
-include_directories(include)
 link_directories(lib)
+include_directories(include)
+include_directories(exceptions)
+add_executable(screenreclib main.cpp src/SCPPDecoder.cpp include/SCPPDecoder.h src/SCPPEncoder.cpp include/SCPPEncoder.h src/SCPPMediaMuxer.cpp include/SCPPMediaMuxer.h src/SCPPVideoInput.cpp include/SCPPVideoInput.h src/SCPPAudioInput.cpp include/SCPPAudioInput.h src/SCPPRecorder.cpp include/SCPPRecorder.h include/SCPPtools.h src/SCPPinput.cpp exceptions/exceptions.h)
 
 target_link_libraries(
         screenreclib
@@ -15,7 +16,7 @@ target_link_libraries(
         avfilter
         avcodec
         swscale
-        pthread
+        #pthread
         swresample
 )
 
