@@ -1,15 +1,13 @@
 #include <iostream>
-#include <exceptions.h>
+#include "SCPPVideoInput.h"
+#include "SCPPAudioInput.h"
+
 
 int main() {
-    try {
-        char* prova = "nop";
-        std::string msg= "Cannot open selected device (";
-        msg += prova;
-        msg += ")";
-        throw openSourceException(msg.c_str());
-    }catch (std::exception& e){
-        std::cout<< e.what() <<std::endl;
-    }
+    //Open two input devices
+    SCPPVideoInput scppVideoInput("x11grab", "1:none", SRResolution{1920,1080}, SROffset{0,0}, 30 );
+    scppVideoInput.open();
+    AVFormatContext* test_video = scppVideoInput.getFormatContext();
+
     return 0;
 }

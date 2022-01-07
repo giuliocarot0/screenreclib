@@ -2,7 +2,8 @@
 // Created by Giulio Carota on 17/10/21.
 //
 
-#include "../include/SCPPAudioInput.h"
+#include "SCPPAudioInput.h"
+
 /**
  * the constructor initialize the
  * input device with requested options

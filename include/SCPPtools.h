@@ -18,7 +18,7 @@
 #include <mutex>
 #include <condition_variable>
 #include <thread>
-#include <exceptions.h>
+#include "exceptions/exceptions.h"
 
 extern "C" {
 #include <libavcodec/avcodec.h>
