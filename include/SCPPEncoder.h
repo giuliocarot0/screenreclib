@@ -13,21 +13,16 @@
  */
 class SCPPEncoder {
 
-protected:
+private:
     AVCodecContext* encoder_context;
-    AVPacket* output_packet;
-
 
 public:
-
-    SCPPEncoder();
-
+    SCPPEncoder():encoder_context(nullptr){};
     void setEncoderContext(AVCodecContext *encoder_context);
     //receives a rescaled frame from transcoder class eventually
     int encodeFrame(AVFrame* frame);
-    AVPacket* getEncodedPacket();
+    int getEncodedPacket(AVPacket* packet);
 
-    ~SCPPEncoder();
 };
 
 

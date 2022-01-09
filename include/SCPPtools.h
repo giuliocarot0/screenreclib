@@ -5,7 +5,6 @@
 #ifndef SCREENRECLIB_SCPPTOOLS_H
 #define SCREENRECLIB_SCPPTOOLS_H
 
-#endif //SCREENRECLIB_SCPPTOOLS_H
 
 #include <iostream>
 #include <cstdio>
@@ -13,6 +12,8 @@
 #include <fstream>
 #include <cstring>
 #include <cmath>
+
+
 #include <cstring>
 #include <queue>
 #include <mutex>
@@ -68,3 +69,4 @@ typedef struct A{
     char* filename;
 }SRSettings;
 
+#endif //SCREENRECLIB_SCPPTOOLS_H

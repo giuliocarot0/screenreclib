@@ -14,6 +14,20 @@ SCPPVideoInput::SCPPVideoInput(char *video_src, char *video_url, SRResolution re
     int value = 0;
     sprintf(s,"%d", fps);
 
+#ifdef __APPLE__
+    value = av_dict_set(&options, "pixel_format", "0rgb", 0);
+    if (value < 0) {
+        cout << "\nerror in setting dictionary value";
+        exit(1);
+    }
+    value = av_dict_set(&options, "video_device_index", "1", 0);
+
+    if (value < 0) {
+        cout << "\nerror in setting dictionary value";
+        exit(1);
+    }
+
+#endif
     value = av_dict_set(&options, "framerate", s, 0);
     if (value < 0) {
         throw openSourceParameterException("Found framerate value wrong while opening video input");

@@ -4,22 +4,29 @@
 
 #include "../include/SCPPDecoder.h"
 
-int SCPPDecoder::verifyOptions(SRAudioTransceiverOptions *options) {
-    return 0;
+
+int SCPPDecoder::getDecodedFrame(AVFrame* frame) {
+    int ret;
+    if(frame!= nullptr && decoder_context!=nullptr) {
+        ret = avcodec_receive_frame(decoder_context, frame);
+        if (ret < 0 && ret != AVERROR(EAGAIN) && ret != AVERROR_EOF) {
+            fprintf(stderr, "Error during decoding\n");
+            exit(1); //todo: implement decoder_exception
+        } else
+            return ret;
+    }
+    else
+        return -15; //todo: implement null fram or context exception
 }
 
-int SCPPDecoder::initOptions(SRAudioTransceiverOptions **) {
-    return 0;
+int SCPPDecoder::decodePacket(AVPacket* packet) {
+    if(packet!= nullptr && decoder_context!=nullptr)
+        return avcodec_send_packet(decoder_context, packet);
+    else
+
+        return -15; // todo: implement null packet or context exception
 }
 
-int SCPPDecoder::setOptions(SRAudioTransceiverOptions *) {
-    return 0;
-}
-
-int SCPPDecoder::receivePacket() {
-    return 0;
-}
-
-int SCPPDecoder::getPacket() {
-    return 0;
+void SCPPDecoder::setDecoderContext(AVCodecContext *decoder_ctx) {
+    this->decoder_context = decoder_ctx;
 }

@@ -17,12 +17,14 @@ SCPPInput::SCPPInput(char *device_src, char *device_url) {
     deliverable_packet = av_packet_alloc();
 }
 
-AVPacket* SCPPInput::readPacket() {
-    if (av_read_frame(inFormatContext, deliverable_packet) >= 0 && deliverable_packet->stream_index == streamIndex) {
+int SCPPInput::readPacket(AVPacket* read_packet) {
+    int ret;
+    ret = av_read_frame(inFormatContext, read_packet);
+    if (ret >= 0 && deliverable_packet->stream_index == streamIndex) {
         //todo: check if a rescale is needed here
-        return deliverable_packet;
+        return ret;
     } else
-        return nullptr;
+        return -1;
 }
 
 int SCPPInput::getStreamIndex() const {
@@ -33,7 +35,7 @@ AVFormatContext *SCPPInput::getFormatContext() const {
     return inFormatContext;
 }
 
-AVCodecContext *SCPPInput::geCodecContext() const {
+AVCodecContext *SCPPInput::getCodecContext() const {
     return inCodecContext;
 }
 

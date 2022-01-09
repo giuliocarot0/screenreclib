@@ -5,20 +5,18 @@
 #ifndef SCREENRECLIB_SCPPDECODER_H
 #define SCREENRECLIB_SCPPDECODER_H
 
-typedef struct a{
-
-}SRAudioTransceiverOptions;
+#include "SCPPtools.h"
 
 class SCPPDecoder {
 
 private:
-    SCPPDecoder* _currentOptions;
-    int verifyOptions(SRAudioTransceiverOptions *options);
+    AVCodecContext* decoder_context;
+
 public:
-    int initOptions(SRAudioTransceiverOptions **);
-    int setOptions(SRAudioTransceiverOptions *);
-    int receivePacket();
-    int getPacket();
+    SCPPDecoder():decoder_context(nullptr){};
+    void setDecoderContext(AVCodecContext *decoder_ctx);
+    int decodePacket(AVPacket* packet);
+    int getDecodedFrame(AVFrame* frame);
 };
 
 

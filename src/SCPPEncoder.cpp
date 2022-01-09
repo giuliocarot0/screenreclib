@@ -11,30 +11,19 @@ void SCPPEncoder::setEncoderContext(AVCodecContext *encoderContext) {
     encoder_context = encoderContext;
 }
 
-
-SCPPEncoder::SCPPEncoder() {
-    encoder_context = nullptr;
-    output_packet = av_packet_alloc();
-
-}
-
-SCPPEncoder::~SCPPEncoder() {
-    av_packet_free(&output_packet);
-}
-
 int SCPPEncoder::encodeFrame(AVFrame *frame) {
     return avcodec_send_frame(encoder_context, frame);
 }
 
-AVPacket *SCPPEncoder::getEncodedPacket() {
+int SCPPEncoder::getEncodedPacket(AVPacket* packet) {
     int ret;
-    ret = avcodec_receive_packet(encoder_context, output_packet);
+    ret = avcodec_receive_packet(encoder_context, packet);
     if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
-        return nullptr;
+        return ret;
     else if (ret < 0) {
         fprintf(stderr, "Error during encoding\n");
         exit(1);
     }
-    return output_packet;
+    return 0;
 }
 
