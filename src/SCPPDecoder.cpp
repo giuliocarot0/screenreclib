@@ -16,7 +16,7 @@ int SCPPDecoder::getDecodedFrame(AVFrame* frame) {
             return ret;
     }
     else
-        return -15; //todo: implement null fram or context exception
+        return -15; //todo: implement null from or context exception
 }
 
 int SCPPDecoder::decodePacket(AVPacket* packet) {
