@@ -200,3 +200,7 @@ AVCodecContext *SCPPMediaOutput::getAudioCodecContext() {
 int SCPPMediaOutput::writePacket(AVPacket *packet) {
     return av_interleaved_write_frame(outputCtx, packet);
 }
+
+char *SCPPMediaOutput::getFilename() {
+    return settings.filename;
+}
