@@ -198,9 +198,29 @@ AVCodecContext *SCPPMediaOutput::getAudioCodecContext() {
 }
 
 int SCPPMediaOutput::writePacket(AVPacket *packet) {
+    if(packet->pts != AV_NOPTS_VALUE)
+        packet->pts = av_rescale_q(packet->pts,videoCtx->time_base,  outputCtx->streams[videoStreamID]->time_base);
+    if(packet->dts != AV_NOPTS_VALUE)
+        packet->dts = av_rescale_q(packet->dts, videoCtx->time_base, outputCtx->streams[videoStreamID]->time_base);
+
     return av_interleaved_write_frame(outputCtx, packet);
 }
 
 char *SCPPMediaOutput::getFilename() {
     return settings.filename;
+}
+
+SCPPMediaOutput::~SCPPMediaOutput() {
+    if( av_write_trailer(outputCtx) < 0)
+    {
+        cout<<"\nerror in writing av trailer";
+        exit(1);
+    }
+    /*avformat_free_context(outputCtx);
+    if (!outputCtx) {
+        cout << "\nout avformat free successfully";
+    } else {
+        cout << "\nunable to free output avformat context";
+        exit(1);
+    }*/
 }
