@@ -60,13 +60,13 @@ typedef struct T{
 }SROffset;
 
 typedef struct A{
-    bool _recaudio;
-    bool _recvideo;
-    SRResolution  _inscreenres;
     SRResolution  _outscreenres;
-    SROffset _screenoffset;
     uint16_t  _fps;
+    int audio_samplerate;
+    int audio_channels;
     char* filename;
-}SRSettings;
+    AVCodecID audio_codec;
+    AVCodecID video_codec;
+}SROutputSettings;
 
 #endif //SCREENRECLIB_SCPPTOOLS_H
