@@ -4,8 +4,8 @@ project(screenreclib)
 set(CMAKE_CXX_STANDARD 14)
 
 if(WIN32)
-    link_directories(/usr/local/Cellar/ffmpeg/4.4_2/lib)
-    include_directories(/usr/local/Cellar/ffmpeg/4.4_2/include)
+    link_directories(C:\\Users\\aless\\Desktop\\ffmpeg-4.4-full_build-shared\\ffmpeg-4.4-full_build-shared\\lib)
+    include_directories(C:\\Users\\aless\\Desktop\\ffmpeg-4.4-full_build-shared\\ffmpeg-4.4-full_build-shared\\include)
 endif()
 
 

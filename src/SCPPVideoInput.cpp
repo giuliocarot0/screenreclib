@@ -97,6 +97,7 @@ AVFormatContext* SCPPVideoInput::open(){
 
     inCodecContext = avcodec_alloc_context3(inVCodec);
     avcodec_parameters_to_context(inCodecContext, params);
+    inCodecContext->time_base=inFormatContext->streams[streamIndex]->time_base;
 
     value = avcodec_open2(inCodecContext, inVCodec, nullptr);
     if (value < 0) {

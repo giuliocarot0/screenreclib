@@ -22,6 +22,13 @@ int SCPPInput::readPacket(AVPacket* read_packet) {
     ret = av_read_frame(inFormatContext, read_packet);
     if (ret >= 0 && read_packet->stream_index == streamIndex) {
         //todo: check if a rescale is needed here
+        printf("\nBefore: %lld,%lld\n", read_packet->pts, read_packet->duration);
+        //printf("PTS src: %d/%d - PTS dst: %d/%d\n", inFormatContext->streams[streamIndex]->time_base.num,inFormatContext->streams[streamIndex]->time_base.den,inCodecContext->time_base.num,inCodecContext->time_base.den);
+        printf("PTS src: %d/%d - PTS dst: 1/30\n", inCodecContext->time_base.num,inCodecContext->time_base.den);
+        //av_packet_rescale_ts(read_packet,  inFormatContext->streams[streamIndex]->time_base,inCodecContext->time_base);
+        av_packet_rescale_ts(read_packet,inCodecContext->time_base,AVRational{1,30});
+        printf("After: %lld,%lld\n", read_packet->pts, read_packet->duration);
+
         return ret;
     } else
         return -1;

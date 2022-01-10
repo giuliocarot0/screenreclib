@@ -186,6 +186,7 @@ int SCPPMediaOutput::createVideoStream() {
     }
 
     avcodec_parameters_from_context(outputCtx->streams[videoStreamID]->codecpar, videoCtx);
+    video_st->time_base = videoCtx->time_base;
 return 1;
 }
 
