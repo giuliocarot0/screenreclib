@@ -82,6 +82,7 @@ int main() {
                 scaled_frame->height = outputFile.getVideoCodecContext()->height;
                 scaled_frame->format = outputFile.getVideoCodecContext()->pix_fmt;
                 scaled_frame->pts = rawFrame->pts;
+
                 scaled_frame->pkt_dts=rawFrame->pkt_dts;
                 scaled_frame->best_effort_timestamp = rawFrame->best_effort_timestamp;
                 //av_frame_get_buffer(scaled_frame, 0);
