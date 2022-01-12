@@ -20,10 +20,10 @@ int main() {
 
 
    //set output file for video only
-    SROutputSettings outputSettings;
+    SRSettings outputSettings;
+
     outputSettings.video_codec = AV_CODEC_ID_MPEG4;
     outputSettings.audio_codec = AV_CODEC_ID_NONE;
-
     outputSettings.fps = 30;
     outputSettings.filename = "testfile.mp4";
     outputSettings.outscreenres =SRResolution{2560,1600};
@@ -38,8 +38,9 @@ int main() {
     outputFile.initFile();
     videoEncoder.setEncoderContext(outputFile.getVideoCodecContext());
 
-    SRVideoFilter videoFilter(outputFile.getVideoCodecContext(), videoInput.getCodecContext());
-    videoFilter.init();
+    SRVideoFilter videoFilter(outputFile.getVideoCodecContext(), videoInput.getCodecContext(), outputSettings);
+    videoFilter.enableBasic();
+    //videoFilter.enableCropper();
 
     long long int last = 0;
     printf("[SRlib - recording screen]\n");
@@ -50,30 +51,20 @@ int main() {
             last = inPacket->pts;
             videoDecoder.decodePacket(inPacket);
             while(videoDecoder.getDecodedFrame(rawFrame)>=0){
-              //  printf("\t decodedFrame %lld\n", rawFrame->pts);
-
-                scaled_frame = videoFilter.filterFrame(rawFrame);
-                if(videoEncoder.encodeFrame(scaled_frame)<0){
-                    printf("DROPPED");
-                };
-                while(videoEncoder.getEncodedPacket(outPacket)>=0) {
-                //    printf("\t\t encodedPacket %lld\n", outPacket->pts);
-
-                    if(outputFile.writePacket(outPacket, video /*passing a video packet*/)>=0){
-
-                        // printf("PTS: %lld - Duration %lld\n", outPacket->pts, outPacket->duration);
-                    }
-                        //      printf("transcoded packet written on %s", outputFile.getFilename());
-                    else{
+                scaled_frame= videoFilter.filterFrame(rawFrame);
+                    if(videoEncoder.encodeFrame(scaled_frame) < 0)
                         printf("DROPPED");
+                    while (videoEncoder.getEncodedPacket(outPacket) >= 0) {
+                        if (outputFile.writePacket(outPacket, video /*passing a video packet*/) < 0) {
+                            printf("DROPPED");
+                        }
                     }
                 }
-
-            }
             av_packet_unref(inPacket);
-
         }
     }
-
+    av_frame_free(&rawFrame);
+    av_packet_free(&inPacket);
+    av_packet_free(&outPacket);
     return 0;
 }
