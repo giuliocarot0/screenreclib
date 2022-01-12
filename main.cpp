@@ -24,9 +24,9 @@ int main() {
 
     outputSettings._fps = 30;
     outputSettings.filename = "testfile.mp4";
-    outputSettings._outscreenres = SRResolution{1920,1080};
+    outputSettings._outscreenres = SRResolution{1366,768};
     SCPPMediaOutput outputFile(outputSettings);
-    SCPPVideoInput videoInput("gdigrab", "desktop", SRResolution{1366,768}, SROffset{0,0}, 15 );
+    SCPPVideoInput videoInput("gdigrab", "desktop", outputSettings._outscreenres, SROffset{0,0}, outputSettings._fps );
     SCPPDecoder videoDecoder;
     SCPPEncoder videoEncoder;
 
