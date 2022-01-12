@@ -6,23 +6,23 @@
 //                                     |--------------|
 //
 
-#ifndef SCREENRECLIB_SCPPTRANSCODER_H
-#define SCREENRECLIB_SCPPTRANSCODER_H
+#ifndef SCREENRECLIB_SRTRANSCODER_H
+#define SCREENRECLIB_SRTRANSCODER_H
 
 
-#include "SCPPEncoder.h"
-#include "SCPPDecoder.h"
+#include "SREncoder.h"
+#include "SRDecoder.h"
 
-class SCPPTranscoder {
+class SRTranscoder {
 private:
-    SCPPEncoder* encoder;
-    SCPPDecoder* decoder;
+    SREncoder* encoder;
+    SRDecoder* decoder;
 
 public:
-    SCPPTranscoder(SCPPEncoder* encoder,SCPPDecoder* decoder):encoder(encoder), decoder(decoder){};
+    SRTranscoder(SREncoder* encoder,SRDecoder* decoder):encoder(encoder), decoder(decoder){};
     int transcodePacket(AVPacket* inputPacket);
     virtual int getTranscodedPacket(AVPacket* outputPacket) = 0 ;
 };
 
 
-#endif //SCREENRECLIB_SCPPTRANSCODER_H
+#endif //SCREENRECLIB_SRTRANSCODER_H

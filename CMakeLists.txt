@@ -15,7 +15,7 @@ if(APPLE)
 endif()
 
 include_directories(include)
-add_executable(screenreclib main.cpp src/SCPPDecoder.cpp include/SCPPDecoder.h src/SCPPEncoder.cpp include/SCPPEncoder.h src/SCPPMediaOutput.cpp include/SCPPMediaOutput.h src/SCPPVideoInput.cpp include/SCPPVideoInput.h src/SCPPAudioInput.cpp include/SCPPAudioInput.h include/SCPPtools.h src/SCPPinput.cpp include/exceptions/exceptions.h src/SCPPTranscoder.cpp include/SCPPTranscoder.h)
+add_executable(screenreclib main.cpp src/SRDecoder.cpp include/SRDecoder.h src/SREncoder.cpp include/SREncoder.h src/SRMediaOutput.cpp include/SRMediaOutput.h src/SRVideoInput.cpp include/SRVideoInput.h src/SRAudioInput.cpp include/SRAudioInput.h include/SRTools.h src/SRInput.cpp include/exceptions/SRExceptions.h src/SRTranscoder.cpp include/SRTranscoder.h)
 
 target_link_libraries(
         screenreclib

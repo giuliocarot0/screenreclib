@@ -2,12 +2,12 @@
 // Created by giuli on 28/12/2021.
 //
 
-#ifndef SCREENRECLIB_SCPPINPUT_H
-#define SCREENRECLIB_SCPPINPUT_H
+#ifndef SCREENRECLIB_SRINPUT_H
+#define SCREENRECLIB_SRINPUT_H
 
-#include "SCPPtools.h"
+#include "SRTools.h"
 
-class SCPPInput {
+class SRInput {
     protected:
         long long int first_pts; /* for PTS normalization*/
         char* device_src;
@@ -19,12 +19,12 @@ class SCPPInput {
         AVPacket* deliverable_packet;
 
     public:
-        SCPPInput(char *device_src, char *device_url);
+        SRInput(char *device_src, char *device_url);
 
         virtual AVFormatContext* open() = 0;
         int getStreamIndex() const;
 
-    virtual ~SCPPInput();
+    virtual ~SRInput();
 
     AVFormatContext *getFormatContext() const;
     AVCodecContext *getCodecContext() const;
@@ -34,4 +34,4 @@ class SCPPInput {
 
 
 
-#endif //SCREENRECLIB_SCPPINPUT_H
+#endif //SCREENRECLIB_SRINPUT_H

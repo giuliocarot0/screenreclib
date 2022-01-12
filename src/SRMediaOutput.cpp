@@ -2,9 +2,9 @@
 // Created by Giulio Carota on 17/10/21.
 //
 
-#include "../include/SCPPMediaOutput.h"
+#include "../include/SRMediaOutput.h"
 
-SCPPMediaOutput::SCPPMediaOutput(SROutputSettings outputSettings) {
+SRMediaOutput::SRMediaOutput(SROutputSettings outputSettings) {
 
     settings = {outputSettings};
 
@@ -21,7 +21,7 @@ SCPPMediaOutput::SCPPMediaOutput(SROutputSettings outputSettings) {
 }
 
 //initialize the output File
-int SCPPMediaOutput::initFile() {
+int SRMediaOutput::initFile() {
     char* filename = settings.filename;
 
     int value = 0;
@@ -68,7 +68,7 @@ int SCPPMediaOutput::initFile() {
 
     return 0;
 }
-int SCPPMediaOutput::createAudioStream() {
+int SRMediaOutput::createAudioStream() {
     int i;
     AVCodec* outACodec = nullptr;
 
@@ -129,7 +129,7 @@ int SCPPMediaOutput::createAudioStream() {
     avcodec_parameters_from_context(outputCtx->streams[audioStreamID]->codecpar, audioCtx);
     return 1;
 }
-int SCPPMediaOutput::createVideoStream() {
+int SRMediaOutput::createVideoStream() {
     int i;
     AVStream *video_st = avformat_new_stream(outputCtx, nullptr);
 
@@ -188,15 +188,15 @@ int SCPPMediaOutput::createVideoStream() {
 return 1;
 }
 
-AVCodecContext *SCPPMediaOutput::getVideoCodecContext() {
+AVCodecContext *SRMediaOutput::getVideoCodecContext() {
     return videoCtx;
 }
 
-AVCodecContext *SCPPMediaOutput::getAudioCodecContext() {
+AVCodecContext *SRMediaOutput::getAudioCodecContext() {
     return audioCtx;
 }
 
-int SCPPMediaOutput::writePacket(AVPacket *packet, media_type type) {
+int SRMediaOutput::writePacket(AVPacket *packet, media_type type) {
     if(type == 0) { //video
         packet->stream_index = videoStreamID;
         av_packet_rescale_ts(packet, videoCtx->time_base, outputCtx->streams[videoStreamID]->time_base);
@@ -204,11 +204,11 @@ int SCPPMediaOutput::writePacket(AVPacket *packet, media_type type) {
     return av_write_frame(outputCtx, packet);
 }
 
-char *SCPPMediaOutput::getFilename() {
+char *SRMediaOutput::getFilename() {
     return settings.filename;
 }
 
-SCPPMediaOutput::~SCPPMediaOutput() {
+SRMediaOutput::~SRMediaOutput() {
     if( av_write_trailer(outputCtx) < 0)
     {
         cout<<"\nerror in writing av trailer";

@@ -1,9 +1,9 @@
 #include <iostream>
-#include <SCPPEncoder.h>
-#include <SCPPMediaOutput.h>
-#include "SCPPVideoInput.h"
-#include "SCPPAudioInput.h"
-#include "SCPPDecoder.h"
+#include <SREncoder.h>
+#include <SRMediaOutput.h>
+#include "SRVideoInput.h"
+#include "SRAudioInput.h"
+#include "SRDecoder.h"
 
 
 int main() {
@@ -27,10 +27,10 @@ int main() {
     outputSettings.filename = "testfile.mp4";
     outputSettings._outscreenres =SRResolution{2560,1600};
 
-    SCPPMediaOutput outputFile(outputSettings);
-    SCPPVideoInput videoInput("avfoundation", "1:none", outputSettings._outscreenres, SROffset{0,0}, outputSettings._fps );
-    SCPPDecoder videoDecoder;
-    SCPPEncoder videoEncoder;
+    SRMediaOutput outputFile(outputSettings);
+    SRVideoInput videoInput("avfoundation", "1:none", outputSettings._outscreenres, SROffset{0,0}, outputSettings._fps );
+    SRDecoder videoDecoder;
+    SREncoder videoEncoder;
 
     videoInput.open();
     videoDecoder.setDecoderContext(videoInput.getCodecContext());

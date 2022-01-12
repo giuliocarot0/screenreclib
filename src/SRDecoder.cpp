@@ -2,10 +2,10 @@
 // Created by Giulio Carota on 17/10/21.
 //
 
-#include "../include/SCPPDecoder.h"
+#include "../include/SRDecoder.h"
 
 
-int SCPPDecoder::getDecodedFrame(AVFrame* frame) {
+int SRDecoder::getDecodedFrame(AVFrame* frame) {
     int ret;
     if(frame!= nullptr && decoder_context!=nullptr) {
         ret = avcodec_receive_frame(decoder_context, frame);
@@ -19,7 +19,7 @@ int SCPPDecoder::getDecodedFrame(AVFrame* frame) {
         return -15; //todo: implement null from or context exception
 }
 
-int SCPPDecoder::decodePacket(AVPacket* packet) {
+int SRDecoder::decodePacket(AVPacket* packet) {
     if(packet!= nullptr && decoder_context!=nullptr)
         return avcodec_send_packet(decoder_context, packet);
     else
@@ -27,6 +27,6 @@ int SCPPDecoder::decodePacket(AVPacket* packet) {
         return -15; // todo: implement null packet or context exception
 }
 
-void SCPPDecoder::setDecoderContext(AVCodecContext *decoder_ctx) {
+void SRDecoder::setDecoderContext(AVCodecContext *decoder_ctx) {
     this->decoder_context = decoder_ctx;
 }

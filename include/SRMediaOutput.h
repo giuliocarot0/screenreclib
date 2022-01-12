@@ -2,12 +2,12 @@
 // Created by Giulio Carota on 17/10/21.
 //
 
-#ifndef SCREENRECLIB_SCPPMEDIAOUTPUT_H
-#define SCREENRECLIB_SCPPMEDIAOUTPUT_H
+#ifndef SCREENRECLIB_SRMEDIAOUTPUT_H
+#define SCREENRECLIB_SRMEDIAOUTPUT_H
 
-#include "SCPPtools.h"
+#include "SRTools.h"
 typedef enum {video, audio} media_type;
-class SCPPMediaOutput {
+class SRMediaOutput {
 private:
     bool video_recorded;
     bool audio_recorded;
@@ -23,7 +23,7 @@ private:
     int createAudioStream();
     int createVideoStream();
 public:
-    explicit SCPPMediaOutput(SROutputSettings outputSettings);
+    explicit SRMediaOutput(SROutputSettings outputSettings);
     int initFile();
     AVCodecContext* getVideoCodecContext();
     AVCodecContext* getAudioCodecContext();
@@ -32,8 +32,8 @@ public:
 
     char *getFilename();
 
-    ~SCPPMediaOutput();
+    ~SRMediaOutput();
 };
 
 
-#endif //SCREENRECLIB_SCPPMEDIAOUTPUT_H
+#endif //SCREENRECLIB_SRMEDIAOUTPUT_H
