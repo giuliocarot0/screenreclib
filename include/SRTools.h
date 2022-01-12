@@ -67,6 +67,6 @@ typedef struct A{
     char* filename;
     AVCodecID audio_codec;
     AVCodecID video_codec;
-}SROutputSettings;
+}SRSettings;
 
 #endif //SCREENRECLIB_SRTOOLS_H

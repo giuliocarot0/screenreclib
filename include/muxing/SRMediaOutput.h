@@ -15,7 +15,7 @@ private:
     AVFormatContext* outputCtx;
     AVCodecContext* videoCtx;
     AVCodecContext* audioCtx;
-    SROutputSettings settings{};
+    SRSettings settings{};
     int audioStreamID;
     int videoStreamID;
 
@@ -23,7 +23,7 @@ private:
     int createAudioStream();
     int createVideoStream();
 public:
-    explicit SRMediaOutput(SROutputSettings outputSettings);
+    explicit SRMediaOutput(SRSettings outputSettings);
     int initFile();
     AVCodecContext* getVideoCodecContext();
     AVCodecContext* getAudioCodecContext();

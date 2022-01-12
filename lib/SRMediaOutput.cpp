@@ -4,7 +4,7 @@
 
 #include "muxing/SRMediaOutput.h"
 
-SRMediaOutput::SRMediaOutput(SROutputSettings outputSettings) {
+SRMediaOutput::SRMediaOutput(SRSettings outputSettings) {
 
     settings = {outputSettings};
 
