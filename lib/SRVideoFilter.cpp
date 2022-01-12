@@ -4,28 +4,48 @@
 
 #include "transcoding/SRVideoFilter.h"
 
-AVFrame* SRVideoFilter::filterFrame(AVFrame* inputFrame) {
+
+
+AVFrame* SRVideoFilter::filterFrame(AVFrame* input_frame) {
     if(scaled_frame == nullptr || encoder == nullptr || decoder == nullptr || rescaling_context == nullptr) {
         //todo excepetion uninitialized filter 
         return nullptr;
     }
-    /*initializing scaleFrame */
+    int ret;
+    //initializing scaleFrame
     scaled_frame->width = encoder->width;
     scaled_frame->height = encoder->height;
     scaled_frame->format = encoder->pix_fmt;
-    scaled_frame->pts = inputFrame->best_effort_timestamp;
-    scaled_frame->pkt_dts=inputFrame->pkt_dts;
-    scaled_frame->pkt_duration = inputFrame->pkt_duration;
-    sws_scale(rescaling_context, inputFrame->data, inputFrame->linesize,0, decoder->height, scaled_frame->data, scaled_frame->linesize);
+    scaled_frame->pts = input_frame->best_effort_timestamp;
+    scaled_frame->pkt_dts=input_frame->pkt_dts;
+    scaled_frame->pkt_duration = input_frame->pkt_duration;
+    sws_scale(rescaling_context, input_frame->data, input_frame->linesize,0, decoder->height, scaled_frame->data, scaled_frame->linesize);
+
+    if(cropper_enabled){
+        av_frame_ref(cropped_frame, input_frame);
+        if (av_buffersrc_add_frame(cropfilter.src_ctx, cropped_frame) < 0) {
+            //todo cropperException
+            return nullptr;
+        }
+        else{
+            ret = av_buffersink_get_frame(cropfilter.sink_ctx, cropped_frame);
+            if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
+                return nullptr;
+            if (ret < 0)
+                return nullptr;
+            return cropped_frame;
+        }
+    }
 
     return scaled_frame;
 }
 
-void SRVideoFilter::init() {
+void SRVideoFilter::enableBasic() {
     if(encoder == nullptr || decoder == nullptr) {
         //todo invalid filter parameters
         return;
     }
+    //input_frame = av_frame_alloc();
     scaled_frame = av_frame_alloc();
 
 
@@ -54,4 +74,37 @@ void SRVideoFilter::init() {
                              encoder->height,
                              encoder->pix_fmt,
                              SWS_BICUBIC, NULL, NULL, NULL);
+}
+void SRVideoFilter::enableCropper() {
+        char args[512];
+        int ret = 0;
+        cropped_frame = av_frame_alloc();
+        cropfilter.outputs = nullptr;
+        cropfilter.inputs  = nullptr;
+        cropfilter.graph = avfilter_graph_alloc();
+
+        snprintf(args, sizeof(args),
+                 "buffer=video_size=%dx%d:pix_fmt=%d:time_base=1/1:pixel_aspect=0/1[in];"
+                 "[in]crop=100:100:0:0[out];"
+                 "[out]buffersink",
+                 decoder->width, decoder->height, decoder->pix_fmt
+                 );
+
+        ret = avfilter_graph_parse2(cropfilter.graph, args, &cropfilter.inputs, &cropfilter.outputs);
+        if (ret < 0) exit(1);
+        assert(cropfilter.inputs == nullptr && cropfilter.outputs == nullptr);
+        ret = avfilter_graph_config(cropfilter.graph, nullptr);
+        if (ret < 0) exit(1);
+
+    cropfilter.src_ctx = avfilter_graph_get_filter(cropfilter.graph, "Parsed_buffer_0");
+    cropfilter.sink_ctx = avfilter_graph_get_filter(cropfilter.graph, "Parsed_buffersink_2");
+        assert(cropfilter.src_ctx != nullptr);
+        assert(cropfilter.sink_ctx != nullptr);
+
+    cropper_enabled = true;
+    /*end:
+        avfilter_inout_free(&cropfilter.inputs);
+        avfilter_inout_free(&cropfilter.outputs);
+        //todo cropperException
+*/
 }
