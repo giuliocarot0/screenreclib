@@ -27,3 +27,7 @@ int SREncoder::getEncodedPacket(AVPacket* packet) {
     return 0;
 }
 
+AVCodecContext *SREncoder::getEncoderContext() {
+    return encoder_context;
+}
+

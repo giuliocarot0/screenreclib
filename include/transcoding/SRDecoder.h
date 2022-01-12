@@ -15,6 +15,8 @@ private:
 public:
     SRDecoder():decoder_context(nullptr){};
     void setDecoderContext(AVCodecContext *decoder_ctx);
+    AVCodecContext * getDecoderContext();
+
     int decodePacket(AVPacket* packet);
     int getDecodedFrame(AVFrame* frame);
 };
