@@ -23,12 +23,12 @@ int main() {
     outputSettings.video_codec = AV_CODEC_ID_MPEG4;
     outputSettings.audio_codec = AV_CODEC_ID_NONE;
 
-    outputSettings._fps = 30;
+    outputSettings.fps = 30;
     outputSettings.filename = "testfile.mp4";
-    outputSettings._outscreenres =SRResolution{2560,1600};
+    outputSettings.outscreenres =SRResolution{2560,1600};
 
     SRMediaOutput outputFile(outputSettings);
-    SRVideoInput videoInput("avfoundation", "1:none", outputSettings._outscreenres, SROffset{0,0}, outputSettings._fps );
+    SRVideoInput videoInput("avfoundation", "1:none", outputSettings.outscreenres, SROffset{0,0}, outputSettings.fps );
     SRDecoder videoDecoder;
     SREncoder videoEncoder;
 

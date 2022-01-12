@@ -153,11 +153,11 @@ int SRMediaOutput::createVideoStream() {
     videoCtx->codec_type = AVMEDIA_TYPE_VIDEO;
     videoCtx->pix_fmt = AV_PIX_FMT_YUV420P;
     videoCtx->bit_rate = 400000; //
-    videoCtx->width = settings._outscreenres.width;
-    videoCtx->height = settings._outscreenres.height;
+    videoCtx->width = settings.outscreenres.width;
+    videoCtx->height = settings.outscreenres.height;
 
-    videoCtx->time_base = AVRational{1, settings._fps};
-    videoCtx->framerate = AVRational{settings._fps, 1}; // 15fps
+    videoCtx->time_base = AVRational{1, settings.fps};
+    videoCtx->framerate = AVRational{settings.fps, 1}; // 15fps
     //videoCtx->compression_level = 1;
     /* reduce preset to slow if H264 to avoid resources leak */
     if(videoCtx->codec_id == AV_CODEC_ID_H264)
