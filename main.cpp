@@ -93,7 +93,7 @@ int main() {
                 while(videoEncoder.getEncodedPacket(outPacket)>=0) {
                 //    printf("\t\t encodedPacket %lld\n", outPacket->pts);
 
-                    if(outputFile.writePacket(outPacket,0 /*passing a video packet*/)>=0){
+                    if(outputFile.writePacket(outPacket, video /*passing a video packet*/)>=0){
 
                         // printf("PTS: %lld - Duration %lld\n", outPacket->pts, outPacket->duration);
                     }

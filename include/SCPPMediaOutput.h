@@ -6,7 +6,7 @@
 #define SCREENRECLIB_SCPPMEDIAOUTPUT_H
 
 #include "SCPPtools.h"
-
+typedef enum {video, audio} media_type;
 class SCPPMediaOutput {
 private:
     bool video_recorded;
@@ -28,7 +28,7 @@ public:
     AVCodecContext* getVideoCodecContext();
     AVCodecContext* getAudioCodecContext();
     //output format context cannot be disclosed due to critical region in writing packets
-    int writePacket(AVPacket* packet, int type);
+    int writePacket(AVPacket* packet, media_type type);
 
     char *getFilename();
 

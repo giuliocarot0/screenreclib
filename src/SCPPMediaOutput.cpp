@@ -196,7 +196,7 @@ AVCodecContext *SCPPMediaOutput::getAudioCodecContext() {
     return audioCtx;
 }
 
-int SCPPMediaOutput::writePacket(AVPacket *packet, int type) {
+int SCPPMediaOutput::writePacket(AVPacket *packet, media_type type) {
     if(type == 0) { //video
         packet->stream_index = videoStreamID;
         av_packet_rescale_ts(packet, videoCtx->time_base, outputCtx->streams[videoStreamID]->time_base);
