@@ -4,19 +4,18 @@
 extern "C"{
     #include <libavcodec/avcodec.h>
 };
-#include <SCPPEncoder.h>
+#include <transcoding/SREncoder.h>
 
 
-void SCPPEncoder::setEncoderContext(AVCodecContext *encoderContext) {
+void SREncoder::setEncoderContext(AVCodecContext *encoderContext) {
     encoder_context = encoderContext;
 }
 
-int SCPPEncoder::encodeFrame(AVFrame *frame) {
-    int ret = avcodec_send_frame(encoder_context, frame);
-    return ret;
+int SREncoder::encodeFrame(AVFrame *frame) {
+    return avcodec_send_frame(encoder_context, frame);
 }
 
-int SCPPEncoder::getEncodedPacket(AVPacket* packet) {
+int SREncoder::getEncodedPacket(AVPacket* packet) {
     int ret;
     ret = avcodec_receive_packet(encoder_context, packet);
     if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)

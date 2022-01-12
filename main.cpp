@@ -1,9 +1,9 @@
 #include <iostream>
-#include <SCPPEncoder.h>
-#include <SCPPMediaOutput.h>
-#include "SCPPVideoInput.h"
-#include "SCPPAudioInput.h"
-#include "SCPPDecoder.h"
+#include <transcoding/SREncoder.h>
+#include <muxing/SRMediaOutput.h>
+#include "demuxing/SRVideoInput.h"
+#include "demuxing/SRAudioInput.h"
+#include "transcoding/SRDecoder.h"
 
 
 int main() {
@@ -17,18 +17,20 @@ int main() {
 
     //Open two input devices
 
+
    //set output file for video only
     SROutputSettings outputSettings;
     outputSettings.video_codec = AV_CODEC_ID_MPEG4;
     outputSettings.audio_codec = AV_CODEC_ID_NONE;
 
-    outputSettings._fps = 30;
+    outputSettings.fps = 30;
     outputSettings.filename = "testfile.mp4";
-    outputSettings._outscreenres = SRResolution{1366,768};
-    SCPPMediaOutput outputFile(outputSettings);
-    SCPPVideoInput videoInput("gdigrab", "desktop", outputSettings._outscreenres, SROffset{0,0}, outputSettings._fps );
-    SCPPDecoder videoDecoder;
-    SCPPEncoder videoEncoder;
+    outputSettings.outscreenres =SRResolution{2560,1600};
+
+    SRMediaOutput outputFile(outputSettings);
+    SRVideoInput videoInput("avfoundation", "1:none", outputSettings.outscreenres, SROffset{0,0}, outputSettings.fps );
+    SRDecoder videoDecoder;
+    SREncoder videoEncoder;
 
     videoInput.open();
     videoDecoder.setDecoderContext(videoInput.getCodecContext());
@@ -47,7 +49,7 @@ int main() {
     }
     int ret;
     // Setup the data pointers and linesizes based on the specified image parameters and the provided array.
-    ret = av_image_fill_arrays( scaled_frame->data, scaled_frame->linesize, video_outbuf , AV_PIX_FMT_YUV420P, outputFile.getVideoCodecContext()->width,outputFile.getVideoCodecContext()->height,1 ); // returns : the size in bytes required for src
+    ret = av_image_fill_arrays( scaled_frame->data, scaled_frame->linesize, video_outbuf , AV_PIX_FMT_YUV420P, outputFile.getVideoCodecContext()->width,outputFile.getVideoCodecContext()->height,1 ); // returns : the size in bytes required for lib
     if(ret < 0)
     {
         cout<<"\nerror in filling image array";

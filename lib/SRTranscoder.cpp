@@ -2,9 +2,9 @@
 // Created by Giulio Carota on 10/01/22.
 //
 
-#include "SCPPTranscoder.h"
+#include "transcoding/SRTranscoder.h"
 
-int SCPPTranscoder::transcodePacket(AVPacket *inputPacket) {
+int SRTranscoder::transcodePacket(AVPacket *inputPacket) {
     if(encoder != nullptr && decoder != nullptr &&inputPacket!=nullptr)
         return decoder->decodePacket(inputPacket);
     else

@@ -1,14 +1,14 @@
 //
 // Created by Giulio Carota on 17/10/21.
 //
-#include "SCPPVideoInput.h"
+#include "demuxing/SRVideoInput.h"
 
 
 /**
  * the constructor initialize the
  * input device with requested options
  */
-SCPPVideoInput::SCPPVideoInput(char *video_src, char *video_url, SRResolution res, SROffset off, int fps) : SCPPInput(video_src, video_url) {
+SRVideoInput::SRVideoInput(char *video_src, char *video_url, SRResolution res, SROffset off, int fps) : SRInput(video_src, video_url) {
     this->fps = fps;
     char s[30];
     int value = 0;
@@ -51,7 +51,7 @@ SCPPVideoInput::SCPPVideoInput(char *video_src, char *video_url, SRResolution re
 
 }
 
-AVFormatContext* SCPPVideoInput::open(){
+AVFormatContext* SRVideoInput::open(){
     //if one of them != nullptr then input already initialized
     if(inFormatContext != nullptr || inCodecContext!= nullptr || streamIndex != -1)
         return inFormatContext;

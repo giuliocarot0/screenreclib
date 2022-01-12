@@ -3,8 +3,8 @@
 //
 
 
-#ifndef SCREENRECLIB_EXCEPTIONS_H
-#define SCREENRECLIB_EXCEPTIONS_H
+#ifndef SCREENRECLIB_SREXCEPTIONS_H
+#define SCREENRECLIB_SREXCEPTIONS_H
 #include <exception>
 
 class SCPPException: public std::exception {
@@ -49,4 +49,4 @@ public:
 };
 
 
-#endif //SCREENRECLIB_EXCEPTIONS_H
+#endif //SCREENRECLIB_SREXCEPTIONS_H

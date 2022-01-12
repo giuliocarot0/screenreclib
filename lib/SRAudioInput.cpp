@@ -2,16 +2,16 @@
 // Created by Giulio Carota on 17/10/21.
 //
 
-#include "SCPPAudioInput.h"
+#include "demuxing/SRAudioInput.h"
 
 /**
  * the constructor initialize the
  * input device with requested options
  */
-SCPPAudioInput::SCPPAudioInput(char* audio_src, char* audio_url)  : SCPPInput(audio_src, audio_url) {
+SRAudioInput::SRAudioInput(char* audio_src, char* audio_url)  : SRInput(audio_src, audio_url) {
 }
 
-AVFormatContext* SCPPAudioInput::open(){
+AVFormatContext* SRAudioInput::open(){
     //if one of them != nullptr then input already initialized
     if(inFormatContext != nullptr || inCodecContext!= nullptr || streamIndex != -1)
         return inFormatContext;
@@ -69,17 +69,17 @@ AVFormatContext* SCPPAudioInput::open(){
     return inFormatContext;
 }
 
-int SCPPAudioInput::getInputAudioStreamIndex() const {
+int SRAudioInput::getInputAudioStreamIndex() const {
     return streamIndex;
 }
 
-AVFormatContext *SCPPAudioInput::getInputAudioFormatContext() const {
+AVFormatContext *SRAudioInput::getInputAudioFormatContext() const {
     return inFormatContext;
 }
 
-AVCodecContext *SCPPAudioInput::getInputAudioCodecContext() const {
+AVCodecContext *SRAudioInput::getInputAudioCodecContext() const {
     return inCodecContext;
 }
 
-SCPPAudioInput::~SCPPAudioInput() = default;
+SRAudioInput::~SRAudioInput() = default;
 

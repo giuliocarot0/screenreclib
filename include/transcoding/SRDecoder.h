@@ -2,22 +2,22 @@
 // Created by Giulio Carota on 17/10/21.
 //
 
-#ifndef SCREENRECLIB_SCPPDECODER_H
-#define SCREENRECLIB_SCPPDECODER_H
+#ifndef SCREENRECLIB_SRDECODER_H
+#define SCREENRECLIB_SRDECODER_H
 
-#include "SCPPtools.h"
+#include "SRTools.h"
 
-class SCPPDecoder {
+class SRDecoder {
 
 private:
     AVCodecContext* decoder_context;
 
 public:
-    SCPPDecoder():decoder_context(nullptr){};
+    SRDecoder():decoder_context(nullptr){};
     void setDecoderContext(AVCodecContext *decoder_ctx);
     int decodePacket(AVPacket* packet);
     int getDecodedFrame(AVFrame* frame);
 };
 
 
-#endif //SCREENRECLIB_SCPPDECODER_H
+#endif //SCREENRECLIB_SRDECODER_H

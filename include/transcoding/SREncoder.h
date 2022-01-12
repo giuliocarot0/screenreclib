@@ -2,22 +2,22 @@
 // Created by Giulio Carota on 17/10/21.
 //
 
-#ifndef SCREENRECLIB_SCPPENCODER_H
-#define SCREENRECLIB_SCPPENCODER_H
+#ifndef SCREENRECLIB_SRENCODER_H
+#define SCREENRECLIB_SRENCODER_H
 
-#include "SCPPtools.h"
+#include "SRTools.h"
 
 /**
  * REMEMBER!!! both video and audio transcoders need to
  * implement their own rescaling procedure.
  */
-class SCPPEncoder {
+class SREncoder {
 
 private:
     AVCodecContext* encoder_context;
 
 public:
-    SCPPEncoder():encoder_context(nullptr){};
+    SREncoder():encoder_context(nullptr){};
     void setEncoderContext(AVCodecContext *encoder_context);
     //receives a rescaled frame from transcoder class eventually
     int encodeFrame(AVFrame* frame);
@@ -27,4 +27,4 @@ public:
 
 
 #endif
-//SCREENRECLIB_SCPPENCODER_H
+//SCREENRECLIB_SRENCODER_H

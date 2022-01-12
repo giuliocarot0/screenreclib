@@ -2,8 +2,8 @@
 // Created by giuli on 27/12/2021.
 //
 
-#ifndef SCREENRECLIB_SCPPTOOLS_H
-#define SCREENRECLIB_SCPPTOOLS_H
+#ifndef SCREENRECLIB_SRTOOLS_H
+#define SCREENRECLIB_SRTOOLS_H
 
 
 #include <iostream>
@@ -19,7 +19,7 @@
 #include <mutex>
 #include <condition_variable>
 #include <thread>
-#include "exceptions/exceptions.h"
+#include "exceptions/SRExceptions.h"
 
 extern "C" {
 #include <libavcodec/avcodec.h>
@@ -60,8 +60,8 @@ typedef struct T{
 }SROffset;
 
 typedef struct A{
-    SRResolution  _outscreenres;
-    uint16_t  _fps;
+    SRResolution  outscreenres;
+    uint16_t  fps;
     int audio_samplerate;
     int audio_channels;
     char* filename;
@@ -69,4 +69,4 @@ typedef struct A{
     AVCodecID video_codec;
 }SROutputSettings;
 
-#endif //SCREENRECLIB_SCPPTOOLS_H
+#endif //SCREENRECLIB_SRTOOLS_H
