@@ -9,7 +9,8 @@
 
 class SCPPVideoInput: public SCPPInput{
 
-
+private:
+    int fps;
 public:
     SCPPVideoInput(char *deviceSrc, char *deviceUrl, SRResolution res, SROffset off, int fps);
     AVFormatContext* open() override;

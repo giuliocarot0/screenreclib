@@ -9,6 +9,7 @@
 
 class SCPPInput {
     protected:
+        long long int first_pts; /* for PTS normalization*/
         char* device_src;
         char* device_url;
         AVDictionary *options;

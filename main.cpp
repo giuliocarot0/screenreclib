@@ -4,7 +4,6 @@
 #include "SCPPVideoInput.h"
 #include "SCPPAudioInput.h"
 #include "SCPPDecoder.h"
-#include <ctime>
 
 
 int main() {
@@ -17,9 +16,6 @@ int main() {
     avdevice_register_all();
 
     //Open two input devices
-    SCPPVideoInput videoInput("gdigrab", "desktop", SRResolution{1366,768}, SROffset{0,0}, 15 );
-    SCPPDecoder videoDecoder;
-    SCPPEncoder videoEncoder;
 
    //set output file for video only
     SROutputSettings outputSettings;
@@ -28,9 +24,11 @@ int main() {
 
     outputSettings._fps = 30;
     outputSettings.filename = "testfile.mp4";
-    outputSettings._outscreenres = SRResolution{1366,768};
+    outputSettings._outscreenres = SRResolution{1920,1080};
     SCPPMediaOutput outputFile(outputSettings);
-
+    SCPPVideoInput videoInput("gdigrab", "desktop", SRResolution{1366,768}, SROffset{0,0}, 15 );
+    SCPPDecoder videoDecoder;
+    SCPPEncoder videoEncoder;
 
     videoInput.open();
     videoDecoder.setDecoderContext(videoInput.getCodecContext());
@@ -66,47 +64,47 @@ int main() {
                              outputFile.getVideoCodecContext()->pix_fmt,
                              SWS_BICUBIC, NULL, NULL, NULL);
 
-    std::clock_t start;
-    start = std::clock();
-
-    int flag = 0;
-    while((( std::clock() - start ) / (double) CLOCKS_PER_SEC) < 5) {
+    long long int last = 0;
+    while(last/30 < 10 /*record for five sec*/) {
 
 
         if(videoInput.readPacket(inPacket) >= 0){
-            printf("PacketPTS: %lld\n",inPacket->pts);
+            last = inPacket->pts;
             videoDecoder.decodePacket(inPacket);
-            printf("Packet duration: %lld\n",inPacket->duration);
             while(videoDecoder.getDecodedFrame(rawFrame)>=0){
-                printf("\t decodedFrame %lld,%lld\n", rawFrame->pts,rawFrame->pkt_duration);
+              //  printf("\t decodedFrame %lld\n", rawFrame->pts);
 
 
                 /*initializing scaleFrame */
                 scaled_frame->width = outputFile.getVideoCodecContext()->width;
                 scaled_frame->height = outputFile.getVideoCodecContext()->height;
                 scaled_frame->format = outputFile.getVideoCodecContext()->pix_fmt;
-                scaled_frame->pts = rawFrame->pts;
+                scaled_frame->pts = rawFrame->best_effort_timestamp;
                 scaled_frame->pkt_dts=rawFrame->pkt_dts;
-                scaled_frame->pkt_duration=rawFrame->pkt_duration;
-                scaled_frame->best_effort_timestamp = rawFrame->best_effort_timestamp;
-                //av_frame_get_buffer(scaled_frame, 0);
-
+                scaled_frame->pkt_duration = rawFrame->pkt_duration;
                 sws_scale(swsCtx_, rawFrame->data, rawFrame->linesize,0, videoInput.getCodecContext()->height, scaled_frame->data, scaled_frame->linesize);
 
-                printf("duration: %lld\n", scaled_frame->pkt_duration);
 
-                videoEncoder.encodeFrame(scaled_frame);
+                if(videoEncoder.encodeFrame(scaled_frame)<0){
+                    printf("DROPPED");
+                };
                 while(videoEncoder.getEncodedPacket(outPacket)>=0) {
-                    printf("\t\t encodedPacket %lld,%lld\n", outPacket->pts, outPacket->duration);
+                //    printf("\t\t encodedPacket %lld\n", outPacket->pts);
 
-                    if(outputFile.writePacket(outPacket)>=0)
-                        printf("transcoded packet written on %s", outputFile.getFilename());
+                    if(outputFile.writePacket(outPacket, video /*passing a video packet*/)>=0){
+
+                        // printf("PTS: %lld - Duration %lld\n", outPacket->pts, outPacket->duration);
                     }
+                        //      printf("transcoded packet written on %s", outputFile.getFilename());
+                    else{
+                        printf("DROPPED");
+                    }
+                }
+
             }
             av_packet_unref(inPacket);
 
         }
-        else flag = 1;
     }
 
     return 0;

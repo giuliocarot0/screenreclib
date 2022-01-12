@@ -152,14 +152,13 @@ int SCPPMediaOutput::createVideoStream() {
     videoCtx->codec_id = settings.video_codec;// AV_CODEC_ID_MPEG4; // AV_CODEC_ID_H264 // AV_CODEC_ID_MPEG1VIDEO
     videoCtx->codec_type = AVMEDIA_TYPE_VIDEO;
     videoCtx->pix_fmt = AV_PIX_FMT_YUV420P;
-    videoCtx->bit_rate = 400000; // 2500000
+    videoCtx->bit_rate = 400000; //
     videoCtx->width = settings._outscreenres.width;
     videoCtx->height = settings._outscreenres.height;
-    //videoCtx->gop_size = 3;
-    //videoCtx->max_b_frames = 2;
-    videoCtx->time_base.num = 1;
-    videoCtx->time_base.den = settings._fps; // 15fps
-    videoCtx->compression_level = 1;
+
+    videoCtx->time_base = AVRational{1, settings._fps};
+    videoCtx->framerate = AVRational{settings._fps, 1}; // 15fps
+    //videoCtx->compression_level = 1;
     /* reduce preset to slow if H264 to avoid resources leak */
     if(videoCtx->codec_id == AV_CODEC_ID_H264)
         av_opt_set(videoCtx->priv_data, "preset", "slow", 0);
@@ -198,13 +197,12 @@ AVCodecContext *SCPPMediaOutput::getAudioCodecContext() {
     return audioCtx;
 }
 
-int SCPPMediaOutput::writePacket(AVPacket *packet) {
-    if(packet->pts != AV_NOPTS_VALUE)
-        packet->pts = av_rescale_q(packet->pts,videoCtx->time_base,  outputCtx->streams[videoStreamID]->time_base);
-    if(packet->dts != AV_NOPTS_VALUE)
-        packet->dts = av_rescale_q(packet->dts, videoCtx->time_base, outputCtx->streams[videoStreamID]->time_base);
-
-    return av_interleaved_write_frame(outputCtx, packet);
+int SCPPMediaOutput::writePacket(AVPacket *packet, media_type type) {
+    if(type == 0) { //video
+        packet->stream_index = videoStreamID;
+        av_packet_rescale_ts(packet, videoCtx->time_base, outputCtx->streams[videoStreamID]->time_base);
+    }
+    return av_write_frame(outputCtx, packet);
 }
 
 char *SCPPMediaOutput::getFilename() {
