@@ -49,7 +49,7 @@ int main() {
     }
     int ret;
     // Setup the data pointers and linesizes based on the specified image parameters and the provided array.
-    ret = av_image_fill_arrays( scaled_frame->data, scaled_frame->linesize, video_outbuf , AV_PIX_FMT_YUV420P, outputFile.getVideoCodecContext()->width,outputFile.getVideoCodecContext()->height,1 ); // returns : the size in bytes required for src
+    ret = av_image_fill_arrays( scaled_frame->data, scaled_frame->linesize, video_outbuf , AV_PIX_FMT_YUV420P, outputFile.getVideoCodecContext()->width,outputFile.getVideoCodecContext()->height,1 ); // returns : the size in bytes required for lib
     if(ret < 0)
     {
         cout<<"\nerror in filling image array";
