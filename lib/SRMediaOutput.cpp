@@ -77,7 +77,7 @@ int SRMediaOutput::createAudioStream() {
         cout << "\nCannot create audio stream";
         exit(1);
     }
-    outACodec = avcodec_find_encoder(AV_CODEC_ID_AAC);
+    outACodec = avcodec_find_encoder(settings.audio_codec);
     if (!outACodec) {
         cout << "\nCannot find requested encoder";
         exit(1); //todo: Invalid Video Output Codec
@@ -201,6 +201,10 @@ int SRMediaOutput::writePacket(AVPacket *packet, media_type type) {
     if(type == 0) { //video
         packet->stream_index = videoStreamID;
         av_packet_rescale_ts(packet, videoCtx->time_base, outputCtx->streams[videoStreamID]->time_base);
+    }
+    if(type == 1) { //audio
+        packet->stream_index = audioStreamID;
+        av_packet_rescale_ts(packet, audioCtx->time_base, outputCtx->streams[audioStreamID]->time_base);
     }
     return av_write_frame(outputCtx, packet);
 }

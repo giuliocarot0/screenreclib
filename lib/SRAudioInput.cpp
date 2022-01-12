@@ -39,7 +39,7 @@ AVFormatContext* SRAudioInput::open(){
     //find the first audio stream with a given code
     streamIndex = -1;
     for (int i = 0; i < inFormatContext->nb_streams; i++){
-        if (inFormatContext->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {
+        if (inFormatContext->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_AUDIO) {
             streamIndex = i;
             break;
         }
