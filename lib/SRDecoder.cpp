@@ -30,3 +30,7 @@ int SRDecoder::decodePacket(AVPacket* packet) {
 void SRDecoder::setDecoderContext(AVCodecContext *decoder_ctx) {
     this->decoder_context = decoder_ctx;
 }
+
+AVCodecContext *SRDecoder::getDecoderContext() {
+    return decoder_context;
+}

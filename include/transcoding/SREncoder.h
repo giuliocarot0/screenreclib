@@ -19,6 +19,7 @@ private:
 public:
     SREncoder():encoder_context(nullptr){};
     void setEncoderContext(AVCodecContext *encoder_context);
+    AVCodecContext* getEncoderContext();
     //receives a rescaled frame from transcoder class eventually
     int encodeFrame(AVFrame* frame);
     int getEncodedPacket(AVPacket* packet);
