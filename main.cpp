@@ -66,19 +66,12 @@ int main() {
                              outputFile.getVideoCodecContext()->pix_fmt,
                              SWS_BICUBIC, NULL, NULL, NULL);
 
-
-    std::clock_t start;
-    start = std::clock();
-
-    int written_packets = 0;
-    long long int first=0, last = 0;
-    while(last < 60*5 /*record for five sec*/) {
+    long long int last = 0;
+    while(last/30 < 10 /*record for five sec*/) {
 
 
         if(videoInput.readPacket(inPacket) >= 0){
-            if(first<=0) first = inPacket->pts;
             last = inPacket->pts;
-            printf("PacketPTS: %lld\n",inPacket->pts);
             videoDecoder.decodePacket(inPacket);
             while(videoDecoder.getDecodedFrame(rawFrame)>=0){
               //  printf("\t decodedFrame %lld\n", rawFrame->pts);
@@ -101,7 +94,6 @@ int main() {
                 //    printf("\t\t encodedPacket %lld\n", outPacket->pts);
 
                     if(outputFile.writePacket(outPacket,0 /*passing a video packet*/)>=0){
-                        written_packets++;
 
                         // printf("PTS: %lld - Duration %lld\n", outPacket->pts, outPacket->duration);
                     }
