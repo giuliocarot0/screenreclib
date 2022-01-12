@@ -6,6 +6,7 @@
 
 SCPPInput::SCPPInput(char *device_src, char *device_url) {
     options = nullptr;
+    first_pts = -1;
     streamIndex = -1;
     inFormatContext = nullptr;
     inCodecContext = nullptr;
@@ -19,17 +20,14 @@ SCPPInput::SCPPInput(char *device_src, char *device_url) {
 
 int SCPPInput::readPacket(AVPacket* read_packet) {
     int ret;
-    int64_t hold_pts, hold_dts;
     ret = av_read_frame(inFormatContext, read_packet);
     if (ret >= 0 && read_packet->stream_index == streamIndex) {
         //todo: check if a rescale is needed here
-        printf("\nBefore: %lld,%lld\n", read_packet->pts, read_packet->duration);
-        //printf("PTS src: %d/%d - PTS dst: %d/%d\n", inFormatContext->streams[streamIndex]->time_base.num,inFormatContext->streams[streamIndex]->time_base.den,inCodecContext->time_base.num,inCodecContext->time_base.den);
-        printf("PTS src: %d/%d - PTS dst: 1/30\n", inCodecContext->time_base.num,inCodecContext->time_base.den);
-        //av_packet_rescale_ts(read_packet,  inFormatContext->streams[streamIndex]->time_base,inCodecContext->time_base);
-        av_packet_rescale_ts(read_packet,AVRational{1,100000},AVRational{1,30});
-        printf("After: %lld,%lld\n", read_packet->pts, read_packet->duration);
-
+        //printf("\nBefore: %lld,%lld\n", read_packet->pts, read_packet->duration);
+        av_packet_rescale_ts(read_packet, inFormatContext->streams[streamIndex]->time_base,inCodecContext->time_base);
+        if(first_pts<0)
+            first_pts = read_packet->pts;
+        read_packet->pts -= first_pts;
         return ret;
     } else
         return -1;
