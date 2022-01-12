@@ -2,7 +2,7 @@
 // Created by Giulio Carota on 17/10/21.
 //
 
-#include "../include/SRDecoder.h"
+#include "transcoding/SRDecoder.h"
 
 
 int SRDecoder::getDecodedFrame(AVFrame* frame) {

@@ -2,7 +2,7 @@
 // Created by Giulio Carota on 17/10/21.
 //
 
-#include "../include/SRMediaOutput.h"
+#include "muxing/SRMediaOutput.h"
 
 SRMediaOutput::SRMediaOutput(SROutputSettings outputSettings) {
 

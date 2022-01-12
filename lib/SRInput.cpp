@@ -1,7 +1,7 @@
 //
 // Created by giuli on 29/12/2021.
 //
-#include "SRInput.h"
+#include "demuxing/SRInput.h"
 
 
 SRInput::SRInput(char *device_src, char *device_url) {

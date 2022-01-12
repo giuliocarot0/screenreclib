@@ -2,7 +2,7 @@
 // Created by Giulio Carota on 10/01/22.
 //
 
-#include "SRTranscoder.h"
+#include "transcoding/SRTranscoder.h"
 
 int SRTranscoder::transcodePacket(AVPacket *inputPacket) {
     if(encoder != nullptr && decoder != nullptr &&inputPacket!=nullptr)

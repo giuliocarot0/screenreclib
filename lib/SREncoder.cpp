@@ -4,7 +4,7 @@
 extern "C"{
     #include <libavcodec/avcodec.h>
 };
-#include <SREncoder.h>
+#include <transcoding/SREncoder.h>
 
 
 void SREncoder::setEncoderContext(AVCodecContext *encoderContext) {

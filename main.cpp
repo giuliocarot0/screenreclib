@@ -1,9 +1,9 @@
 #include <iostream>
-#include <SREncoder.h>
-#include <SRMediaOutput.h>
-#include "SRVideoInput.h"
-#include "SRAudioInput.h"
-#include "SRDecoder.h"
+#include <transcoding/SREncoder.h>
+#include <muxing/SRMediaOutput.h>
+#include "demuxing/SRVideoInput.h"
+#include "demuxing/SRAudioInput.h"
+#include "transcoding/SRDecoder.h"
 
 
 int main() {
