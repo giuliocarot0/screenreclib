@@ -28,7 +28,7 @@ public:
     AVCodecContext* getVideoCodecContext();
     AVCodecContext* getAudioCodecContext();
     //output format context cannot be disclosed due to critical region in writing packets
-    int writePacket(AVPacket* packet);
+    int writePacket(AVPacket* packet, int type);
 
     char *getFilename();
 
