@@ -9,7 +9,7 @@
  * input device with requested options
  */
 SCPPVideoInput::SCPPVideoInput(char *video_src, char *video_url, SRResolution res, SROffset off, int fps) : SCPPInput(video_src, video_url) {
-
+    this->fps = fps;
     char s[30];
     int value = 0;
     sprintf(s,"%d", fps);
@@ -95,13 +95,15 @@ AVFormatContext* SCPPVideoInput::open(){
         throw findDecoderException("Cannot find the decoder.");
     }
 
-    inCodecContext = avcodec_alloc_context3(inVCodec);
-    avcodec_parameters_to_context(inCodecContext, params);
 
+    inCodecContext = avcodec_alloc_context3(inVCodec);
+
+    avcodec_parameters_to_context(inCodecContext, params);
+    inCodecContext->time_base = AVRational{1, fps};
+    inCodecContext->framerate = AVRational{fps,1};
     value = avcodec_open2(inCodecContext, inVCodec, nullptr);
     if (value < 0) {
         throw openAVCodecException("Cannot open the av codec.");
-
     }
 
     return inFormatContext;
