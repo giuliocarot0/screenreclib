@@ -15,7 +15,7 @@ SRVideoInput::SRVideoInput(char *video_src, char *video_url, SRResolution res, S
     sprintf(s,"%d", fps);
 
 #ifdef __APPLE__
-    value = av_dict_set(&options, "pixel_format", "0rgb", 0);
+    value = av_dict_set(&options, "pixel_format", "yuyv422", 0);
     if (value < 0) {
         cout << "\nerror in setting dictionary value";
         exit(1);
@@ -26,7 +26,10 @@ SRVideoInput::SRVideoInput(char *video_src, char *video_url, SRResolution res, S
         cout << "\nerror in setting dictionary value";
         exit(1);
     }
-
+    value = av_dict_set(&options, "capture_cursor", "1", 0);
+    if (value < 0) {
+        throw openSourceParameterException("Found capture_cursor value wrong while opening video input");
+    }
 #endif
     value = av_dict_set(&options, "framerate", s, 0);
     if (value < 0) {
@@ -39,7 +42,7 @@ SRVideoInput::SRVideoInput(char *video_src, char *video_url, SRResolution res, S
     if (value < 0) {
         throw openSourceParameterException("Found video size value wrong while opening video input");
     }
-    value = av_dict_set(&options, "preset", "medium", 0);
+    value = av_dict_set(&options, "preset", "high", 0);
     if (value < 0) {
         throw openSourceParameterException("Found preset value wrong while opening video input");
     }
