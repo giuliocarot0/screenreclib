@@ -24,12 +24,13 @@ int main() {
 
     outputSettings.video_codec = AV_CODEC_ID_MPEG4;
     outputSettings.audio_codec = AV_CODEC_ID_NONE;
+    outputSettings.offset = SROffset{1000,1000};
     outputSettings.fps = 30;
     outputSettings.filename = "testfile.mp4";
     outputSettings.outscreenres =SRResolution{2560,1600};
 
     SRMediaOutput outputFile(outputSettings);
-    SRVideoInput videoInput("avfoundation", "1:none", outputSettings.outscreenres, SROffset{0,0}, outputSettings.fps );
+    SRVideoInput videoInput("avfoundation", "1:none", outputSettings.outscreenres, outputSettings.offset, outputSettings.fps );
     SRDecoder videoDecoder;
     SREncoder videoEncoder;
 
@@ -40,7 +41,7 @@ int main() {
 
     SRVideoFilter videoFilter(outputFile.getVideoCodecContext(), videoInput.getCodecContext(), outputSettings);
     videoFilter.enableBasic();
-    //videoFilter.enableCropper();
+    videoFilter.enableCropper();
 
     long long int last = 0;
     printf("[SRlib - recording screen]\n");

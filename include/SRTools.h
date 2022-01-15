@@ -60,6 +60,7 @@ typedef struct T{
 }SROffset;
 
 typedef struct A{
+    SROffset offset;
     SRResolution  outscreenres;
     uint16_t  fps;
     int audio_samplerate;

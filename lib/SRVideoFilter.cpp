@@ -13,16 +13,9 @@ AVFrame* SRVideoFilter::filterFrame(AVFrame* input_frame) {
     }
     int ret;
     //initializing scaleFrame
-    scaled_frame->width = encoder->width;
-    scaled_frame->height = encoder->height;
-    scaled_frame->format = encoder->pix_fmt;
-    scaled_frame->pts = input_frame->best_effort_timestamp;
-    scaled_frame->pkt_dts=input_frame->pkt_dts;
-    scaled_frame->pkt_duration = input_frame->pkt_duration;
-    sws_scale(rescaling_context, input_frame->data, input_frame->linesize,0, decoder->height, scaled_frame->data, scaled_frame->linesize);
+    av_frame_ref(cropped_frame, input_frame);
 
     if(cropper_enabled){
-        av_frame_ref(cropped_frame, input_frame);
         if (av_buffersrc_add_frame(cropfilter.src_ctx, cropped_frame) < 0) {
             //todo cropperException
             return nullptr;
@@ -33,8 +26,17 @@ AVFrame* SRVideoFilter::filterFrame(AVFrame* input_frame) {
                 return nullptr;
             if (ret < 0)
                 return nullptr;
-            return cropped_frame;
         }
+
+        scaled_frame->width = encoder->width;
+        scaled_frame->height = encoder->height;
+        scaled_frame->format = encoder->pix_fmt;
+        scaled_frame->pts = cropped_frame->best_effort_timestamp;
+        scaled_frame->pkt_dts=cropped_frame->pkt_dts;
+        scaled_frame->pkt_duration = cropped_frame->pkt_duration;
+        sws_scale(rescaling_context, cropped_frame->data, cropped_frame->linesize,0, decoder->height, scaled_frame->data, scaled_frame->linesize);
+
+        return scaled_frame;
     }
 
     return scaled_frame;

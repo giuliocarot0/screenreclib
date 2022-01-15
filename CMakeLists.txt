@@ -11,8 +11,8 @@ endif()
 
 
 if(APPLE)
-    link_directories(/usr/local/Cellar/ffmpeg/4.4_2/lib)
-    include_directories(/usr/local/Cellar/ffmpeg/4.4_2/include)
+    link_directories(/usr/local/Cellar/ffmpeg/4.4.1_5/lib)
+    include_directories(/usr/local/Cellar/ffmpeg/4.4.1_5/include)
 endif()
 
 include_directories(include)

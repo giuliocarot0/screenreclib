@@ -153,8 +153,8 @@ int SRMediaOutput::createVideoStream() {
     videoCtx->codec_type = AVMEDIA_TYPE_VIDEO;
     videoCtx->pix_fmt = AV_PIX_FMT_YUV420P;
     videoCtx->bit_rate = 400000; //
-    videoCtx->width = settings.outscreenres.width;
-    videoCtx->height = settings.outscreenres.height;
+    videoCtx->width = settings.outscreenres.width - settings.offset.x;
+    videoCtx->height = settings.outscreenres.height - settings.offset.y;
 
     videoCtx->time_base = AVRational{1, settings.fps};
     videoCtx->framerate = AVRational{settings.fps, 1}; // 15fps
