@@ -78,7 +78,7 @@ int main() {
 
     try {
         //set output file for audio only
-        SROutputSettings outputSettings;
+        SRSettings outputSettings;
         outputSettings.video_codec = AV_CODEC_ID_NONE;
         outputSettings.audio_codec = AV_CODEC_ID_AAC;
 
@@ -93,6 +93,7 @@ int main() {
 
         audioInput.open();
         audioDecoder.setDecoderContext(audioInput.getCodecContext());
+
         outputSettings.audio_channels=audioInput.getCodecContext()->channels;
         outputSettings.audio_samplerate=audioInput.getCodecContext()->sample_rate;
         SRMediaOutput outputFile(outputSettings);
