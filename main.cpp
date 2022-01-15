@@ -24,7 +24,7 @@ int main() {
 
     outputSettings.video_codec = AV_CODEC_ID_MPEG4;
     outputSettings.audio_codec = AV_CODEC_ID_NONE;
-    outputSettings.offset = SROffset{1000,1000};
+    outputSettings.offset = SROffset{1280,800};
     outputSettings.fps = 30;
     outputSettings.filename = "testfile.mp4";
     outputSettings.outscreenres =SRResolution{2560,1600};
@@ -45,7 +45,7 @@ int main() {
 
     long long int last = 0;
     printf("[SRlib - recording screen]\n");
-    while(last/30 < 10 /*record for five sec*/) {
+    while(last/outputSettings.fps < 10 /*record for five sec*/) {
 
 
         if(videoInput.readPacket(inPacket) >= 0){

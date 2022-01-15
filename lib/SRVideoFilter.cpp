@@ -13,33 +13,31 @@ AVFrame* SRVideoFilter::filterFrame(AVFrame* input_frame) {
     }
     int ret;
     //initializing scaleFrame
-    av_frame_ref(cropped_frame, input_frame);
-
-    if(cropper_enabled){
+    if(cropper_enabled) {
+        av_frame_ref(cropped_frame, input_frame);
         if (av_buffersrc_add_frame(cropfilter.src_ctx, cropped_frame) < 0) {
             //todo cropperException
             return nullptr;
-        }
-        else{
+        } else {
             ret = av_buffersink_get_frame(cropfilter.sink_ctx, cropped_frame);
             if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
                 return nullptr;
             if (ret < 0)
                 return nullptr;
         }
-
+        return cropped_frame;
+    }
+    else{
         scaled_frame->width = encoder->width;
         scaled_frame->height = encoder->height;
         scaled_frame->format = encoder->pix_fmt;
-        scaled_frame->pts = cropped_frame->best_effort_timestamp;
-        scaled_frame->pkt_dts=cropped_frame->pkt_dts;
-        scaled_frame->pkt_duration = cropped_frame->pkt_duration;
-        sws_scale(rescaling_context, cropped_frame->data, cropped_frame->linesize,0, decoder->height, scaled_frame->data, scaled_frame->linesize);
+        scaled_frame->pts = input_frame->best_effort_timestamp;
+        scaled_frame->pkt_dts=input_frame->pkt_dts;
+        scaled_frame->pkt_duration = input_frame->pkt_duration;
+        sws_scale(rescaling_context, input_frame->data, input_frame->linesize,0, decoder->height, scaled_frame->data, scaled_frame->linesize);
 
         return scaled_frame;
     }
-
-    return scaled_frame;
 }
 
 void SRVideoFilter::enableBasic() {
@@ -78,35 +76,42 @@ void SRVideoFilter::enableBasic() {
                              SWS_BICUBIC, NULL, NULL, NULL);
 }
 void SRVideoFilter::enableCropper() {
-        char args[512];
-        int ret = 0;
-        cropped_frame = av_frame_alloc();
-        cropfilter.outputs = nullptr;
-        cropfilter.inputs  = nullptr;
-        cropfilter.graph = avfilter_graph_alloc();
+    char args[512];
+    int ret = 0;
+    cropped_frame = av_frame_alloc();
+    cropfilter.outputs = nullptr;
+    cropfilter.inputs = nullptr;
+    cropfilter.graph = avfilter_graph_alloc();
 
-        snprintf(args, sizeof(args),
-                 "buffer=video_size=%dx%d:pix_fmt=%d:time_base=1/1:pixel_aspect=0/1[in];"
-                 "[in]crop=100:100:0:0[out];"
-                 "[out]buffersink",
-                 decoder->width, decoder->height, decoder->pix_fmt
-                 );
+    snprintf(args, sizeof(args),
+             "buffer=video_size=%dx%d:pix_fmt=%d:time_base=1/1:pixel_aspect=1/1[in];"
+             "[in]crop=%d:%d:%d:%d[out];"
+             "[out]buffersink",
+             decoder->width, decoder->height, decoder->pix_fmt, settings.outscreenres.width - settings.offset.x,
+             settings.outscreenres.height - settings.offset.y,
+             0, 0);
 
-        ret = avfilter_graph_parse2(cropfilter.graph, args, &cropfilter.inputs, &cropfilter.outputs);
-        if (ret < 0) exit(1);
-        assert(cropfilter.inputs == nullptr && cropfilter.outputs == nullptr);
-        ret = avfilter_graph_config(cropfilter.graph, nullptr);
-        if (ret < 0) exit(1);
+    ret = avfilter_graph_parse2(cropfilter.graph, args, &cropfilter.inputs, &cropfilter.outputs);
+    if (ret < 0) exit(1);
+    assert(cropfilter.inputs == nullptr && cropfilter.outputs == nullptr);
+    ret = avfilter_graph_config(cropfilter.graph, nullptr);
+    if (ret < 0) exit(1);
 
     cropfilter.src_ctx = avfilter_graph_get_filter(cropfilter.graph, "Parsed_buffer_0");
     cropfilter.sink_ctx = avfilter_graph_get_filter(cropfilter.graph, "Parsed_buffersink_2");
+
+    av_opt_set_bin(cropfilter.sink_ctx, "pix_fmts",
+                         (uint8_t *) &encoder->pix_fmt, sizeof(encoder->pix_fmt),
+                         AV_OPT_SEARCH_CHILDREN);
+
         assert(cropfilter.src_ctx != nullptr);
         assert(cropfilter.sink_ctx != nullptr);
 
-    cropper_enabled = true;
-    /*end:
-        avfilter_inout_free(&cropfilter.inputs);
-        avfilter_inout_free(&cropfilter.outputs);
-        //todo cropperException
-*/
+        cropper_enabled = true;
+        /*end:
+            avfilter_inout_free(&cropfilter.inputs);
+            avfilter_inout_free(&cropfilter.outputs);
+            //todo cropperException
+    */
+
 }
