@@ -6,7 +6,7 @@
 #include "demuxing/SRVideoInput.h"
 #include "demuxing/SRAudioInput.h"
 #include "transcoding/SRDecoder.h"
-
+#include "SRRecorder.h"
 
 int main() {
     AVPacket *inPacket, *outPacket;
