@@ -41,6 +41,8 @@ public:
     void enableBasic();
     void enableCropper();
     AVFrame * filterFrame(AVFrame* input_frame);
+
+    virtual ~SRVideoFilter();
 };
 
 

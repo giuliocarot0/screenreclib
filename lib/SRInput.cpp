@@ -49,18 +49,12 @@ SRInput::~SRInput() {
 
     av_packet_free(&deliverable_packet);
     avformat_close_input(&inFormatContext);
-    if (!inFormatContext) {
-        cout << "\nInput closed sucessfully";
-    }
-    else {
+    if (inFormatContext) {
         cout << "\nunable to close the input";
         exit(1);
     }
     avformat_free_context(inFormatContext);
-    if (!inFormatContext) {
-        cout << "\navformat free successfully";
-    }
-    else {
+    if (inFormatContext){
         cout << "\nunable to free avformat context";
         exit(1);
     }

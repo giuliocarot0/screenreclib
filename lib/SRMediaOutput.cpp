@@ -217,11 +217,24 @@ SRMediaOutput::~SRMediaOutput() {
         cout<<"\nerror in writing av trailer";
         exit(1);
     }
-    /*avformat_free_context(outputCtx);
-    if (!outputCtx) {
-        cout << "\nout avformat free successfully";
-    } else {
+
+    if(video_recorded){
+        avcodec_free_context(&videoCtx);
+        if (videoCtx){
+            cout << "\nunable to free video avformat context";
+            exit(1);
+        }
+    }
+    if(audio_recorded){
+        avcodec_free_context(&audioCtx);
+        if (audioCtx){
+            cout << "\nunable to free audio avformat context";
+            exit(1);
+        }
+    }
+    avformat_close_input(&outputCtx);
+    if (outputCtx){
         cout << "\nunable to free output avformat context";
         exit(1);
-    }*/
+    }
 }

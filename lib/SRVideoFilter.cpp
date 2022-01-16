@@ -129,3 +129,17 @@ void SRVideoFilter::enableCropper() {
                                         encoder->pix_fmt,
                                         SWS_BICUBIC, NULL, NULL, NULL);
 }
+
+SRVideoFilter::~SRVideoFilter() {
+    sws_freeContext(rescaling_context);
+    av_frame_free(&scaled_frame);
+    av_frame_free(&returned_frame);
+
+    if(cropper_enabled){
+        av_frame_free(&cropped_frame);
+        sws_freeContext(rescaling_context2);
+        avfilter_free(cropfilter.sink_ctx);
+        avfilter_free(cropfilter.src_ctx);
+        avfilter_graph_free(&cropfilter.graph);
+    }
+}

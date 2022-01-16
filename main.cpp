@@ -54,8 +54,8 @@ int main() {
     videoFilter.enableCropper();
 
     long long int last = 0;
-    printf("[SRlib - recording screen]\n");
-    while(last/outputSettings.fps < 10 /*record for five sec*/) {
+    printf("[SRlib] recording screen\n");
+    while(last/outputSettings.fps < 1 /*record for five sec*/) {
 
 
         if(videoInput.readPacket(inPacket) >= 0){
@@ -71,10 +71,9 @@ int main() {
                         }
                     }
                 }
-            av_packet_unref(inPacket);
         }
     }
-
+    printf("[SRlib] cleaning up\n");
     av_frame_free(&rawFrame);
     av_packet_free(&inPacket);
     av_packet_free(&outPacket);
