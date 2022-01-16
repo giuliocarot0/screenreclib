@@ -5,6 +5,7 @@
 #ifndef SCREENRECLIB_SRTOOLS_H
 #define SCREENRECLIB_SRTOOLS_H
 
+#define AUTO_RESOLUTION SRResolution{0,0}
 
 #include <iostream>
 #include <cstdio>

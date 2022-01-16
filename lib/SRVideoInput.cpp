@@ -8,7 +8,7 @@
  * the constructor initialize the
  * input device with requested options
  */
-SRVideoInput::SRVideoInput(char *video_src, char *video_url, SRResolution res, SROffset off, int fps) : SRInput(video_src, video_url) {
+SRVideoInput::SRVideoInput(char *video_src, char *video_url, SRResolution res,int fps) : SRInput(video_src, video_url) {
     this->fps = fps;
     char s[30];
     int value = 0;
@@ -35,12 +35,14 @@ SRVideoInput::SRVideoInput(char *video_src, char *video_url, SRResolution res, S
     if (value < 0) {
         throw openSourceParameterException("Found framerate value wrong while opening video input");
     }
-    s[0] = '\0';
-    sprintf(s,"%dx%d", res.width, res.height);
+    if(res.width != 0 && res.height != 0 ) {
+        s[0] = '\0';
+        sprintf(s, "%dx%d", res.width, res.height);
 
-    value = av_dict_set(&options, "video_size", s, 0);
-    if (value < 0) {
-        throw openSourceParameterException("Found video size value wrong while opening video input");
+        value = av_dict_set(&options, "video_size", s, 0);
+        if (value < 0) {
+            throw openSourceParameterException("Found video size value wrong while opening video input");
+        }
     }
     value = av_dict_set(&options, "preset", "high", 0);
     if (value < 0) {
@@ -110,6 +112,13 @@ AVFormatContext* SRVideoInput::open(){
     }
 
     return inFormatContext;
+}
+
+SRResolution SRVideoInput::getInputResolution() {
+    if(inCodecContext!=nullptr) {
+        return {inCodecContext->width, inCodecContext->height};
+    }
+    else return {0,0}; //todo Exception device not open
 }
 
 

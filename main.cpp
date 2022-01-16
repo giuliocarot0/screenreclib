@@ -8,6 +8,9 @@
 
 
 int main() {
+    int fps = 30;
+    char filename[512] = "testfile.mp4";
+
     AVPacket *inPacket, *outPacket;
     AVFrame *rawFrame, *scaled_frame;
     scaled_frame = av_frame_alloc();
@@ -22,19 +25,26 @@ int main() {
    //set output file for video only
     SRSettings outputSettings;
 
+
+
+    //SRResolution{0,0} means auto selection from input device
+    SRVideoInput videoInput("avfoundation", "1:none", AUTO_RESOLUTION, fps );
+
     outputSettings.video_codec = AV_CODEC_ID_MPEG4;
     outputSettings.audio_codec = AV_CODEC_ID_NONE;
     outputSettings.offset = SROffset{1280,800};
-    outputSettings.fps = 30;
-    outputSettings.filename = "testfile.mp4";
-    outputSettings.outscreenres =SRResolution{2560,1600};
+    outputSettings.fps = fps;
+    outputSettings.filename = filename;
+    //use the same resolution as input unless differently specified
+    videoInput.open();
+
+    outputSettings.outscreenres = videoInput.getInputResolution();
 
     SRMediaOutput outputFile(outputSettings);
-    SRVideoInput videoInput("avfoundation", "1:none", outputSettings.outscreenres, outputSettings.offset, outputSettings.fps );
+
     SRDecoder videoDecoder;
     SREncoder videoEncoder;
 
-    videoInput.open();
     videoDecoder.setDecoderContext(videoInput.getCodecContext());
     outputFile.initFile();
     videoEncoder.setEncoderContext(outputFile.getVideoCodecContext());
@@ -52,7 +62,7 @@ int main() {
             last = inPacket->pts;
             videoDecoder.decodePacket(inPacket);
             while(videoDecoder.getDecodedFrame(rawFrame)>=0){
-                scaled_frame= videoFilter.filterFrame(rawFrame);
+                scaled_frame = videoFilter.filterFrame(rawFrame);
                     if(videoEncoder.encodeFrame(scaled_frame) < 0)
                         printf("DROPPED");
                     while (videoEncoder.getEncodedPacket(outPacket) >= 0) {
@@ -64,6 +74,7 @@ int main() {
             av_packet_unref(inPacket);
         }
     }
+
     av_frame_free(&rawFrame);
     av_packet_free(&inPacket);
     av_packet_free(&outPacket);
