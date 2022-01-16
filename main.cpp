@@ -13,7 +13,6 @@ int main() {
 
     AVPacket *inPacket, *outPacket;
     AVFrame *rawFrame, *scaled_frame;
-    scaled_frame = av_frame_alloc();
     rawFrame = av_frame_alloc();
     inPacket = av_packet_alloc();
     outPacket = av_packet_alloc();
@@ -32,7 +31,8 @@ int main() {
 
     outputSettings.video_codec = AV_CODEC_ID_MPEG4;
     outputSettings.audio_codec = AV_CODEC_ID_NONE;
-    outputSettings.offset = SROffset{1280,800};
+    outputSettings.enable_crop = true;
+    outputSettings.crop = {SROffset{200,800}, SRResolution {1280,800}};
     outputSettings.fps = fps;
     outputSettings.filename = filename;
     //use the same resolution as input unless differently specified

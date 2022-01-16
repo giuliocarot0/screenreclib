@@ -55,13 +55,18 @@ typedef struct S{
     int height;
 }SRResolution;
 
-typedef struct T{
+typedef struct M {
     int x;
     int y;
 }SROffset;
 
-typedef struct A{
+typedef struct T{
     SROffset offset;
+    SRResolution dimension;
+}SRCropRegion;
+
+typedef struct A{
+    SRCropRegion crop;
     SRResolution  outscreenres;
     uint16_t  fps;
     int audio_samplerate;
@@ -69,6 +74,7 @@ typedef struct A{
     char* filename;
     AVCodecID audio_codec;
     AVCodecID video_codec;
+    bool enable_crop;
 }SRSettings;
 
 #endif //SCREENRECLIB_SRTOOLS_H

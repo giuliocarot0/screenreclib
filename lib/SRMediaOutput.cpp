@@ -8,6 +8,12 @@ SRMediaOutput::SRMediaOutput(SRSettings outputSettings) {
 
     settings = {outputSettings};
 
+    //checks
+    if(settings.enable_crop &&
+            (settings.crop.dimension.width + settings.crop.offset.x > settings.outscreenres.width ||
+                    settings.crop.dimension.height + settings.crop.offset.y > settings.outscreenres.height))
+        exit(1);
+    //todo crop region overflow exception
     //put true if selected codec is not null
     audio_recorded = settings.audio_codec != AV_CODEC_ID_NONE;
     video_recorded = settings.video_codec != AV_CODEC_ID_NONE;
@@ -153,8 +159,9 @@ int SRMediaOutput::createVideoStream() {
     videoCtx->codec_type = AVMEDIA_TYPE_VIDEO;
     videoCtx->pix_fmt = AV_PIX_FMT_YUV420P;
     videoCtx->bit_rate = 400000; //
-    videoCtx->width = settings.outscreenres.width - settings.offset.x;
-    videoCtx->height = settings.outscreenres.height - settings.offset.y;
+
+    videoCtx->width =  (settings.enable_crop) ? settings.crop.dimension.width : settings.outscreenres.width;
+    videoCtx->height = (settings.enable_crop) ? settings.crop.dimension.height : settings.outscreenres.height;
 
     videoCtx->time_base = AVRational{1, settings.fps};
     videoCtx->framerate = AVRational{settings.fps, 1}; // 15fps

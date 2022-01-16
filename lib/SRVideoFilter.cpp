@@ -94,9 +94,8 @@ void SRVideoFilter::enableCropper() {
              "buffer=video_size=%dx%d:pix_fmt=%d:time_base=1/1:pixel_aspect=1/1[in];"
              "[in]crop=%d:%d:%d:%d[out];"
              "[out]buffersink",
-             decoder->width, decoder->height, decoder->pix_fmt, settings.outscreenres.width - settings.offset.x,
-             settings.outscreenres.height - settings.offset.y,
-             0, 0);
+             decoder->width, decoder->height, decoder->pix_fmt, settings.crop.dimension.width, settings.crop.dimension.height,
+             settings.crop.offset.x, settings.crop.offset.y);
 
     ret = avfilter_graph_parse2(cropfilter.graph, args, &cropfilter.inputs, &cropfilter.outputs);
     if (ret < 0) exit(1);
