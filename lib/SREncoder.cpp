@@ -12,7 +12,9 @@ void SREncoder::setEncoderContext(AVCodecContext *encoderContext) {
 }
 
 int SREncoder::encodeFrame(AVFrame *frame) {
-    return avcodec_send_frame(encoder_context, frame);
+    int ret = avcodec_send_frame(encoder_context, frame);
+    av_frame_unref(frame);
+    return ret;
 }
 
 int SREncoder::getEncodedPacket(AVPacket* packet) {

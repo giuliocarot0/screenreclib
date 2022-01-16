@@ -197,11 +197,14 @@ AVCodecContext *SRMediaOutput::getAudioCodecContext() {
 }
 
 int SRMediaOutput::writePacket(AVPacket *packet, media_type type) {
+    int ret;
     if(type == 0) { //video
         packet->stream_index = videoStreamID;
         av_packet_rescale_ts(packet, videoCtx->time_base, outputCtx->streams[videoStreamID]->time_base);
     }
-    return av_write_frame(outputCtx, packet);
+    ret = av_write_frame(outputCtx, packet);
+    av_packet_unref(packet);
+    return ret;
 }
 
 char *SRMediaOutput::getFilename() {

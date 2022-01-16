@@ -28,6 +28,8 @@ private:
 
     AVFrame* scaled_frame;
     AVFrame* cropped_frame;
+    AVFrame* returned_frame;
+
     AVCodecContext *encoder;
     AVCodecContext *decoder;
 

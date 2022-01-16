@@ -39,7 +39,9 @@ AVFrame* SRVideoFilter::filterFrame(AVFrame* input_frame) {
 
         sws_scale(rescaling_context, input_frame->data, input_frame->linesize,0, decoder->height, scaled_frame->data, scaled_frame->linesize);
     }
-    return scaled_frame;
+    av_frame_unref(input_frame);
+    av_frame_ref(returned_frame,scaled_frame);
+    return returned_frame;
 
 }
 
@@ -49,8 +51,10 @@ void SRVideoFilter::enableBasic() {
         return;
     }
     //input_frame = av_frame_alloc();
-    scaled_frame = av_frame_alloc();
 
+    scaled_frame = av_frame_alloc();
+    //scaled frame used only internally and cannot be unref from external methods
+    returned_frame = av_frame_alloc();
 
     int nbytes = av_image_get_buffer_size(encoder->pix_fmt, encoder->width, encoder->height,32);
     auto *video_outbuf = (uint8_t*)av_malloc(nbytes*sizeof (uint8_t));
