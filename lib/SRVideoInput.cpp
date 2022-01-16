@@ -15,7 +15,7 @@ SRVideoInput::SRVideoInput(char *video_src, char *video_url, SRResolution res, S
     sprintf(s,"%d", fps);
 
 #ifdef __APPLE__
-    value = av_dict_set(&options, "pixel_format", "yuyv422", 0);
+    value = av_dict_set(&options, "pixel_format", "uyvy422", 0);
     if (value < 0) {
         cout << "\nerror in setting dictionary value";
         exit(1);

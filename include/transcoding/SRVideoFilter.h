@@ -24,6 +24,8 @@ private:
     cropperdata_t cropfilter{};
     SRSettings settings;
     SwsContext* rescaling_context;
+    SwsContext* rescaling_context2;
+
     AVFrame* scaled_frame;
     AVFrame* cropped_frame;
     AVCodecContext *encoder;

@@ -13,6 +13,14 @@ AVFrame* SRVideoFilter::filterFrame(AVFrame* input_frame) {
     }
     int ret;
     //initializing scaleFrame
+    scaled_frame->width = encoder->width;
+    scaled_frame->height = encoder->height;
+    scaled_frame->format = encoder->pix_fmt;
+    scaled_frame->pts = input_frame->best_effort_timestamp;
+    scaled_frame->pkt_dts=input_frame->pkt_dts;
+    scaled_frame->pkt_duration = input_frame->pkt_duration;
+
+
     if(cropper_enabled) {
         av_frame_ref(cropped_frame, input_frame);
         if (av_buffersrc_add_frame(cropfilter.src_ctx, cropped_frame) < 0) {
@@ -25,19 +33,14 @@ AVFrame* SRVideoFilter::filterFrame(AVFrame* input_frame) {
             if (ret < 0)
                 return nullptr;
         }
-        return cropped_frame;
+        sws_scale(rescaling_context2, cropped_frame->data, cropped_frame->linesize,0, encoder->height, scaled_frame->data, scaled_frame->linesize);
     }
     else{
-        scaled_frame->width = encoder->width;
-        scaled_frame->height = encoder->height;
-        scaled_frame->format = encoder->pix_fmt;
-        scaled_frame->pts = input_frame->best_effort_timestamp;
-        scaled_frame->pkt_dts=input_frame->pkt_dts;
-        scaled_frame->pkt_duration = input_frame->pkt_duration;
-        sws_scale(rescaling_context, input_frame->data, input_frame->linesize,0, decoder->height, scaled_frame->data, scaled_frame->linesize);
 
-        return scaled_frame;
+        sws_scale(rescaling_context, input_frame->data, input_frame->linesize,0, decoder->height, scaled_frame->data, scaled_frame->linesize);
     }
+    return scaled_frame;
+
 }
 
 void SRVideoFilter::enableBasic() {
@@ -100,9 +103,6 @@ void SRVideoFilter::enableCropper() {
     cropfilter.src_ctx = avfilter_graph_get_filter(cropfilter.graph, "Parsed_buffer_0");
     cropfilter.sink_ctx = avfilter_graph_get_filter(cropfilter.graph, "Parsed_buffersink_2");
 
-    av_opt_set_bin(cropfilter.sink_ctx, "pix_fmts",
-                         (uint8_t *) &encoder->pix_fmt, sizeof(encoder->pix_fmt),
-                         AV_OPT_SEARCH_CHILDREN);
 
         assert(cropfilter.src_ctx != nullptr);
         assert(cropfilter.sink_ctx != nullptr);
@@ -114,4 +114,14 @@ void SRVideoFilter::enableCropper() {
             //todo cropperException
     */
 
+    // Allocate and return swsContext.
+    // a pointer to an allocated context, or NULL in case of error
+    // Deprecated : Use sws_getCachedContext() instead.
+    rescaling_context2 = sws_getContext(encoder->width,
+                                        encoder->height,
+                                        static_cast<AVPixelFormat>(cropfilter.sink_ctx->inputs[0]->format),
+                                        encoder->width,
+                                        encoder->height,
+                                        encoder->pix_fmt,
+                                        SWS_BICUBIC, NULL, NULL, NULL);
 }
