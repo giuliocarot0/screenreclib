@@ -8,7 +8,9 @@
  * the constructor initialize the
  * input device with requested options
  */
-SRAudioInput::SRAudioInput(char* audio_src, char* audio_url)  : SRInput(audio_src, audio_url) {
+void SRAudioInput::set(char* audio_src, char* audio_url){
+    device_url = audio_url;
+    device_src = audio_src;
 }
 
 AVFormatContext* SRAudioInput::open(){

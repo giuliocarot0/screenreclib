@@ -35,7 +35,7 @@ int SRAudioFilter::add_samples_to_fifo(uint8_t **converted_input_samples, const 
 }
 
 
-int SRAudioFilter::initConvertedSamples(uint8_t ***converted_input_samples,
+int initConvertedSamples(uint8_t ***converted_input_samples,
                                          AVCodecContext *output_codec_context,
                                          int frame_size){
     int error;
@@ -115,4 +115,16 @@ AVFrame *SRAudioFilter::filterFrame(AVFrame *inputFrame) {
     // scaledFrame->best_effort_timestamp = rawFrame->best_effort_timestamp;
     // scaledFrame->pts = rawFrame->pts;
     av_frame_get_buffer(scaled_frame, 0);
+}
+
+void SRAudioFilter::set(AVCodecContext *v_encoder, AVCodecContext *v_decoder) {
+    encoder=v_encoder;
+    decoder=v_decoder;
+}
+
+SRAudioFilter::~SRAudioFilter() {
+    swr_free(&resampling_context);
+    av_frame_free(&scaled_frame);
+    av_audio_fifo_free(fifo);
+    //TODO free resampled data
 }

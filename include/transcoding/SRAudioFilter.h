@@ -18,12 +18,18 @@ private:
 
 
 public:
-    SRAudioFilter ( AVCodecContext *encoder, AVCodecContext *decoder): encoder(encoder), decoder(decoder), resampling_context(nullptr){};
+    SRAudioFilter(): encoder(nullptr), decoder(nullptr), resampling_context(nullptr){};
     void init();
     AVFrame* filterFrame(AVFrame* inputFrame);
+    void set(AVCodecContext *v_encoder, AVCodecContext *v_decoder);
 
     AVAudioFifo *getFifo() const;
 
+    virtual ~SRAudioFilter();
+
+    int add_samples_to_fifo(uint8_t **converted_input_samples, const int frame_size);
+
+    int init_fifo(AVCodecContext *outACodecContext);
 };
 
 
