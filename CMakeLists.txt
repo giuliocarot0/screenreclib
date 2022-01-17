@@ -1,11 +1,21 @@
 cmake_minimum_required(VERSION 3.20)
 project(screenreclib)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 
-add_library(screenreclib src/SCPPDecoder.cpp include/SCPPDecoder.h src/SCPPEncoder.cpp include/SCPPEncoder.h src/SCPPMediaMuxer.cpp include/SCPPMediaMuxer.h src/SCPPVideoInput.cpp include/SCPPVideoInput.h src/SCPPAudioInput.cpp include/SCPPAudioInput.h src/SCPPRecorder.cpp include/SCPPRecorder.h include/SCPPtools.h src/SCPPinput.cpp)
+if(WIN32)
+    link_directories(/usr/local/Cellar/ffmpeg/4.4_2/lib)
+    include_directories(/usr/local/Cellar/ffmpeg/4.4_2/include)
+endif()
+
+
+if(APPLE)
+    link_directories(/usr/local/Cellar/ffmpeg/4.4.1_5/lib)
+    include_directories(/usr/local/Cellar/ffmpeg/4.4.1_5/include)
+endif()
+
 include_directories(include)
-link_directories(lib)
+add_executable(screenreclib main.cpp lib/SRDecoder.cpp include/transcoding/SRDecoder.h lib/SREncoder.cpp include/transcoding/SREncoder.h lib/SRMediaOutput.cpp include/muxing/SRMediaOutput.h lib/SRVideoInput.cpp include/demuxing/SRVideoInput.h lib/SRAudioInput.cpp include/demuxing/SRAudioInput.h include/SRTools.h lib/SRInput.cpp include/exceptions/SRExceptions.h lib/SRVideoFilter.cpp include/transcoding/SRVideoFilter.h lib/SRRecorder.cpp include/SRRecorder.h)
 
 target_link_libraries(
         screenreclib
