@@ -139,8 +139,8 @@ void SRRecorder::parseConfiguration() {
     if(configuration.filename == nullptr || strcmp(configuration.filename, "") == 0)
         throw ConfigurationParserException("Invalid file name");
     if(configuration.enable_crop &&
-    (configuration.crop_info.dimension.width.num/configuration.crop_info.dimension.width.den + configuration.crop_info.offset.x.num/configuration.crop_info.offset.x.den > 1||
-    (configuration.crop_info.dimension.height.num/configuration.crop_info.dimension.height.den + configuration.crop_info.offset.y.num/configuration.crop_info.offset.y.den>1 )))
+    (configuration.crop_info.dimension.width.num > configuration.crop_info.dimension.width.den || configuration.crop_info.offset.x.num >= configuration.crop_info.offset.x.den||
+    (configuration.crop_info.dimension.height.num > configuration.crop_info.dimension.height.den + configuration.crop_info.offset.y.num >= configuration.crop_info.offset.y.den )))
         throw ConfigurationParserException("Invalid crop data");
 }
 
