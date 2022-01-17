@@ -8,14 +8,17 @@
  * the constructor initialize the
  * input device with requested options
  */
-SRVideoInput::SRVideoInput(char *video_src, char *video_url, SRResolution res, SROffset off, int fps) : SRInput(video_src, video_url) {
+
+void SRVideoInput::set(char *video_src, char *video_url, SRResolution res,int fps){
+    device_url = video_url;
+    device_src = video_src;
     this->fps = fps;
     char s[30];
     int value = 0;
     sprintf(s,"%d", fps);
 
 #ifdef __APPLE__
-    value = av_dict_set(&options, "pixel_format", "0rgb", 0);
+    value = av_dict_set(&options, "pixel_format", "uyvy422", 0);
     if (value < 0) {
         cout << "\nerror in setting dictionary value";
         exit(1);
@@ -26,20 +29,25 @@ SRVideoInput::SRVideoInput(char *video_src, char *video_url, SRResolution res, S
         cout << "\nerror in setting dictionary value";
         exit(1);
     }
-
+    value = av_dict_set(&options, "capture_cursor", "1", 0);
+    if (value < 0) {
+        throw openSourceParameterException("Found capture_cursor value wrong while opening video input");
+    }
 #endif
     value = av_dict_set(&options, "framerate", s, 0);
     if (value < 0) {
         throw openSourceParameterException("Found framerate value wrong while opening video input");
     }
-    s[0] = '\0';
-    sprintf(s,"%dx%d", res.width, res.height);
+    if(res.width != 0 && res.height != 0 ) {
+        s[0] = '\0';
+        sprintf(s, "%dx%d", res.width, res.height);
 
-    value = av_dict_set(&options, "video_size", s, 0);
-    if (value < 0) {
-        throw openSourceParameterException("Found video size value wrong while opening video input");
+        value = av_dict_set(&options, "video_size", s, 0);
+        if (value < 0) {
+            throw openSourceParameterException("Found video size value wrong while opening video input");
+        }
     }
-    value = av_dict_set(&options, "preset", "medium", 0);
+    value = av_dict_set(&options, "preset", "high", 0);
     if (value < 0) {
         throw openSourceParameterException("Found preset value wrong while opening video input");
     }
@@ -107,6 +115,13 @@ AVFormatContext* SRVideoInput::open(){
     }
 
     return inFormatContext;
+}
+
+SRResolution SRVideoInput::getInputResolution() {
+    if(inCodecContext!=nullptr) {
+        return {inCodecContext->width, inCodecContext->height};
+    }
+    else return {0,0}; //todo Exception device not open
 }
 
 

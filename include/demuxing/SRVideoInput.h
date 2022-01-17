@@ -12,8 +12,11 @@ class SRVideoInput: public SRInput{
 private:
     int fps;
 public:
-    SRVideoInput(char *deviceSrc, char *deviceUrl, SRResolution res, SROffset off, int fps);
+
+    SRVideoInput() :fps(-1), SRInput() {};
+    void set(char *deviceSrc, char *deviceUrl, SRResolution res, int fps);
     AVFormatContext* open() override;
+    SRResolution getInputResolution();
 };
 
 

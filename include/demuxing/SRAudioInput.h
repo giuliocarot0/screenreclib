@@ -11,8 +11,9 @@ class SRAudioInput: public SRInput {
 
 public:
 
-    SRAudioInput(): SRInput() {};
-    void set (char *audio_src, char *audio_url);
+    SRAudioInput() : SRInput() {};
+    void set(char *audio_src, char *audio_url);
+
     virtual ~SRAudioInput();
 
     AVFormatContext* open() override;

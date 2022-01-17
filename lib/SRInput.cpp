@@ -4,18 +4,17 @@
 #include "demuxing/SRInput.h"
 
 
-SRInput::SRInput(char *device_src, char *device_url) {
+SRInput::SRInput() {
     options = nullptr;
     first_pts = -1;
     streamIndex = -1;
     inFormatContext = nullptr;
     inCodecContext = nullptr;
-    this->device_src = device_src;
-    this->device_url = device_url;
+    device_src = nullptr;
+    device_url = nullptr;
     // a void packet with default settings is allocated
     // payload is injected by read frame each time and does not need to be allocated
     // it is destroyed when the input is closed and the payload changes each time read_frame() is called
-    deliverable_packet = av_packet_alloc();
 }
 
 int SRInput::readPacket(AVPacket* read_packet) {
@@ -47,21 +46,15 @@ AVCodecContext *SRInput::getCodecContext() const {
 
 SRInput::~SRInput() {
 
-    av_packet_free(&deliverable_packet);
     avformat_close_input(&inFormatContext);
-    if (!inFormatContext) {
-        cout << "\nInput closed sucessfully";
-    }
-    else {
+    if (inFormatContext) {
         cout << "\nunable to close the input";
         exit(1);
     }
     avformat_free_context(inFormatContext);
-    if (!inFormatContext) {
-        cout << "\navformat free successfully";
-    }
-    else {
+    if (inFormatContext){
         cout << "\nunable to free avformat context";
         exit(1);
     }
 }
+

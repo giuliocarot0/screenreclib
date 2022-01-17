@@ -8,10 +8,7 @@
  * the constructor initialize the
  * input device with requested options
  */
-void SRAudioInput::set(char* audio_src, char* audio_url){
-    device_url = audio_url;
-    device_src = audio_src;
-}
+
 
 AVFormatContext* SRAudioInput::open(){
     //if one of them != nullptr then input already initialized
@@ -82,6 +79,12 @@ AVFormatContext *SRAudioInput::getInputAudioFormatContext() const {
 AVCodecContext *SRAudioInput::getInputAudioCodecContext() const {
     return inCodecContext;
 }
+
+void SRAudioInput::set(char *audio_src, char *audio_url) {
+    device_url = audio_url;
+    device_src = audio_src;
+}
+
 
 SRAudioInput::~SRAudioInput() = default;
 

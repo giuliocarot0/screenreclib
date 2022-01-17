@@ -20,8 +20,12 @@ int SRDecoder::getDecodedFrame(AVFrame* frame) {
 }
 
 int SRDecoder::decodePacket(AVPacket* packet) {
-    if(packet!= nullptr && decoder_context!=nullptr)
-        return avcodec_send_packet(decoder_context, packet);
+    int ret;
+    if(packet!= nullptr && decoder_context!=nullptr) {
+        ret = avcodec_send_packet(decoder_context, packet);
+        av_packet_unref(packet);
+        return ret;
+    }
     else
 
         return -15; // todo: implement null packet or context exception

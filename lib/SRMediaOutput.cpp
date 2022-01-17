@@ -3,21 +3,29 @@
 //
 
 #include "muxing/SRMediaOutput.h"
-
-SRMediaOutput::SRMediaOutput(SRSettings outputSettings) {
-
-    settings = {outputSettings};
-
-    //put true if selected codec is not null
-    audio_recorded = settings.audio_codec != AV_CODEC_ID_NONE;
-    video_recorded = settings.video_codec != AV_CODEC_ID_NONE;
-
+SRMediaOutput::SRMediaOutput() {
     outputFormat = nullptr;
     outputCtx = nullptr;
     videoCtx = nullptr;
     audioCtx = nullptr;
     videoStreamID= -1;
     audioStreamID= -1;
+}
+
+
+void SRMediaOutput::set(char* o_filename, SROutputSettings o_settings) {
+    this->settings = {o_settings};
+    this->filename = o_filename;
+
+    //checks
+    /*if(settings.enable_crop &&
+            (settings.crop.dimension.width + settings.crop.offset.x > settings.outscreenres.width ||
+                    settings.crop.dimension.height + settings.crop.offset.y > settings.outscreenres.height))*/
+
+    //put true if selected codec is not null
+    audio_recorded = settings.audio_codec != AV_CODEC_ID_NONE;
+    video_recorded = settings.video_codec != AV_CODEC_ID_NONE;
+
 }
 
 //initialize the output File
@@ -153,9 +161,15 @@ int SRMediaOutput::createVideoStream() {
     videoCtx->codec_type = AVMEDIA_TYPE_VIDEO;
     videoCtx->pix_fmt = AV_PIX_FMT_YUV420P;
     videoCtx->bit_rate = 400000; //
-    videoCtx->width = settings.outscreenres.width;
-    videoCtx->height = settings.outscreenres.height;
 
+   if(settings.enable_crop) {
+       SRResolution out = rescale_resolution(settings.outscreenres, settings.crop.dimension);
+       videoCtx->width = out.width;
+       videoCtx->height = out.height;
+   }else{
+       videoCtx->width = settings.outscreenres.width;
+       videoCtx->height = settings.outscreenres.height;
+   }
     videoCtx->time_base = AVRational{1, settings.fps};
     videoCtx->framerate = AVRational{settings.fps, 1}; // 15fps
     //videoCtx->compression_level = 1;
@@ -185,7 +199,6 @@ int SRMediaOutput::createVideoStream() {
     }
 
     avcodec_parameters_from_context(outputCtx->streams[videoStreamID]->codecpar, videoCtx);
-    video_st->time_base = videoCtx->time_base;
 return 1;
 }
 
@@ -198,6 +211,7 @@ AVCodecContext *SRMediaOutput::getAudioCodecContext() {
 }
 
 int SRMediaOutput::writePacket(AVPacket *packet, media_type type) {
+    int ret;
     if(type == 0) { //video
         packet->stream_index = videoStreamID;
         av_packet_rescale_ts(packet, videoCtx->time_base, outputCtx->streams[videoStreamID]->time_base);
@@ -206,7 +220,10 @@ int SRMediaOutput::writePacket(AVPacket *packet, media_type type) {
         packet->stream_index = audioStreamID;
         av_packet_rescale_ts(packet, audioCtx->time_base, outputCtx->streams[audioStreamID]->time_base);
     }
-    return av_write_frame(outputCtx, packet);
+    ret = av_write_frame(outputCtx, packet);
+    av_packet_unref(packet);
+    return ret;
+
 }
 
 char *SRMediaOutput::getFilename() {
@@ -219,11 +236,25 @@ SRMediaOutput::~SRMediaOutput() {
         cout<<"\nerror in writing av trailer";
         exit(1);
     }
-    /*avformat_free_context(outputCtx);
-    if (!outputCtx) {
-        cout << "\nout avformat free successfully";
-    } else {
+
+    if(video_recorded){
+        avcodec_free_context(&videoCtx);
+        if (videoCtx){
+            cout << "\nunable to free video avformat context";
+            exit(1);
+        }
+    }
+    if(audio_recorded){
+        avcodec_free_context(&audioCtx);
+        if (audioCtx){
+            cout << "\nunable to free audio avformat context";
+            exit(1);
+        }
+    }
+    avformat_close_input(&outputCtx);
+    if (outputCtx){
         cout << "\nunable to free output avformat context";
         exit(1);
-    }*/
+    }
 }
+

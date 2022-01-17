@@ -6,7 +6,10 @@
 #define SCREENRECLIB_SRMEDIAOUTPUT_H
 
 #include "SRTools.h"
+
+
 typedef enum {video, audio} media_type;
+
 class SRMediaOutput {
 private:
     bool video_recorded;
@@ -15,15 +18,18 @@ private:
     AVFormatContext* outputCtx;
     AVCodecContext* videoCtx;
     AVCodecContext* audioCtx;
-    SRSettings settings{};
+    SROutputSettings settings{};
     int audioStreamID;
     int videoStreamID;
+    char* filename;
 
     //these are the only two supported streams by the recorder
     int createAudioStream();
     int createVideoStream();
 public:
-    explicit SRMediaOutput(SRSettings outputSettings);
+    SRMediaOutput();
+    void set(char* o_filename, SROutputSettings o_settings);
+
     int initFile();
     AVCodecContext* getVideoCodecContext();
     AVCodecContext* getAudioCodecContext();

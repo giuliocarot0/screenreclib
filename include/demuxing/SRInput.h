@@ -16,7 +16,6 @@ class SRInput {
         int streamIndex;
         AVFormatContext* inFormatContext;
         AVCodecContext *inCodecContext;
-        AVPacket* deliverable_packet;
 
     public:
         SRInput();
