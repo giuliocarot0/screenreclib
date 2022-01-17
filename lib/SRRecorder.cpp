@@ -15,7 +15,7 @@ SRRecorder::SRRecorder(SRConfiguration configuration){
     catch(SRException& e){
         throw e;
     }
-    capture_switch = true;
+    capture_switch = false;
     avdevice_register_all();
 }
 
@@ -29,15 +29,14 @@ void SRRecorder::videoLoop() {
     outPacket = av_packet_alloc();
 
 
-    //std::unique_lock r_lock(r_mutex);
 
     long long int last = 0;
     printf("[SRlib] recording screen\n");
-    while(last/outputSettings.fps < 100 /*record for five sec*/) {
+    while(last/outputSettings.fps < 10 /*record for five sec*/) {
 
 
         if(videoInput.readPacket(inPacket) >= 0){
-         //   r_lock.lock();
+           // r_lock.lock();
             if(capture_switch) {
                 last = inPacket->pts;
                 printf("[SRlib][VideoThread] recording\n");
@@ -47,7 +46,7 @@ void SRRecorder::videoLoop() {
                 continue;
 
             }
-          //  r_lock.unlock();
+           // r_lock.unlock();
             videoDecoder.decodePacket(inPacket);
             while(videoDecoder.getDecodedFrame(rawFrame)>=0){
                 scaled_frame = videoFilter.filterFrame(rawFrame);
@@ -118,12 +117,11 @@ void SRRecorder::initCapture() {
  }
 
     if(configuration.enable_video) videoThread = thread([&](){videoLoop();});
-    if(configuration.enable_audio) audioThread = thread([&](){audioLoop();});
+   // if(configuration.enable_audio) audioThread = thread([&](){audioLoop();});
 }
 
 
 void SRRecorder::stopCaputure() {
-
 }
 
 void SRRecorder::pauseCapture() {
@@ -141,12 +139,15 @@ void SRRecorder::parseConfiguration() {
     if(configuration.filename == nullptr || strcmp(configuration.filename, "") == 0)
         throw ConfigurationParserException("Invalid file name");
     if(configuration.enable_crop &&
-    (configuration.crop_info.dimension.width.num + configuration.crop_info.offset.x.num != (configuration.crop_info.dimension.width.den + configuration.crop_info.offset.x.den)/2 ||
-    (configuration.crop_info.dimension.height.num + configuration.crop_info.offset.y.num != (configuration.crop_info.dimension.height.den + configuration.crop_info.offset.y.den)/2)))
+    (configuration.crop_info.dimension.width.num/configuration.crop_info.dimension.width.den + configuration.crop_info.offset.x.num/configuration.crop_info.offset.x.den > 1||
+    (configuration.crop_info.dimension.height.num/configuration.crop_info.dimension.height.den + configuration.crop_info.offset.y.num/configuration.crop_info.offset.y.den>1 )))
         throw ConfigurationParserException("Invalid crop data");
 }
 
 void SRRecorder::startCapture() {
-    std::lock_guard<std::mutex> r_lock(r_mutex);
-    capture_switch = true;
+   // std::lock_guard<std::mutex> r_lock(r_mutex);
+   // capture_switch = true;
+}
+SRRecorder::~SRRecorder() {
+    videoThread.join();
 }

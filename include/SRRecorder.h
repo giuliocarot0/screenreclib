@@ -70,7 +70,10 @@ public:
     void stopCaputure();
     void pauseCapture();
     void resumeCapture();
+
+     ~SRRecorder();
 };
+
 
 
 #endif //SCREENRECLIB_SRRECORDER_H
