@@ -90,12 +90,15 @@ void SRVideoFilter::enableCropper() {
     cropfilter.inputs = nullptr;
     cropfilter.graph = avfilter_graph_alloc();
 
+    SRResolution dim = rescale_resolution({decoder->width, decoder->height}, settings.crop.dimension);
+    SROffset off = rescale_offset({decoder->width, decoder->height}, settings.crop.offset);
+
     snprintf(args, sizeof(args),
              "buffer=video_size=%dx%d:pix_fmt=%d:time_base=1/1:pixel_aspect=1/1[in];"
              "[in]crop=%d:%d:%d:%d[out];"
              "[out]buffersink",
-             decoder->width, decoder->height, decoder->pix_fmt, settings.crop.dimension.width, settings.crop.dimension.height,
-             settings.crop.offset.x, settings.crop.offset.y);
+             decoder->width, decoder->height, decoder->pix_fmt, dim.width, dim.height,
+             off.x, off.y);
 
     ret = avfilter_graph_parse2(cropfilter.graph, args, &cropfilter.inputs, &cropfilter.outputs);
     if (ret < 0) exit(1);
@@ -141,4 +144,10 @@ SRVideoFilter::~SRVideoFilter() {
         avfilter_free(cropfilter.src_ctx);
         avfilter_graph_free(&cropfilter.graph);
     }
+}
+
+void SRVideoFilter::set(AVCodecContext *v_encoder, AVCodecContext *v_decoder, SROutputSettings v_settings) {
+    this->encoder = v_encoder;
+    this->decoder = v_decoder;
+    this->settings = v_settings;
 }

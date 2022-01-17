@@ -11,7 +11,8 @@ class SRAudioInput: public SRInput {
 
 public:
 
-    SRAudioInput(char *audio_src, char *audio_url);
+    SRAudioInput() : SRInput() {};
+    void set(char *audio_src, char *audio_url);
 
     virtual ~SRAudioInput();
 

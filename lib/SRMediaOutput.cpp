@@ -3,27 +3,29 @@
 //
 
 #include "muxing/SRMediaOutput.h"
-
-SRMediaOutput::SRMediaOutput(SRSettings outputSettings) {
-
-    settings = {outputSettings};
-
-    //checks
-    if(settings.enable_crop &&
-            (settings.crop.dimension.width + settings.crop.offset.x > settings.outscreenres.width ||
-                    settings.crop.dimension.height + settings.crop.offset.y > settings.outscreenres.height))
-        exit(1);
-    //todo crop region overflow exception
-    //put true if selected codec is not null
-    audio_recorded = settings.audio_codec != AV_CODEC_ID_NONE;
-    video_recorded = settings.video_codec != AV_CODEC_ID_NONE;
-
+SRMediaOutput::SRMediaOutput() {
     outputFormat = nullptr;
     outputCtx = nullptr;
     videoCtx = nullptr;
     audioCtx = nullptr;
     videoStreamID= -1;
     audioStreamID= -1;
+}
+
+
+void SRMediaOutput::set(char* o_filename, SROutputSettings o_settings) {
+    this->settings = {o_settings};
+    this->filename = o_filename;
+
+    //checks
+    /*if(settings.enable_crop &&
+            (settings.crop.dimension.width + settings.crop.offset.x > settings.outscreenres.width ||
+                    settings.crop.dimension.height + settings.crop.offset.y > settings.outscreenres.height))*/
+
+    //put true if selected codec is not null
+    audio_recorded = settings.audio_codec != AV_CODEC_ID_NONE;
+    video_recorded = settings.video_codec != AV_CODEC_ID_NONE;
+
 }
 
 //initialize the output File
@@ -160,9 +162,14 @@ int SRMediaOutput::createVideoStream() {
     videoCtx->pix_fmt = AV_PIX_FMT_YUV420P;
     videoCtx->bit_rate = 400000; //
 
-    videoCtx->width =  (settings.enable_crop) ? settings.crop.dimension.width : settings.outscreenres.width;
-    videoCtx->height = (settings.enable_crop) ? settings.crop.dimension.height : settings.outscreenres.height;
-
+   if(settings.enable_crop) {
+       SRResolution out = rescale_resolution(settings.outscreenres, settings.crop.dimension);
+       videoCtx->width = out.width;
+       videoCtx->height = out.height;
+   }else{
+       videoCtx->width = settings.outscreenres.width;
+       videoCtx->height = settings.outscreenres.height;
+   }
     videoCtx->time_base = AVRational{1, settings.fps};
     videoCtx->framerate = AVRational{settings.fps, 1}; // 15fps
     //videoCtx->compression_level = 1;
@@ -245,3 +252,4 @@ SRMediaOutput::~SRMediaOutput() {
         exit(1);
     }
 }
+

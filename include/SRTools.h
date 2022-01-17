@@ -6,6 +6,7 @@
 #define SCREENRECLIB_SRTOOLS_H
 
 #define AUTO_RESOLUTION SRResolution{0,0}
+#define NULL_RESOLUTION SRResolution{0,0}
 
 #include <iostream>
 #include <cstdio>
@@ -49,7 +50,10 @@ extern "C" {
 
 
 using namespace  std;
-
+typedef struct R{
+    int num;
+    int den;
+}SRRational;
 typedef struct S{
     int width;
     int height;
@@ -60,9 +64,19 @@ typedef struct M {
     int y;
 }SROffset;
 
+typedef struct V{
+    SRRational width;
+    SRRational height;
+}SRResolutionRational;
+
+typedef struct Z {
+    SRRational x;
+    SRRational y;
+}SROffsetRational;
+
 typedef struct T{
-    SROffset offset;
-    SRResolution dimension;
+    SROffsetRational offset;
+    SRResolutionRational dimension;
 }SRCropRegion;
 
 typedef struct A{
@@ -75,6 +89,28 @@ typedef struct A{
     AVCodecID audio_codec;
     AVCodecID video_codec;
     bool enable_crop;
-}SRSettings;
+}SROutputSettings;
 
+typedef struct B{
+   bool enable_audio;
+   bool enable_video;
+   bool enable_crop;
+   SRCropRegion crop_info;
+   char* filename;
+
+}SRConfiguration;
+
+static SRResolution rescale_resolution(SRResolution input, SRResolutionRational rescaler){
+    SRResolution  out;
+    out.width = floor(input.width* rescaler.width.num / rescaler.width.den);
+    out.height = floor(input.height* rescaler.height.num / rescaler.height.den);
+    return out;
+}
+
+static SROffset rescale_offset(SRResolution input, SROffsetRational rescaler){
+    SROffset out;
+    out.x = ceil(input.width*rescaler.x.num / rescaler.x.den);
+    out.y = ceil(input.width*rescaler.x.num / rescaler.x.den);
+    return out;
+}
 #endif //SCREENRECLIB_SRTOOLS_H

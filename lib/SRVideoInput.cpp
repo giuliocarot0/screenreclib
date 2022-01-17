@@ -8,7 +8,10 @@
  * the constructor initialize the
  * input device with requested options
  */
-SRVideoInput::SRVideoInput(char *video_src, char *video_url, SRResolution res,int fps) : SRInput(video_src, video_url) {
+
+void SRVideoInput::set(char *video_src, char *video_url, SRResolution res,int fps){
+    device_url = video_url;
+    device_src = video_src;
     this->fps = fps;
     char s[30];
     int value = 0;

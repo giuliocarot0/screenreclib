@@ -16,10 +16,9 @@ class SRInput {
         int streamIndex;
         AVFormatContext* inFormatContext;
         AVCodecContext *inCodecContext;
-        AVPacket* deliverable_packet;
 
     public:
-        SRInput(char *device_src, char *device_url);
+        SRInput();
 
         virtual AVFormatContext* open() = 0;
         int getStreamIndex() const;

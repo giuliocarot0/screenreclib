@@ -7,6 +7,7 @@
 
 
 #include "SRTools.h"
+
 typedef struct a{
 
     AVFilterInOut *outputs;
@@ -20,15 +21,15 @@ typedef struct a{
 
 class SRVideoFilter {
 private:
-    bool cropper_enabled;
+    bool cropper_enabled{};
     cropperdata_t cropfilter{};
-    SRSettings settings;
+    SROutputSettings settings{};
     SwsContext* rescaling_context;
-    SwsContext* rescaling_context2;
+    SwsContext* rescaling_context2{};
 
     AVFrame* scaled_frame;
     AVFrame* cropped_frame;
-    AVFrame* returned_frame;
+    AVFrame* returned_frame{};
 
     AVCodecContext *encoder;
     AVCodecContext *decoder;
@@ -36,8 +37,9 @@ private:
 
 
 public:
-    SRVideoFilter( AVCodecContext *encoder, AVCodecContext *decoder, SRSettings settings): settings(settings),encoder(encoder), decoder(decoder),  rescaling_context(nullptr),scaled_frame(
+    SRVideoFilter(): encoder(nullptr), decoder(nullptr),  rescaling_context(nullptr),scaled_frame(
             nullptr), cropped_frame(nullptr){};
+    void set(AVCodecContext *v_encoder, AVCodecContext *v_decoder, SROutputSettings v_settings);
     void enableBasic();
     void enableCropper();
     AVFrame * filterFrame(AVFrame* input_frame);
