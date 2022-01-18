@@ -5,11 +5,12 @@
 #include "demuxing/SRAudioInput.h"
 
 /**
- * the constructor initialize the
- * input device with requested options
+ * The method opens the device, defines a codec context for decoding the audio stream and starts
+ * putting data in the device buffer.
+ *
+ * @override
+ * @return the device context
  */
-
-
 AVFormatContext* SRAudioInput::open(){
     //if one of them != nullptr then input already initialized
     if(inFormatContext != nullptr || inCodecContext!= nullptr || streamIndex != -1)
@@ -68,23 +69,15 @@ AVFormatContext* SRAudioInput::open(){
     return inFormatContext;
 }
 
-int SRAudioInput::getInputAudioStreamIndex() const {
-    return streamIndex;
-}
-
-AVFormatContext *SRAudioInput::getInputAudioFormatContext() const {
-    return inFormatContext;
-}
-
-AVCodecContext *SRAudioInput::getInputAudioCodecContext() const {
-    return inCodecContext;
-}
-
+/**
+ * The set method allows to configure the default SRAudioInput device by
+ * setting the following parameters
+ *
+ * @param audio_src indicates the source device
+ * @param audio_url indicates the device internal path
+ */
 void SRAudioInput::set(char *audio_src, char *audio_url) {
     device_url = audio_url;
     device_src = audio_src;
 }
-
-
-SRAudioInput::~SRAudioInput() = default;
 

@@ -3,7 +3,10 @@
 //
 #include "demuxing/SRInput.h"
 
-
+/**
+ * Default SRInput Constructor
+ * Instantiate a default object.
+ */
 SRInput::SRInput() {
     options = nullptr;
     first_pts = -1;
@@ -17,8 +20,16 @@ SRInput::SRInput() {
     // it is destroyed when the input is closed and the payload changes each time read_frame() is called
 }
 
+/**
+ * This method reads data from the device buffer and reference a packet with them.
+ *
+ * @param read_packet An initialized packet that will be referenced with read data
+ * @param pts_offset  A call with pts_offset > 0 will add a pts_offset to the internal offset
+ * @return  A negative value if the packet cannot be read, any positive value if the packet successfully read.
+ */
 int SRInput::readPacket(AVPacket* read_packet, long long int pts_offset) {
     int ret;
+    //todo: Invalid device exception
     ret = av_read_frame(inFormatContext, read_packet);
     if (ret >= 0 && read_packet->stream_index == streamIndex) {
         //todo: check if a rescale is needed here
@@ -37,29 +48,29 @@ int SRInput::readPacket(AVPacket* read_packet, long long int pts_offset) {
         return -1;
 }
 
-int SRInput::getStreamIndex() const {
-    return streamIndex;
-}
-
-AVFormatContext *SRInput::getFormatContext() const {
-    return inFormatContext;
-}
-
 AVCodecContext *SRInput::getCodecContext() const {
     return inCodecContext;
 }
 
+/**
+ * SRInput destructor.
+ * The destructor frees all the pointers contained in the object
+ */
 SRInput::~SRInput() {
 
-    avformat_close_input(&inFormatContext);
     if (inFormatContext) {
-        cout << "\nunable to close the input";
-        exit(1);
+        avformat_close_input(&inFormatContext);
+        if (inFormatContext) {
+            cerr << "\n[SRLib][SRInput] Unable to close device";
+            exit(1);
+        }
     }
-    avformat_free_context(inFormatContext);
-    if (inFormatContext){
-        cout << "\nunable to free avformat context";
-        exit(1);
+    if (inCodecContext) {
+       avcodec_free_context(&inCodecContext);
+        if (inCodecContext) {
+            cerr << "\n[SRLib][SRInput] Unable to close device";
+            exit(1);
+        }
     }
 }
 

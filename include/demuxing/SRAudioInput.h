@@ -7,20 +7,13 @@
 
 #include "SRInput.h"
 
+
 class SRAudioInput: public SRInput {
 
 public:
-
     SRAudioInput() : SRInput() {};
     void set(char *audio_src, char *audio_url);
-
-    virtual ~SRAudioInput();
-
     AVFormatContext* open() override;
-    int getInputAudioStreamIndex() const;
-    AVFormatContext *getInputAudioFormatContext() const;
-    AVCodecContext *getInputAudioCodecContext() const;
-
 };
 
 

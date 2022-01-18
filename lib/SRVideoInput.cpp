@@ -5,14 +5,20 @@
 
 
 /**
- * the constructor initialize the
- * input device with requested options
+ * The set method allows to configure the default SRVideoInput device by
+ * setting the following parameters
+ *
+ * @param video_src indicates the source device
+ * @param video_url indicates the device internal path
+ * @param _res can be used to set a precise device resolution. Use the macro AUTO_RESOLUTION to set
+ * the maximum supported resolution
+ * @param _fps set the requested frame rate, if not supported the capture will have an automatic frame rate selected by the device
  */
 
-void SRVideoInput::set(char *video_src, char *video_url, SRResolution res,int fps){
+void SRVideoInput::set(char *video_src, char *video_url, SRResolution _res,int _fps){
     device_url = video_url;
     device_src = video_src;
-    this->fps = fps;
+    this->fps = _fps;
     char s[30];
     int value = 0;
     sprintf(s,"%d", fps);
@@ -38,9 +44,9 @@ void SRVideoInput::set(char *video_src, char *video_url, SRResolution res,int fp
     if (value < 0) {
         throw openSourceParameterException("Found framerate value wrong while opening video input");
     }
-    if(res.width != 0 && res.height != 0 ) {
+    if(_res.width != 0 && _res.height != 0 ) {
         s[0] = '\0';
-        sprintf(s, "%dx%d", res.width, res.height);
+        sprintf(s, "%dx%d", _res.width, _res.height);
 
         value = av_dict_set(&options, "video_size", s, 0);
         if (value < 0) {
@@ -59,6 +65,12 @@ void SRVideoInput::set(char *video_src, char *video_url, SRResolution res,int fp
 
 }
 
+/**
+ * The method opens the device, defines a codec context for decoding the video stream and starts
+ * putting data in the device buffer.
+ *
+ * @return the device context
+ */
 AVFormatContext* SRVideoInput::open(){
     //if one of them != nullptr then input already initialized
     if(inFormatContext != nullptr || inCodecContext!= nullptr || streamIndex != -1)
@@ -92,14 +104,14 @@ AVFormatContext* SRVideoInput::open(){
     }
 
     if (streamIndex == -1) {
-        throw streamIndexException("Cannot find the video stream index.");
+        throw streamIndexException("The device has no streams");
 
     }
 
     AVCodecParameters *params = inFormatContext->streams[streamIndex]->codecpar;
     AVCodec *inVCodec = avcodec_find_decoder(params->codec_id);
     if (inVCodec == nullptr) {
-        throw findDecoderException("Cannot find the decoder.");
+        throw findDecoderException("No supported decoders for the device stream");
     }
 
 
@@ -110,18 +122,23 @@ AVFormatContext* SRVideoInput::open(){
     inCodecContext->framerate = AVRational{fps,1};
     value = avcodec_open2(inCodecContext, inVCodec, nullptr);
     if (value < 0) {
-        throw openAVCodecException("Cannot open the av codec.");
+        throw openAVCodecException("Cannot instantiate a codec for the device stream");
     }
 
     return inFormatContext;
 }
 
+/**
+ * If available, the methods retrieves the device resolution and returns it
+ *
+ * @return a SRResolution data structure containing the input resolution
+ */
 SRResolution SRVideoInput::getInputResolution() {
     if(inCodecContext!=nullptr) {
         return {inCodecContext->width, inCodecContext->height};
     }
     else {
-        throw DeviceNotOpenException("Cannot open the device.");
+        throw DeviceNotOpenException("Device not ready, cannot retrieve resolution");
     };
 }
 

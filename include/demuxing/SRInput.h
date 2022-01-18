@@ -6,7 +6,7 @@
 #define SCREENRECLIB_SRINPUT_H
 
 #include "SRTools.h"
-
+//todo enable shared pointer on inCodecContext
 class SRInput {
     protected:
         long long int first_pts; /* for PTS normalization*/
@@ -21,12 +21,8 @@ class SRInput {
         SRInput();
 
         virtual AVFormatContext* open() = 0;
-        int getStreamIndex() const;
-
-    virtual ~SRInput();
-
-    AVFormatContext *getFormatContext() const;
-    AVCodecContext *getCodecContext() const;
+        virtual ~SRInput();
+        AVCodecContext *getCodecContext() const;
 
     int readPacket(AVPacket* read_packet, long long int pts_offset);
 };
