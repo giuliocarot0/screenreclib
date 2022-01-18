@@ -226,30 +226,32 @@ char *SRMediaOutput::getFilename() {
 }
 
 SRMediaOutput::~SRMediaOutput() {
-    if( av_write_trailer(outputCtx) < 0)
-    {
-        cout<<"\nerror in writing av trailer";
-        exit(1);
-    }
+    if(outputCtx){
+        if( av_write_trailer(outputCtx) < 0)
+        {
+            cout<<"\nerror in writing av trailer";
+            exit(1);
+        }
 
-    if(video_recorded){
-        avcodec_free_context(&videoCtx);
-        if (videoCtx){
-            cout << "\nunable to free video avformat context";
+        if(video_recorded){
+            avcodec_free_context(&videoCtx);
+            if (videoCtx){
+                cout << "\nunable to free video avformat context";
+                exit(1);
+            }
+        }
+        if(audio_recorded){
+            avcodec_free_context(&audioCtx);
+            if (audioCtx){
+                cout << "\nunable to free audio avformat context";
+                exit(1);
+            }
+        }
+        avformat_close_input(&outputCtx);
+        if (outputCtx){
+            cout << "\nunable to free output avformat context";
             exit(1);
         }
-    }
-    if(audio_recorded){
-        avcodec_free_context(&audioCtx);
-        if (audioCtx){
-            cout << "\nunable to free audio avformat context";
-            exit(1);
-        }
-    }
-    avformat_close_input(&outputCtx);
-    if (outputCtx){
-        cout << "\nunable to free output avformat context";
-        exit(1);
     }
 }
 

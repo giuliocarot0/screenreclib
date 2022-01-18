@@ -39,17 +39,18 @@ private:
     //SRVideoFilter videoFilter;
     /*muxing*/
     SRMediaOutput outputFile;
-    SROutputSettings outputSettings;
+    SROutputSettings outputSettings{};
 
     /*the configuration is created by the main app and passed through the constructor*/
-    SRConfiguration configuration;
+    SRConfiguration configuration{};
 
     thread videoThread;
     thread audioThread;
 
     /*condition variables for threads*/
     bool capture_switch;
-    mutex r_mutex;
+    bool kill_switch{};
+    shared_mutex r_mutex;
 
 
     /*the parser analyzes configurations and throws exception if it is wrong*/
