@@ -16,7 +16,10 @@ SRRecorder::SRRecorder(SRConfiguration configuration){
         throw e;
     }
     capture_switch = false;
+    kill_switch = false;
+
     avdevice_register_all();
+
 }
 
 
@@ -28,25 +31,37 @@ void SRRecorder::videoLoop() {
     inPacket = av_packet_alloc();
     outPacket = av_packet_alloc();
 
+    std::shared_lock<std::shared_mutex> r_lock(r_mutex, std::defer_lock);
+    bool last_state;
+    long long int pause_pts = 0;
+    long long int last_pts = 0;
+    long long int pause_dur = 0;
 
+    printf("[SRlib][VideoThread] started\n");
 
-    long long int last = 0;
-    printf("[SRlib] recording screen\n");
-    while(last/outputSettings.fps < 10 /*record for five sec*/) {
+    while(true) {
 
+        if(r_lock.try_lock()){
+            last_state = capture_switch;
+            if(kill_switch)
+                break;
+            r_lock.unlock();
+        }
+        /* set an additive offset to readPacket*/
+        if(!last_state)
+            pause_dur = pause_pts - last_pts;
+        else pause_dur = 0;
 
-        if(videoInput.readPacket(inPacket) >= 0){
-           // r_lock.lock();
-            if(capture_switch) {
-                last = inPacket->pts;
-                printf("[SRlib][VideoThread] recording\n");
-            }
-            else {
-                printf("[SRlib][VideoThread] paused\n");
-                continue;
-
-            }
+        if(videoInput.readPacket(inPacket, pause_dur) >= 0){
+               if(last_state) {
+                    last_pts = inPacket->pts;
+                }
+               else {
+                   pause_pts = inPacket->pts;
+                   continue;
+               }
            // r_lock.unlock();
+
             videoDecoder.decodePacket(inPacket);
             while(videoDecoder.getDecodedFrame(rawFrame)>=0){
                 scaled_frame = videoFilter.filterFrame(rawFrame);
@@ -64,7 +79,64 @@ void SRRecorder::videoLoop() {
 
 
 void SRRecorder::audioLoop() {
+    AVPacket *inPacket, *outPacket;
+    AVFrame *rawFrame, *scaled_frame;
+    rawFrame = av_frame_alloc();
+    inPacket = av_packet_alloc();
+    outPacket = av_packet_alloc();
 
+    static int64_t pts = 0;
+    long long int last = 0;
+
+    std::shared_lock<std::shared_mutex> r_lock(r_mutex, std::defer_lock);
+    bool last_state;
+    long long int pause_pts = 0;
+    long long int last_pts = 0;
+    long long int pause_dur = 0;
+
+    printf("[SRlib][AudioThread] started\n");
+
+    while(true) {
+
+        if(r_lock.try_lock()){
+            last_state = capture_switch;
+            if(kill_switch)
+                break;
+            r_lock.unlock();
+        }
+        /* set an additive offset to readPacket*/
+        if(!last_state)
+            pause_dur = pause_pts - last_pts;
+        else pause_dur = 0;
+
+        if (audioInput.readPacket(inPacket,pause_dur) >= 0) {
+            if(last_state) {
+                last_pts = inPacket->pts;
+            }
+            else {
+                pause_pts = inPacket->pts;
+                continue;
+            }
+
+            audioDecoder.decodePacket(inPacket);
+            while (audioDecoder.getDecodedFrame(rawFrame) >= 0) {
+                scaled_frame = audioFilter.filterFrame(rawFrame);
+                while (av_audio_fifo_size(audioFilter.getFifo()) >= audioEncoder.getEncoderContext()->frame_size) {
+                    av_audio_fifo_read(audioFilter.getFifo(), (void **) (scaled_frame->data),audioEncoder.getEncoderContext()->frame_size);
+                    scaled_frame->pts = pts;
+                    pts += scaled_frame->nb_samples;
+                    if (audioEncoder.encodeFrame(scaled_frame) < 0) {
+                        printf("DROPPED");
+                    };
+                    while (audioEncoder.getEncodedPacket(outPacket) >= 0) {
+                        if (outputFile.writePacket(outPacket, audio /*passing a audio packet*/) < 0) {
+                            printf("DROPPED");
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 void SRRecorder::initCapture() {
@@ -92,9 +164,9 @@ void SRRecorder::initCapture() {
          audioInput.open();
          audioDecoder = SRDecoder();
          audioDecoder.setDecoderContext(audioInput.getCodecContext());
-         outputSettings.video_codec = AUDIO_CODEC;
-         outputSettings.audio_samplerate = 0;
-         outputSettings.audio_channels = 0;
+         outputSettings.audio_codec = AUDIO_CODEC;
+         outputSettings.audio_samplerate = audioInput.getCodecContext()->sample_rate;
+         outputSettings.audio_channels = audioInput.getCodecContext()->channels;
      }
      else
          outputSettings.audio_codec =AV_CODEC_ID_NONE;
@@ -111,25 +183,17 @@ void SRRecorder::initCapture() {
      }
      if(configuration.enable_audio){
          audioEncoder.setEncoderContext(outputFile.getAudioCodecContext());
+         audioFilter.set(audioEncoder.getEncoderContext(), audioDecoder.getDecoderContext());
+         audioFilter.init();
      }
     }catch(SRException& e){
      throw e;
  }
 
     if(configuration.enable_video) videoThread = thread([&](){videoLoop();});
-   // if(configuration.enable_audio) audioThread = thread([&](){audioLoop();});
+    if(configuration.enable_audio) audioThread = thread([&](){audioLoop();});
 }
 
-
-void SRRecorder::stopCaputure() {
-}
-
-void SRRecorder::pauseCapture() {
-
-}
-void SRRecorder::resumeCapture() {
-
-}
 
 /*throws parse configuration exception*/
 void SRRecorder::parseConfiguration() {
@@ -139,15 +203,41 @@ void SRRecorder::parseConfiguration() {
     if(configuration.filename == nullptr || strcmp(configuration.filename, "") == 0)
         throw ConfigurationParserException("Invalid file name");
     if(configuration.enable_crop &&
-    (configuration.crop_info.dimension.width.num/configuration.crop_info.dimension.width.den + configuration.crop_info.offset.x.num/configuration.crop_info.offset.x.den > 1||
-    (configuration.crop_info.dimension.height.num/configuration.crop_info.dimension.height.den + configuration.crop_info.offset.y.num/configuration.crop_info.offset.y.den>1 )))
+    (configuration.crop_info.dimension.width.num > configuration.crop_info.dimension.width.den || configuration.crop_info.offset.x.num >= configuration.crop_info.offset.x.den||
+    (configuration.crop_info.dimension.height.num > configuration.crop_info.dimension.height.den + configuration.crop_info.offset.y.num >= configuration.crop_info.offset.y.den )))
         throw ConfigurationParserException("Invalid crop data");
 }
 
 void SRRecorder::startCapture() {
-   // std::lock_guard<std::mutex> r_lock(r_mutex);
-   // capture_switch = true;
+    if(kill_switch) return;
+    std::unique_lock<std::shared_mutex> r_lock(r_mutex);
+    capture_switch = true;
+    if(configuration.enable_video) printf("[SRlib][VideoThread] capturing\n");
+    if(configuration.enable_audio) printf("[SRlib][AudioThread] capturing\n");
+
 }
+
+void SRRecorder::pauseCapture() {
+    if(kill_switch) return;
+    std::unique_lock<std::shared_mutex> r_lock(r_mutex);
+    capture_switch = false;
+    if(configuration.enable_video) printf("[SRlib][VideoThread] paused\n");
+    if(configuration.enable_audio) printf("[SRlib][AudioThread] paused\n");
+}
+
+
+void SRRecorder::stopCaputure() {
+    if(kill_switch) return;
+    std::unique_lock<std::shared_mutex> r_lock(r_mutex);
+    capture_switch = false;
+    kill_switch = true;
+    if(configuration.enable_video) printf("[SRlib][VideoThread] stopped\n");
+    if(configuration.enable_audio) printf("[SRlib][AudioThread] stopped\n");
+}
+
+
 SRRecorder::~SRRecorder() {
-    videoThread.join();
+    if(configuration.enable_video) videoThread.join();
+    if(configuration.enable_audio) audioThread.join();
+
 }

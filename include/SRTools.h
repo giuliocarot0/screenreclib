@@ -14,13 +14,14 @@
 #include <fstream>
 #include <cstring>
 #include <cmath>
-
+#include <ctime>
 
 #include <cstring>
 #include <queue>
 #include <mutex>
 #include <condition_variable>
 #include <thread>
+#include <assert.h>
 #include "exceptions/SRExceptions.h"
 
 extern "C" {
@@ -112,5 +113,9 @@ static SROffset rescale_offset(SRResolution input, SROffsetRational rescaler){
     out.x = ceil(input.width*rescaler.x.num / rescaler.x.den);
     out.y = ceil(input.width*rescaler.x.num / rescaler.x.den);
     return out;
+}
+
+static void lock_thread_for(int sec){
+    std::this_thread::sleep_for(std::chrono::milliseconds(sec*1000));
 }
 #endif //SCREENRECLIB_SRTOOLS_H

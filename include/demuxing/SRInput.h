@@ -28,7 +28,7 @@ class SRInput {
     AVFormatContext *getFormatContext() const;
     AVCodecContext *getCodecContext() const;
 
-    int readPacket(AVPacket* read_packet);
+    int readPacket(AVPacket* read_packet, long long int pts_offset);
 };
 
 

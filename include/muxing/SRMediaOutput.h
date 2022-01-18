@@ -6,7 +6,7 @@
 #define SCREENRECLIB_SRMEDIAOUTPUT_H
 
 #include "SRTools.h"
-
+#include <shared_mutex>
 
 typedef enum {video, audio} media_type;
 
@@ -22,7 +22,7 @@ private:
     int audioStreamID;
     int videoStreamID;
     char* filename;
-
+    shared_mutex w_mutex;
     //these are the only two supported streams by the recorder
     int createAudioStream();
     int createVideoStream();

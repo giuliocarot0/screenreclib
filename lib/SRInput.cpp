@@ -17,15 +17,20 @@ SRInput::SRInput() {
     // it is destroyed when the input is closed and the payload changes each time read_frame() is called
 }
 
-int SRInput::readPacket(AVPacket* read_packet) {
+int SRInput::readPacket(AVPacket* read_packet, long long int pts_offset) {
     int ret;
     ret = av_read_frame(inFormatContext, read_packet);
     if (ret >= 0 && read_packet->stream_index == streamIndex) {
         //todo: check if a rescale is needed here
+        // todo: make write to output container thread safe
         //printf("\nBefore: %lld,%lld\n", read_packet->pts, read_packet->duration);
         av_packet_rescale_ts(read_packet, inFormatContext->streams[streamIndex]->time_base,inCodecContext->time_base);
         if(first_pts<0)
             first_pts = read_packet->pts;
+        if(pts_offset>0){
+            first_pts = first_pts + pts_offset;
+        }
+        //read_packet->dts -= (first_pts + pts_offset);
         read_packet->pts -= first_pts;
         return ret;
     } else
