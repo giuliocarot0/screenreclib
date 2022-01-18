@@ -8,17 +8,23 @@ int main(){
     configuration.enable_audio = false;
     configuration.enable_video = true;
     configuration.filename = filename;
-    configuration.enable_crop = true;
-    configuration.crop_info = SRCropRegion {SROffsetRational{{9,4},{1,4}},SRResolutionRational {{1,4},{1,4}} };
+    configuration.enable_crop = false;
+    configuration.crop_info = SRCropRegion {SROffsetRational{{1,4},{1,4}},SRResolutionRational {{1,4},{1,4}} };
     /* a recorder is instantiated*/
     try {
         SRRecorder recorder(configuration);
         /*before setting crop the recorder must be initialized to retrieve capabilities from the devices*/
         recorder.initCapture();
+        lock_thread_for(8);
         recorder.startCapture();
+        lock_thread_for(4);
         recorder.pauseCapture();
+        lock_thread_for(3);
+        recorder.startCapture();
+        lock_thread_for(5);
+        recorder.stopCaputure();
     }
     catch(SRException& exc){
-        fprintf(stderr,"[SRLib] Exception Occured: %s", exc.what());
+        fprintf(stderr,"[SRLib] Exception occured: %s", exc.what());
     }
 }

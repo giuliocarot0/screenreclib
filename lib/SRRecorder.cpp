@@ -34,29 +34,34 @@ void SRRecorder::videoLoop() {
     std::shared_lock<std::shared_mutex> r_lock(r_mutex, std::defer_lock);
     bool last_state;
     long long int pause_pts = 0;
-    long long int last = 0;
-    bool record = true;
-    printf("[SRlib] recording screen\n");
+    long long int last_pts = 0;
+    long long int pause_dur = 0;
+
+    printf("[SRlib][VideoThread] started\n");
+
     while(true) {
 
         if(r_lock.try_lock()){
             last_state = capture_switch;
             if(kill_switch)
                 break;
+            r_lock.unlock();
         }
+        /* set an additive offset to readPacket*/
+        if(!last_state)
+            pause_dur = pause_pts - last_pts;
+        else pause_dur = 0;
 
-        if(videoInput.readPacket(inPacket, pause_pts) >= 0){
+        if(videoInput.readPacket(inPacket, pause_dur) >= 0){
                if(last_state) {
-                    last = inPacket->pts;
-                    printf("[SRlib][VideoThread] recording\n");
+                    last_pts = inPacket->pts;
                 }
                else {
-                   printf("[SRlib][VideoThread] paused\n");
-                   pause_pts+=inPacket->pts;
+                   pause_pts = inPacket->pts;
                    continue;
-
                }
            // r_lock.unlock();
+
             videoDecoder.decodePacket(inPacket);
             while(videoDecoder.getDecodedFrame(rawFrame)>=0){
                 scaled_frame = videoFilter.filterFrame(rawFrame);
@@ -148,12 +153,17 @@ void SRRecorder::startCapture() {
     if(kill_switch) return;
     std::unique_lock<std::shared_mutex> r_lock(r_mutex);
     capture_switch = true;
+    if(configuration.enable_video) printf("[SRlib][VideoThread] capturing\n");
+    if(configuration.enable_audio) printf("[SRlib][AudioThread] capturing\n");
+
 }
 
 void SRRecorder::pauseCapture() {
     if(kill_switch) return;
     std::unique_lock<std::shared_mutex> r_lock(r_mutex);
     capture_switch = false;
+    if(configuration.enable_video) printf("[SRlib][VideoThread] paused\n");
+    if(configuration.enable_audio) printf("[SRlib][AudioThread] paused\n");
 }
 
 
@@ -162,9 +172,13 @@ void SRRecorder::stopCaputure() {
     std::unique_lock<std::shared_mutex> r_lock(r_mutex);
     capture_switch = false;
     kill_switch = true;
+    if(configuration.enable_video) printf("[SRlib][VideoThread] stopped\n");
+    if(configuration.enable_audio) printf("[SRlib][AudioThread] stopped\n");
 }
 
 
 SRRecorder::~SRRecorder() {
-    videoThread.join();
+    if(configuration.enable_video) videoThread.join();
+    if(configuration.enable_audio) audioThread.join();
+
 }
