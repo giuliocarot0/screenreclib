@@ -24,8 +24,8 @@ AVFormatContext* SRAudioInput::open(){
     inAInputFormat = av_find_input_format(device_src);
     value = avformat_open_input(&inFormatContext, device_url, inAInputFormat, &options);
     if (value != 0) {
-        std::string msg = (std::string)"Cannot open selected device (" + device_url + ")";
-        throw openSourceException(msg.c_str());
+        throw openSourceException("Cannot open selected audio device");
+
     }
 
 

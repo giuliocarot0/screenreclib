@@ -34,7 +34,6 @@ void SRRecorder::videoLoop() {
     printf("[SRlib] recording screen\n");
     while(last/outputSettings.fps < 10 /*record for five sec*/) {
 
-
         if(videoInput.readPacket(inPacket) >= 0){
            // r_lock.lock();
             if(capture_switch) {
@@ -64,7 +63,49 @@ void SRRecorder::videoLoop() {
 
 
 void SRRecorder::audioLoop() {
+    AVPacket *inPacket, *outPacket;
+    AVFrame *rawFrame, *scaled_frame;
+    rawFrame = av_frame_alloc();
+    inPacket = av_packet_alloc();
+    outPacket = av_packet_alloc();
 
+    static int64_t pts = 0;
+    long long int last = 0;
+    int secondi = 5;
+    printf("[SRlib] recording audio\n");
+    while (last/22000 < secondi*2-1/*record for five sec*/) {
+
+        if (audioInput.readPacket(inPacket) >= 0) {
+
+            if(capture_switch) {
+                last = inPacket->pts;
+                printf("[SRlib][AudioThread] recording\n");
+            }
+            else {
+                printf("[SRlib][AudioThread] paused\n");
+                continue;
+
+            }
+
+            audioDecoder.decodePacket(inPacket);
+            while (audioDecoder.getDecodedFrame(rawFrame) >= 0) {
+                scaled_frame = audioFilter.filterFrame(rawFrame);
+                while (av_audio_fifo_size(audioFilter.getFifo()) >= audioEncoder.getEncoderContext()->frame_size) {
+                    av_audio_fifo_read(audioFilter.getFifo(), (void **) (scaled_frame->data),audioEncoder.getEncoderContext()->frame_size);
+                    scaled_frame->pts = pts;
+                    pts += scaled_frame->nb_samples;
+                    if (audioEncoder.encodeFrame(scaled_frame) < 0) {
+                        printf("DROPPED");
+                    };
+                    while (audioEncoder.getEncodedPacket(outPacket) >= 0) {
+                        if (outputFile.writePacket(outPacket, audio /*passing a audio packet*/) < 0) {
+                            printf("DROPPED");
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 void SRRecorder::initCapture() {
@@ -92,9 +133,9 @@ void SRRecorder::initCapture() {
          audioInput.open();
          audioDecoder = SRDecoder();
          audioDecoder.setDecoderContext(audioInput.getCodecContext());
-         outputSettings.video_codec = AUDIO_CODEC;
-         outputSettings.audio_samplerate = 0;
-         outputSettings.audio_channels = 0;
+         outputSettings.audio_codec = AUDIO_CODEC;
+         outputSettings.audio_samplerate = audioInput.getCodecContext()->sample_rate;
+         outputSettings.audio_channels = audioInput.getCodecContext()->channels;
      }
      else
          outputSettings.audio_codec =AV_CODEC_ID_NONE;
@@ -111,13 +152,15 @@ void SRRecorder::initCapture() {
      }
      if(configuration.enable_audio){
          audioEncoder.setEncoderContext(outputFile.getAudioCodecContext());
+         audioFilter.set(audioEncoder.getEncoderContext(), audioDecoder.getDecoderContext());
+         audioFilter.init();
      }
     }catch(SRException& e){
      throw e;
  }
 
     if(configuration.enable_video) videoThread = thread([&](){videoLoop();});
-   // if(configuration.enable_audio) audioThread = thread([&](){audioLoop();});
+    if(configuration.enable_audio) audioThread = thread([&](){audioLoop();});
 }
 
 
@@ -146,9 +189,9 @@ void SRRecorder::parseConfiguration() {
 
 void SRRecorder::startCapture() {
    // std::lock_guard<std::mutex> r_lock(r_mutex);
-   // capture_switch = true;
+   capture_switch = true;
 }
 SRRecorder::~SRRecorder() {
     videoThread.join();
+    audioThread.join();
 }
->>>>>>> 38da28b6d17bf15b8a1bd91328c32947f07650be

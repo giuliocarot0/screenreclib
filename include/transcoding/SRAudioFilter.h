@@ -27,9 +27,11 @@ public:
 
     virtual ~SRAudioFilter();
 
-    int add_samples_to_fifo(uint8_t **converted_input_samples, const int frame_size);
+    int add_samples_to_fifo(const int frame_size);
 
-    int init_fifo(AVCodecContext *outACodecContext);
+    int init_fifo();
+
+    int initConvertedSamples(int frame_size);
 };
 
 

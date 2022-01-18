@@ -6,11 +6,11 @@
 #include <transcoding/SRAudioFilter.h>
 
 
-int SRAudioFilter::init_fifo(AVCodecContext * outACodecContext)
+int SRAudioFilter::init_fifo()
 {
     /* Create the FIFO buffer based on the specified output sample format. */
-    if (!(fifo = av_audio_fifo_alloc(outACodecContext->sample_fmt,
-                                     outACodecContext->channels, 1))) {
+    if (!(fifo = av_audio_fifo_alloc(encoder->sample_fmt,
+                                     encoder->channels, 1))) {
         fprintf(stderr, "Could not allocate FIFO\n");
         return AVERROR(ENOMEM);
     }
@@ -18,7 +18,7 @@ int SRAudioFilter::init_fifo(AVCodecContext * outACodecContext)
 }
 
 
-int SRAudioFilter::add_samples_to_fifo(uint8_t **converted_input_samples, const int frame_size){
+int SRAudioFilter::add_samples_to_fifo(const int frame_size){
     int error;
     /* Make the FIFO as large as it needs to be to hold both,
      * the old and the new samples. */
@@ -27,7 +27,7 @@ int SRAudioFilter::add_samples_to_fifo(uint8_t **converted_input_samples, const 
         return error;
     }
     /* Store the new samples in the FIFO buffer. */
-    if (av_audio_fifo_write(fifo, (void **)converted_input_samples, frame_size) < frame_size) {
+    if (av_audio_fifo_write(fifo, (void **)resampledData, frame_size) < frame_size) {
         fprintf(stderr, "Could not write data to FIFO\n");
         return AVERROR_EXIT;
     }
@@ -35,25 +35,23 @@ int SRAudioFilter::add_samples_to_fifo(uint8_t **converted_input_samples, const 
 }
 
 
-int initConvertedSamples(uint8_t ***converted_input_samples,
-                                         AVCodecContext *output_codec_context,
-                                         int frame_size){
+int SRAudioFilter::initConvertedSamples(int frame_size){
     int error;
     /* Allocate as many pointers as there are audio channels.
      * Each pointer will later point to the audio samples of the corresponding
      * channels (although it may be NULL for interleaved formats).
      */
-    if (!(*converted_input_samples = (uint8_t **)calloc(output_codec_context->channels,
-                                                        sizeof(**converted_input_samples)))) {
+    if (!(resampledData = (uint8_t **)calloc(encoder->channels,
+                                                        sizeof(resampledData)))) {
         fprintf(stderr, "Could not allocate converted input sample pointers\n");
         return AVERROR(ENOMEM);
     }
     /* Allocate memory for the samples of all channels in one consecutive
      * block for convenience. */
-    if (av_samples_alloc(*converted_input_samples, nullptr,
-                         output_codec_context->channels,
+    if (av_samples_alloc(resampledData, nullptr,
+                         encoder->channels,
                          frame_size,
-                         output_codec_context->sample_fmt, 0) < 0) {
+                         encoder->sample_fmt, 0) < 0) {
 
         exit(1);
     }
@@ -66,8 +64,7 @@ AVAudioFifo *SRAudioFilter::getFifo() const {
 
 void SRAudioFilter::init() {
     if(encoder == nullptr || decoder == nullptr) {
-        //todo invalid filter parameters
-        return;
+        throw InvalidFilterParametersException("Found wrong parameters while enabling the audio filter");
     }
     scaled_frame = av_frame_alloc();
 
@@ -90,31 +87,28 @@ void SRAudioFilter::init() {
         exit(1);
     }
 
-    init_fifo(encoder);
+    init_fifo();
 }
 
 AVFrame *SRAudioFilter::filterFrame(AVFrame *inputFrame) {
     if(scaled_frame == nullptr || encoder == nullptr || decoder == nullptr || resampling_context == nullptr) {
-        //todo excepetion uninitialized filter
-        return nullptr;
+        throw UninitializedFilterException("Audio filter not initialized");
     }
 
-    initConvertedSamples(&resampledData, encoder,
-                                     inputFrame->nb_samples);
+    initConvertedSamples(inputFrame->nb_samples);
 
     swr_convert(resampling_context,
                 resampledData, inputFrame->nb_samples,
                 (const uint8_t **) inputFrame->extended_data, inputFrame->nb_samples);
 
-    add_samples_to_fifo(resampledData, inputFrame->nb_samples);
+    add_samples_to_fifo(inputFrame->nb_samples);
 
     scaled_frame->nb_samples = encoder->frame_size;
     scaled_frame->channel_layout = encoder->channel_layout;
     scaled_frame->format = encoder->sample_fmt;
     scaled_frame->sample_rate = encoder->sample_rate;
-    // scaledFrame->best_effort_timestamp = rawFrame->best_effort_timestamp;
-    // scaledFrame->pts = rawFrame->pts;
     av_frame_get_buffer(scaled_frame, 0);
+    return scaled_frame;
 }
 
 void SRAudioFilter::set(AVCodecContext *v_encoder, AVCodecContext *v_decoder) {
@@ -126,5 +120,5 @@ SRAudioFilter::~SRAudioFilter() {
     swr_free(&resampling_context);
     av_frame_free(&scaled_frame);
     av_audio_fifo_free(fifo);
-    //TODO free resampled data
+    free(resampledData);
 }

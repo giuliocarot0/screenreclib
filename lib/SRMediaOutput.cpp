@@ -37,15 +37,13 @@ int SRMediaOutput::initFile() {
     /*get the filetype from filename extension*/
     outputFormat = av_guess_format(nullptr,filename, nullptr);
     if(!outputFormat) {
-        cout << "\nCannot get the video format. try with correct format";
-        exit(1); // todo: invalid output format exception
+        throw OutputFormatException("Cannot get the video format. try with correct format");
     }
 
     /*allocate the format context*/
     avformat_alloc_output_context2(&outputCtx, outputFormat, outputFormat->name, filename);
     if (!outputCtx) {
-        cout << "\nCannot allocate the output context";
-        exit(1); // todo: OutputCtx Allocation Exception
+        throw OutputContextAllocationException("Cannot allocate the output context");
     }
 
     if(video_recorded) createVideoStream();
@@ -55,22 +53,19 @@ int SRMediaOutput::initFile() {
     if (!(outputCtx->flags & AVFMT_NOFILE)) {
         value = avio_open2(&outputCtx->pb, filename, AVIO_FLAG_WRITE, nullptr, nullptr);
         if (value < 0) {
-            cout << "\nerror in creating the video file";
-            exit(1); // todo: File Opening Exception
+            throw FileOpeningException("Error in creating the video file");
         }
     }
 
     if (!outputCtx->nb_streams) {
-        cout << "\noutput file dose not contain any stream";
-        exit(1); // todo: NoValidStreamsException
+        throw NoValidStreamsException("Output file dose not contain any stream");
     }
 
 
     /* imp: mp4 container or some advanced container file required header information*/
     value = avformat_write_header(outputCtx, nullptr);
     if (value < 0) {
-        cout << "\nerror in writing the header context";
-        exit(1); //todo: OutputHeaderWriting Exception
+        throw OutputHeaderWritingException("Error in writing the header context");
     }
 
 
@@ -82,18 +77,15 @@ int SRMediaOutput::createAudioStream() {
 
     AVStream *audio_st = avformat_new_stream(outputCtx, nullptr);
     if (!audio_st) {
-        cout << "\nCannot create audio stream";
-        exit(1);
+        throw StreamException("Cannot create audio stream");
     }
     outACodec = avcodec_find_encoder(settings.audio_codec);
     if (!outACodec) {
-        cout << "\nCannot find requested encoder";
-        exit(1); //todo: Invalid Video Output Codec
+        throw FindEncoderException("Cannot find requested audio encoder");
     }
     audioCtx = avcodec_alloc_context3(outACodec);
     if (!audioCtx) {
-        cout << "\nCannot create related VideoCodecContext";
-        exit(1); //todo: AudioContext Allocation Exception
+        throw AVCodecAllocationException("Cannot create related AudioCodecContext");
     }
 
     /* set properties for the video stream encoding*/
@@ -119,10 +111,8 @@ int SRMediaOutput::createAudioStream() {
     }
 
     if (avcodec_open2(audioCtx, outACodec, nullptr)< 0) {
-        cout << "\nerror in opening the avcodec with error: ";
-        exit(1); //todo:CodecOpening Exception
+        throw CodecOpeningException("Error in opening the avcodec");
     }
-
 
     //find a free stream index
     for(i=0; i < outputCtx->nb_streams; i++)
@@ -130,8 +120,7 @@ int SRMediaOutput::createAudioStream() {
             audioStreamID = i;
 
     if(audioStreamID < 0) {
-        cout << "\nCannot find a free stream for audio on the output";
-        exit(1); // todo: no free streams on output exception
+        throw NoFreeStreamException("Cannot find a free stream for audio on the output");
     }
 
     avcodec_parameters_from_context(outputCtx->streams[audioStreamID]->codecpar, audioCtx);
@@ -142,18 +131,15 @@ int SRMediaOutput::createVideoStream() {
     AVStream *video_st = avformat_new_stream(outputCtx, nullptr);
 
     if (!video_st) {
-        cout << "\nCannot create video stream";
-        exit(1);
+        throw StreamException("Cannot create video stream");
     }
     AVCodec* outVCodec = avcodec_find_encoder(settings.video_codec);
     if (!outVCodec) {
-        cout << "\nCannot find requested encoder";
-        exit(1); //todo: Invalid Codec  exception
+        throw FindEncoderException("Cannot find requested audio encoder");
     }
     videoCtx = avcodec_alloc_context3(outVCodec);
     if (!videoCtx) {
-        cout << "\nCannot create related VideoCodecContext";
-        exit(1); // todo: codec allocation exception
+        throw AVCodecAllocationException("Cannot create related VideoCodecContext");
     }
 
     /* set properties for the video stream encoding */
@@ -183,8 +169,7 @@ int SRMediaOutput::createVideoStream() {
     }
 
     if (avcodec_open2(videoCtx, outVCodec, nullptr)< 0) {
-        cout << "\nerror in opening the avcodec";
-        exit(1);//todo: codec opening exception
+        throw CodecOpeningException("Error in opening the avcodec");
     }
 
     //find a free stream index
@@ -194,8 +179,7 @@ int SRMediaOutput::createVideoStream() {
             videoStreamID = i;
 
     if(videoStreamID < 0) {
-        cout << "\nCannot find a free stream for video on the output";
-        exit(1);//No Free Stream available excepetion
+        throw NoFreeStreamException("Cannot find a free stream for video on the output");
     }
 
     avcodec_parameters_from_context(outputCtx->streams[videoStreamID]->codecpar, videoCtx);

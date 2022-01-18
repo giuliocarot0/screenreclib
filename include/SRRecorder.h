@@ -12,16 +12,32 @@
 #include "demuxing/SRVideoInput.h"
 #include "demuxing/SRAudioInput.h"
 #include "transcoding/SRDecoder.h"
+#include "transcoding/SRAudioFilter.h"
 #include <shared_mutex>
-#define VIDEO_SRC "avfoundation"
-#define VIDEO_URL "1:none"
-#define VIDEO_FPS 30
-#define VIDEO_CODEC AV_CODEC_ID_MPEG4
-#define CODEC_NULL AV_CODEC_ID_NONE
 
-#define AUDIO_SRC ""
-#define AUDIO_URL ""
-#define AUDIO_CODEC AV_CODEC_ID_AAC
+#ifdef __APPLE__
+    #define VIDEO_SRC "avfoundation"
+    #define VIDEO_URL "1:none"
+    #define VIDEO_FPS 30
+    #define VIDEO_CODEC AV_CODEC_ID_MPEG4
+    #define CODEC_NULL AV_CODEC_ID_NONE
+
+    #define AUDIO_SRC ""
+    #define AUDIO_URL ""
+    #define AUDIO_CODEC AV_CODEC_ID_AAC
+#endif
+
+#ifdef _WIN32
+    #define VIDEO_SRC ("gdigrab")
+    #define VIDEO_URL ("desktop")
+    #define VIDEO_FPS 30
+    #define VIDEO_CODEC AV_CODEC_ID_MPEG4
+    #define CODEC_NULL AV_CODEC_ID_NONE
+
+    #define AUDIO_SRC ("dshow")
+    #define AUDIO_URL ("audio=Microfono (Realtek High Definition Audio)")
+    #define AUDIO_CODEC AV_CODEC_ID_AAC
+#endif
 
 
 class SRRecorder {
@@ -34,6 +50,7 @@ private:
     SREncoder videoEncoder;
     SRDecoder videoDecoder;
     SRVideoFilter videoFilter;
+    SRAudioFilter audioFilter;
     SREncoder audioEncoder;
     SRDecoder audioDecoder;
     //SRVideoFilter videoFilter;
