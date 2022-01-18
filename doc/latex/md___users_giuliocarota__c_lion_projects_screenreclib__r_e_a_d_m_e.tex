@@ -1,0 +1,53 @@
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{Interface SCPPInput \{}
+\DoxyCodeLine{    -\/ AVCodec* inCodec}
+\DoxyCodeLine{    -\/ AVFormatContext *inFormatContext}
+\DoxyCodeLine{    -\/ AVPacket* deliverable\_packet}
+\DoxyCodeLine{}
+\DoxyCodeLine{    + SCPPInput()}
+\DoxyCodeLine{    + open() }
+\DoxyCodeLine{    + getCodec()}
+\DoxyCodeLine{    + getFormatContext()}
+\DoxyCodeLine{    + getStreamIndex()}
+\DoxyCodeLine{    + readPacket()}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{Class SCPPVideoInput \{}
+\DoxyCodeLine{    + SCPPVideoInput()}
+\DoxyCodeLine{    + open()}
+\DoxyCodeLine{ }
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{Class SCPPAudioInput \{}
+\DoxyCodeLine{    + SCPPAudioInput()}
+\DoxyCodeLine{    + open()}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{Class SCPPDecoder \{}
+\DoxyCodeLine{    -\/ inputCodecContext}
+\DoxyCodeLine{    -\/ options}
+\DoxyCodeLine{    }
+\DoxyCodeLine{    + decode(AVPacket* encodedPkt)}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{Class SCPPEncoder \{}
+\DoxyCodeLine{    -\/ outputCodecContext}
+\DoxyCodeLine{    -\/ options}
+\DoxyCodeLine{    + decode(AVPacket* encodedPkt)}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{Interface SCPPTranscoder \{}
+\DoxyCodeLine{    -\/ encoder}
+\DoxyCodeLine{    -\/ decoder }
+\DoxyCodeLine{}
+\DoxyCodeLine{    }
+\DoxyCodeLine{    + transcode(AVPacket* encodedPkt)}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{SCPPInput -\/-\/> SCPPVideoInput}
+\DoxyCodeLine{SCPPInput -\/> SCPPAudioInput}
+
+\end{DoxyCode}
+ 

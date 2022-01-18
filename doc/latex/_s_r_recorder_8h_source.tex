@@ -1,0 +1,103 @@
+\hypertarget{_s_r_recorder_8h_source}{}\doxysection{SRRecorder.\+h}
+\label{_s_r_recorder_8h_source}\index{/Users/giuliocarota/CLionProjects/screenreclib/include/SRRecorder.h@{/Users/giuliocarota/CLionProjects/screenreclib/include/SRRecorder.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by Giulio Carota on 16/01/22.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef SCREENRECLIB\_SRRECORDER\_H}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define SCREENRECLIB\_SRRECORDER\_H}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include "{}SRTools.h"{}}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <transcoding/SREncoder.h>}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <muxing/SRMediaOutput.h>}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <transcoding/SRVideoFilter.h>}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include "{}demuxing/SRVideoInput.h"{}}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include "{}demuxing/SRAudioInput.h"{}}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#include "{}transcoding/SRDecoder.h"{}}}
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#include "{}transcoding/SRAudioFilter.h"{}}}
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#include <shared\_mutex>}}
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#ifdef \_\_APPLE\_\_}}
+\DoxyCodeLine{19 \textcolor{preprocessor}{    \#define VIDEO\_SRC "{}avfoundation"{}}}
+\DoxyCodeLine{20 \textcolor{preprocessor}{    \#define VIDEO\_URL "{}1:none"{}}}
+\DoxyCodeLine{21 \textcolor{preprocessor}{    \#define VIDEO\_FPS 30}}
+\DoxyCodeLine{22 \textcolor{preprocessor}{    \#define VIDEO\_CODEC AV\_CODEC\_ID\_MPEG4}}
+\DoxyCodeLine{23 \textcolor{preprocessor}{    \#define CODEC\_NULL AV\_CODEC\_ID\_NONE}}
+\DoxyCodeLine{24 }
+\DoxyCodeLine{25 \textcolor{preprocessor}{    \#define AUDIO\_SRC "{}avfoundation"{}}}
+\DoxyCodeLine{26 \textcolor{preprocessor}{    \#define AUDIO\_URL "{}none:1"{}}}
+\DoxyCodeLine{27 \textcolor{preprocessor}{    \#define AUDIO\_CODEC AV\_CODEC\_ID\_AAC}}
+\DoxyCodeLine{28 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{29 }
+\DoxyCodeLine{30 \textcolor{preprocessor}{\#ifdef \_WIN32}}
+\DoxyCodeLine{31 \textcolor{preprocessor}{    \#define VIDEO\_SRC ("{}gdigrab"{}})}
+\DoxyCodeLine{32 \textcolor{preprocessor}{    \#define VIDEO\_URL ("{}desktop"{}})}
+\DoxyCodeLine{33 \textcolor{preprocessor}{    \#define VIDEO\_FPS 30}}
+\DoxyCodeLine{34 \textcolor{preprocessor}{    \#define VIDEO\_CODEC AV\_CODEC\_ID\_MPEG4}}
+\DoxyCodeLine{35 \textcolor{preprocessor}{    \#define CODEC\_NULL AV\_CODEC\_ID\_NONE}}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37 \textcolor{preprocessor}{    \#define AUDIO\_SRC ("{}dshow"{}})}
+\DoxyCodeLine{38 \textcolor{preprocessor}{    \#define AUDIO\_URL ("{}audio=Microfono (Realtek High Definition Audio)"{}})}
+\DoxyCodeLine{39 \textcolor{preprocessor}{    \#define AUDIO\_CODEC AV\_CODEC\_ID\_AAC}}
+\DoxyCodeLine{40 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{41 }
+\DoxyCodeLine{42 }
+\DoxyCodeLine{43 \textcolor{keyword}{class }\mbox{\hyperlink{class_s_r_recorder}{SRRecorder}} \{}
+\DoxyCodeLine{44 \textcolor{keyword}{private}:}
+\DoxyCodeLine{45     \textcolor{comment}{/*pointers for holding initialized units*/}}
+\DoxyCodeLine{46     \textcolor{comment}{/*demuxer*/}}
+\DoxyCodeLine{47     \mbox{\hyperlink{class_s_r_video_input}{SRVideoInput}} videoInput;}
+\DoxyCodeLine{48     \mbox{\hyperlink{class_s_r_audio_input}{SRAudioInput}} audioInput;}
+\DoxyCodeLine{49     \textcolor{comment}{/*transcoding*/}}
+\DoxyCodeLine{50     \mbox{\hyperlink{class_s_r_encoder}{SREncoder}} videoEncoder;}
+\DoxyCodeLine{51     \mbox{\hyperlink{class_s_r_decoder}{SRDecoder}} videoDecoder;}
+\DoxyCodeLine{52     \mbox{\hyperlink{class_s_r_video_filter}{SRVideoFilter}} videoFilter;}
+\DoxyCodeLine{53     \mbox{\hyperlink{class_s_r_audio_filter}{SRAudioFilter}} audioFilter;}
+\DoxyCodeLine{54     \mbox{\hyperlink{class_s_r_encoder}{SREncoder}} audioEncoder;}
+\DoxyCodeLine{55     \mbox{\hyperlink{class_s_r_decoder}{SRDecoder}} audioDecoder;}
+\DoxyCodeLine{56     \textcolor{comment}{//SRVideoFilter videoFilter;}}
+\DoxyCodeLine{57     \textcolor{comment}{/*muxing*/}}
+\DoxyCodeLine{58     \mbox{\hyperlink{class_s_r_media_output}{SRMediaOutput}} outputFile;}
+\DoxyCodeLine{59     \mbox{\hyperlink{struct_a}{SROutputSettings}} outputSettings\{\};}
+\DoxyCodeLine{60 }
+\DoxyCodeLine{61     \textcolor{comment}{/*the configuration is created by the main app and passed through the constructor*/}}
+\DoxyCodeLine{62     \mbox{\hyperlink{struct_b}{SRConfiguration}} configuration\{\};}
+\DoxyCodeLine{63 }
+\DoxyCodeLine{64     thread videoThread;}
+\DoxyCodeLine{65     thread audioThread;}
+\DoxyCodeLine{66 }
+\DoxyCodeLine{67     \textcolor{comment}{/*condition variables for threads*/}}
+\DoxyCodeLine{68     \textcolor{keywordtype}{bool} capture\_switch;}
+\DoxyCodeLine{69     \textcolor{keywordtype}{bool} kill\_switch\{\};}
+\DoxyCodeLine{70     shared\_mutex r\_mutex;}
+\DoxyCodeLine{71 }
+\DoxyCodeLine{72 }
+\DoxyCodeLine{73     \textcolor{comment}{/*the parser analyzes configurations and throws exception if it is wrong*/}}
+\DoxyCodeLine{74 }
+\DoxyCodeLine{75     \textcolor{keywordtype}{void} parseConfiguration();}
+\DoxyCodeLine{76 }
+\DoxyCodeLine{77 }
+\DoxyCodeLine{78 }
+\DoxyCodeLine{79     \textcolor{comment}{/*thread functions*/}}
+\DoxyCodeLine{80     \textcolor{keywordtype}{void} videoLoop();}
+\DoxyCodeLine{81     \textcolor{keywordtype}{void} audioLoop();}
+\DoxyCodeLine{82 }
+\DoxyCodeLine{83 \textcolor{keyword}{public}:}
+\DoxyCodeLine{84     \mbox{\hyperlink{class_s_r_recorder}{SRRecorder}}(\mbox{\hyperlink{struct_b}{SRConfiguration}} configuration);}
+\DoxyCodeLine{85     \textcolor{keywordtype}{void} initCapture();}
+\DoxyCodeLine{86     \textcolor{comment}{/*simplest user API*/}}
+\DoxyCodeLine{87     \textcolor{keywordtype}{void} startCapture();}
+\DoxyCodeLine{88     \textcolor{keywordtype}{void} stopCaputure();}
+\DoxyCodeLine{89     \textcolor{keywordtype}{void} pauseCapture();}
+\DoxyCodeLine{90     \textcolor{keywordtype}{void} resumeCapture();}
+\DoxyCodeLine{91 }
+\DoxyCodeLine{92      \mbox{\hyperlink{class_s_r_recorder}{\string~SRRecorder}}();}
+\DoxyCodeLine{93 \};}
+\DoxyCodeLine{94 }
+\DoxyCodeLine{95 }
+\DoxyCodeLine{96 }
+\DoxyCodeLine{97 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//SCREENRECLIB\_SRRECORDER\_H}}
+
+\end{DoxyCode}

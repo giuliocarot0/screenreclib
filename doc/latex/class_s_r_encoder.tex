@@ -1,0 +1,30 @@
+\hypertarget{class_s_r_encoder}{}\doxysection{SREncoder Class Reference}
+\label{class_s_r_encoder}\index{SREncoder@{SREncoder}}
+
+
+{\ttfamily \#include $<$SREncoder.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_s_r_encoder_ac0a6a96ab1a2766131257cdc1fd6d997}\label{class_s_r_encoder_ac0a6a96ab1a2766131257cdc1fd6d997}} 
+void {\bfseries set\+Encoder\+Context} (AVCodec\+Context $\ast$encoder\+\_\+context)
+\item 
+\mbox{\Hypertarget{class_s_r_encoder_adba74ca0c932a2af164500d575eaf472}\label{class_s_r_encoder_adba74ca0c932a2af164500d575eaf472}} 
+AVCodec\+Context $\ast$ {\bfseries get\+Encoder\+Context} ()
+\item 
+\mbox{\Hypertarget{class_s_r_encoder_a63acae29187371421e9df4812e5a8bb4}\label{class_s_r_encoder_a63acae29187371421e9df4812e5a8bb4}} 
+int {\bfseries encode\+Frame} (AVFrame $\ast$frame)
+\item 
+\mbox{\Hypertarget{class_s_r_encoder_a12a619b7f61a39430d30c3a188fbb857}\label{class_s_r_encoder_a12a619b7f61a39430d30c3a188fbb857}} 
+int {\bfseries get\+Encoded\+Packet} (AVPacket $\ast$packet)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+REMEMBER!!! both video and audio transcoders need to implement their own rescaling procedure. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/giuliocarota/\+CLion\+Projects/screenreclib/include/transcoding/SREncoder.\+h\item 
+/\+Users/giuliocarota/\+CLion\+Projects/screenreclib/lib/SREncoder.\+cpp\end{DoxyCompactItemize}

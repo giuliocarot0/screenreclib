@@ -1,0 +1,33 @@
+\hypertarget{_s_r_encoder_8h_source}{}\doxysection{SREncoder.\+h}
+\label{_s_r_encoder_8h_source}\index{/Users/giuliocarota/CLionProjects/screenreclib/include/transcoding/SREncoder.h@{/Users/giuliocarota/CLionProjects/screenreclib/include/transcoding/SREncoder.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by Giulio Carota on 17/10/21.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef SCREENRECLIB\_SRENCODER\_H}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define SCREENRECLIB\_SRENCODER\_H}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}SRTools.h"{}}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{14 \textcolor{keyword}{class }\mbox{\hyperlink{class_s_r_encoder}{SREncoder}} \{}
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16 \textcolor{keyword}{private}:}
+\DoxyCodeLine{17     AVCodecContext* encoder\_context;}
+\DoxyCodeLine{18 }
+\DoxyCodeLine{19 \textcolor{keyword}{public}:}
+\DoxyCodeLine{20     \mbox{\hyperlink{class_s_r_encoder}{SREncoder}}():encoder\_context(\textcolor{keyword}{nullptr})\{\};}
+\DoxyCodeLine{21     \textcolor{keywordtype}{void} setEncoderContext(AVCodecContext *encoder\_context);}
+\DoxyCodeLine{22     AVCodecContext* getEncoderContext();}
+\DoxyCodeLine{23     \textcolor{comment}{//receives a rescaled frame from transcoder class eventually}}
+\DoxyCodeLine{24     \textcolor{keywordtype}{int} encodeFrame(AVFrame* frame);}
+\DoxyCodeLine{25     \textcolor{keywordtype}{int} getEncodedPacket(AVPacket* packet);}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27 \};}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{29 }
+\DoxyCodeLine{30 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{31 \textcolor{comment}{//SCREENRECLIB\_SRENCODER\_H}}
+
+\end{DoxyCode}

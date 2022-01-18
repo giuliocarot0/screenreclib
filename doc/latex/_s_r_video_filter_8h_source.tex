@@ -1,0 +1,57 @@
+\hypertarget{_s_r_video_filter_8h_source}{}\doxysection{SRVideo\+Filter.\+h}
+\label{_s_r_video_filter_8h_source}\index{/Users/giuliocarota/CLionProjects/screenreclib/include/transcoding/SRVideoFilter.h@{/Users/giuliocarota/CLionProjects/screenreclib/include/transcoding/SRVideoFilter.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by Giulio Carota on 12/01/22.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef SCREENRECLIB\_SRVIDEOFILTER\_H}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define SCREENRECLIB\_SRVIDEOFILTER\_H}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 }
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include "{}SRTools.h"{}}}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{11 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{structa}{a}}\{}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13     AVFilterInOut *outputs;}
+\DoxyCodeLine{14     AVFilterInOut *inputs;}
+\DoxyCodeLine{15     AVFilterGraph *graph;}
+\DoxyCodeLine{16     AVFilterContext *src\_ctx;}
+\DoxyCodeLine{17     AVFilterContext *sink\_ctx;}
+\DoxyCodeLine{18 \}\mbox{\hyperlink{structa}{cropperdata\_t}};}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20 }
+\DoxyCodeLine{21 }
+\DoxyCodeLine{22 \textcolor{keyword}{class }\mbox{\hyperlink{class_s_r_video_filter}{SRVideoFilter}} \{}
+\DoxyCodeLine{23 \textcolor{keyword}{private}:}
+\DoxyCodeLine{24     \textcolor{keywordtype}{bool} cropper\_enabled\{\};}
+\DoxyCodeLine{25     \mbox{\hyperlink{structa}{cropperdata\_t}} cropfilter\{\};}
+\DoxyCodeLine{26     \mbox{\hyperlink{struct_a}{SROutputSettings}} settings\{\};}
+\DoxyCodeLine{27     SwsContext* rescaling\_context;}
+\DoxyCodeLine{28     SwsContext* rescaling\_context2\{\};}
+\DoxyCodeLine{29 }
+\DoxyCodeLine{30     AVFrame* scaled\_frame;}
+\DoxyCodeLine{31     AVFrame* cropped\_frame;}
+\DoxyCodeLine{32     AVFrame* returned\_frame\{\};}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34     AVCodecContext *encoder;}
+\DoxyCodeLine{35     AVCodecContext *decoder;}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37 }
+\DoxyCodeLine{38 }
+\DoxyCodeLine{39 \textcolor{keyword}{public}:}
+\DoxyCodeLine{40     \mbox{\hyperlink{class_s_r_video_filter}{SRVideoFilter}}(): encoder(\textcolor{keyword}{nullptr}), decoder(\textcolor{keyword}{nullptr}),  rescaling\_context(\textcolor{keyword}{nullptr}),scaled\_frame(}
+\DoxyCodeLine{41             \textcolor{keyword}{nullptr}), cropped\_frame(\textcolor{keyword}{nullptr})\{\};}
+\DoxyCodeLine{42     \textcolor{keywordtype}{void} set(AVCodecContext *v\_encoder, AVCodecContext *v\_decoder, \mbox{\hyperlink{struct_a}{SROutputSettings}} v\_settings);}
+\DoxyCodeLine{43     \textcolor{keywordtype}{void} enableBasic();}
+\DoxyCodeLine{44     \textcolor{keywordtype}{void} enableCropper();}
+\DoxyCodeLine{45     AVFrame * filterFrame(AVFrame* input\_frame);}
+\DoxyCodeLine{46 }
+\DoxyCodeLine{47     \textcolor{keyword}{virtual} \mbox{\hyperlink{class_s_r_video_filter}{\string~SRVideoFilter}}();}
+\DoxyCodeLine{48 \};}
+\DoxyCodeLine{49 }
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//SCREENRECLIB\_SRVIDEOFILTER\_H}}
+
+\end{DoxyCode}

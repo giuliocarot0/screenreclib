@@ -1,0 +1,38 @@
+\hypertarget{_s_r_input_8h_source}{}\doxysection{SRInput.\+h}
+\label{_s_r_input_8h_source}\index{/Users/giuliocarota/CLionProjects/screenreclib/include/demuxing/SRInput.h@{/Users/giuliocarota/CLionProjects/screenreclib/include/demuxing/SRInput.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by giuli on 28/12/2021.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef SCREENRECLIB\_SRINPUT\_H}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define SCREENRECLIB\_SRINPUT\_H}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}SRTools.h"{}}}
+\DoxyCodeLine{9 \textcolor{comment}{//todo enable shared pointer on inCodecContext}}
+\DoxyCodeLine{10 \textcolor{keyword}{class }\mbox{\hyperlink{class_s_r_input}{SRInput}} \{}
+\DoxyCodeLine{11     \textcolor{keyword}{protected}:}
+\DoxyCodeLine{12         \textcolor{keywordtype}{long} \textcolor{keywordtype}{long} \textcolor{keywordtype}{int} first\_pts; \textcolor{comment}{/* for PTS normalization*/}}
+\DoxyCodeLine{13         \textcolor{keywordtype}{char}* device\_src;}
+\DoxyCodeLine{14         \textcolor{keywordtype}{char}* device\_url;}
+\DoxyCodeLine{15         AVDictionary *options;}
+\DoxyCodeLine{16         \textcolor{keywordtype}{int} streamIndex;}
+\DoxyCodeLine{17         AVFormatContext* inFormatContext;}
+\DoxyCodeLine{18         AVCodecContext *inCodecContext;}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20     \textcolor{keyword}{public}:}
+\DoxyCodeLine{21         \mbox{\hyperlink{class_s_r_input_af58af0322317ead55324cf41e8c9ead2}{SRInput}}();}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23         \textcolor{keyword}{virtual} AVFormatContext* open() = 0;}
+\DoxyCodeLine{24         \textcolor{keyword}{virtual} \mbox{\hyperlink{class_s_r_input_a1af0904e4e0d5fa05ff410eceb255257}{\string~SRInput}}();}
+\DoxyCodeLine{25         AVCodecContext *getCodecContext() \textcolor{keyword}{const};}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27     \textcolor{keywordtype}{int} \mbox{\hyperlink{class_s_r_input_ac43395cca60b93b0f4a0c14078adc216}{readPacket}}(AVPacket* read\_packet, \textcolor{keywordtype}{long} \textcolor{keywordtype}{long} \textcolor{keywordtype}{int} pts\_offset);}
+\DoxyCodeLine{28 \};}
+\DoxyCodeLine{29 }
+\DoxyCodeLine{30 }
+\DoxyCodeLine{31 }
+\DoxyCodeLine{32 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//SCREENRECLIB\_SRINPUT\_H}}
+
+\end{DoxyCode}

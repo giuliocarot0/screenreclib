@@ -1,0 +1,98 @@
+\hypertarget{class_s_r_input}{}\doxysection{SRInput Class Reference}
+\label{class_s_r_input}\index{SRInput@{SRInput}}
+Inheritance diagram for SRInput\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_s_r_input}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_s_r_input_af58af0322317ead55324cf41e8c9ead2}{SRInput}} ()
+\item 
+virtual AVFormat\+Context $\ast$ \mbox{\hyperlink{class_s_r_input_a2f35c66bd1eaf7b6968aaaa5dca7bfc9}{open}} ()=0
+\item 
+virtual \mbox{\hyperlink{class_s_r_input_a1af0904e4e0d5fa05ff410eceb255257}{$\sim$\+SRInput}} ()
+\item 
+\mbox{\Hypertarget{class_s_r_input_a0a19ae468d6e7c3373d78fb1d415335b}\label{class_s_r_input_a0a19ae468d6e7c3373d78fb1d415335b}} 
+AVCodec\+Context $\ast$ {\bfseries get\+Codec\+Context} () const
+\item 
+int \mbox{\hyperlink{class_s_r_input_ac43395cca60b93b0f4a0c14078adc216}{read\+Packet}} (AVPacket $\ast$read\+\_\+packet, long long int pts\+\_\+offset)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_s_r_input_a778bbacc3534076d83d8ba054bf369ef}\label{class_s_r_input_a778bbacc3534076d83d8ba054bf369ef}} 
+long long int {\bfseries first\+\_\+pts}
+\item 
+\mbox{\Hypertarget{class_s_r_input_ad23894bf48d8f31975df584f6353331e}\label{class_s_r_input_ad23894bf48d8f31975df584f6353331e}} 
+char $\ast$ {\bfseries device\+\_\+src}
+\item 
+\mbox{\Hypertarget{class_s_r_input_a29ad595e8689523513402d1da4fa1500}\label{class_s_r_input_a29ad595e8689523513402d1da4fa1500}} 
+char $\ast$ {\bfseries device\+\_\+url}
+\item 
+\mbox{\Hypertarget{class_s_r_input_a1f1f21415d4424f4ad4155d24c4c283e}\label{class_s_r_input_a1f1f21415d4424f4ad4155d24c4c283e}} 
+AVDictionary $\ast$ {\bfseries options}
+\item 
+\mbox{\Hypertarget{class_s_r_input_a0fd9577740ae1870eb4be242ede19d54}\label{class_s_r_input_a0fd9577740ae1870eb4be242ede19d54}} 
+int {\bfseries stream\+Index}
+\item 
+\mbox{\Hypertarget{class_s_r_input_a70a026e7c0b47c1bd359f1a85652617c}\label{class_s_r_input_a70a026e7c0b47c1bd359f1a85652617c}} 
+AVFormat\+Context $\ast$ {\bfseries in\+Format\+Context}
+\item 
+\mbox{\Hypertarget{class_s_r_input_a2829e27a655a7544ac70000a939a5d16}\label{class_s_r_input_a2829e27a655a7544ac70000a939a5d16}} 
+AVCodec\+Context $\ast$ {\bfseries in\+Codec\+Context}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_s_r_input_af58af0322317ead55324cf41e8c9ead2}\label{class_s_r_input_af58af0322317ead55324cf41e8c9ead2}} 
+\index{SRInput@{SRInput}!SRInput@{SRInput}}
+\index{SRInput@{SRInput}!SRInput@{SRInput}}
+\doxysubsubsection{\texorpdfstring{SRInput()}{SRInput()}}
+{\footnotesize\ttfamily SRInput\+::\+SRInput (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Default \mbox{\hyperlink{class_s_r_input}{SRInput}} Constructor Instantiate a default object. \mbox{\Hypertarget{class_s_r_input_a1af0904e4e0d5fa05ff410eceb255257}\label{class_s_r_input_a1af0904e4e0d5fa05ff410eceb255257}} 
+\index{SRInput@{SRInput}!````~SRInput@{$\sim$SRInput}}
+\index{````~SRInput@{$\sim$SRInput}!SRInput@{SRInput}}
+\doxysubsubsection{\texorpdfstring{$\sim$SRInput()}{~SRInput()}}
+{\footnotesize\ttfamily SRInput\+::$\sim$\+SRInput (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+\mbox{\hyperlink{class_s_r_input}{SRInput}} destructor. The destructor frees all the pointers contained in the object 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_s_r_input_a2f35c66bd1eaf7b6968aaaa5dca7bfc9}\label{class_s_r_input_a2f35c66bd1eaf7b6968aaaa5dca7bfc9}} 
+\index{SRInput@{SRInput}!open@{open}}
+\index{open@{open}!SRInput@{SRInput}}
+\doxysubsubsection{\texorpdfstring{open()}{open()}}
+{\footnotesize\ttfamily virtual AVFormat\+Context $\ast$ SRInput\+::open (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{class_s_r_audio_input_a765ad291f0ffb4352a121b76b54b49a8}{SRAudio\+Input}}, and \mbox{\hyperlink{class_s_r_video_input_a89d8be11627bee46ace0da2f53f77ba1}{SRVideo\+Input}}.
+
+\mbox{\Hypertarget{class_s_r_input_ac43395cca60b93b0f4a0c14078adc216}\label{class_s_r_input_ac43395cca60b93b0f4a0c14078adc216}} 
+\index{SRInput@{SRInput}!readPacket@{readPacket}}
+\index{readPacket@{readPacket}!SRInput@{SRInput}}
+\doxysubsubsection{\texorpdfstring{readPacket()}{readPacket()}}
+{\footnotesize\ttfamily int SRInput\+::read\+Packet (\begin{DoxyParamCaption}\item[{AVPacket $\ast$}]{read\+\_\+packet,  }\item[{long long int}]{pts\+\_\+offset }\end{DoxyParamCaption})}
+
+This method reads data from the device buffer and reference a packet with them.
+
+
+\begin{DoxyParams}{Parameters}
+{\em read\+\_\+packet} & An initialized packet that will be referenced with read data \\
+\hline
+{\em pts\+\_\+offset} & \mbox{\hyperlink{struct_a}{A}} call with pts\+\_\+offset \texorpdfstring{$>$}{>} 0 will add a pts\+\_\+offset to the internal offset \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{struct_a}{A}} negative value if the packet cannot be read, any positive value if the packet successfully read. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/giuliocarota/\+CLion\+Projects/screenreclib/include/demuxing/SRInput.\+h\item 
+/\+Users/giuliocarota/\+CLion\+Projects/screenreclib/lib/SRInput.\+cpp\end{DoxyCompactItemize}

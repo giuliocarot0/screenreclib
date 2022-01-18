@@ -1,0 +1,72 @@
+\hypertarget{class_s_r_video_input}{}\doxysection{SRVideo\+Input Class Reference}
+\label{class_s_r_video_input}\index{SRVideoInput@{SRVideoInput}}
+Inheritance diagram for SRVideo\+Input\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_s_r_video_input}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_s_r_video_input_adef598ba633075dd213bdfa80593dbe4}{set}} (char $\ast$device\+Src, char $\ast$device\+Url, \mbox{\hyperlink{struct_s}{SRResolution}} \+\_\+res, int \+\_\+fps)
+\item 
+AVFormat\+Context $\ast$ \mbox{\hyperlink{class_s_r_video_input_a89d8be11627bee46ace0da2f53f77ba1}{open}} () override
+\item 
+\mbox{\hyperlink{struct_s}{SRResolution}} \mbox{\hyperlink{class_s_r_video_input_a64c3a28a05a445057fbbeb3f64205db6}{get\+Input\+Resolution}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_s_r_video_input_a64c3a28a05a445057fbbeb3f64205db6}\label{class_s_r_video_input_a64c3a28a05a445057fbbeb3f64205db6}} 
+\index{SRVideoInput@{SRVideoInput}!getInputResolution@{getInputResolution}}
+\index{getInputResolution@{getInputResolution}!SRVideoInput@{SRVideoInput}}
+\doxysubsubsection{\texorpdfstring{getInputResolution()}{getInputResolution()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_s}{SRResolution}} SRVideo\+Input\+::get\+Input\+Resolution (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+If available, the methods retrieves the device resolution and returns it
+
+\begin{DoxyReturn}{Returns}
+a SRResolution data structure containing the input resolution 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_s_r_video_input_a89d8be11627bee46ace0da2f53f77ba1}\label{class_s_r_video_input_a89d8be11627bee46ace0da2f53f77ba1}} 
+\index{SRVideoInput@{SRVideoInput}!open@{open}}
+\index{open@{open}!SRVideoInput@{SRVideoInput}}
+\doxysubsubsection{\texorpdfstring{open()}{open()}}
+{\footnotesize\ttfamily AVFormat\+Context $\ast$ SRVideo\+Input\+::open (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+The method opens the device, defines a codec context for decoding the video stream and starts putting data in the device buffer.
+
+\begin{DoxyReturn}{Returns}
+the device context 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_s_r_input}{SRInput}}.
+
+\mbox{\Hypertarget{class_s_r_video_input_adef598ba633075dd213bdfa80593dbe4}\label{class_s_r_video_input_adef598ba633075dd213bdfa80593dbe4}} 
+\index{SRVideoInput@{SRVideoInput}!set@{set}}
+\index{set@{set}!SRVideoInput@{SRVideoInput}}
+\doxysubsubsection{\texorpdfstring{set()}{set()}}
+{\footnotesize\ttfamily void SRVideo\+Input\+::set (\begin{DoxyParamCaption}\item[{char $\ast$}]{video\+\_\+src,  }\item[{char $\ast$}]{video\+\_\+url,  }\item[{\mbox{\hyperlink{struct_s}{SRResolution}}}]{\+\_\+res,  }\item[{int}]{\+\_\+fps }\end{DoxyParamCaption})}
+
+The set method allows to configure the default \mbox{\hyperlink{class_s_r_video_input}{SRVideo\+Input}} device by setting the following parameters
+
+
+\begin{DoxyParams}{Parameters}
+{\em video\+\_\+src} & indicates the source device \\
+\hline
+{\em video\+\_\+url} & indicates the device internal path \\
+\hline
+{\em \+\_\+res} & can be used to set a precise device resolution. Use the macro AUTO\+\_\+\+RESOLUTION to set the maximum supported resolution \\
+\hline
+{\em \+\_\+fps} & set the requested frame rate, if not supported the capture will have an automatic frame rate selected by the device \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/giuliocarota/\+CLion\+Projects/screenreclib/include/demuxing/SRVideo\+Input.\+h\item 
+/\+Users/giuliocarota/\+CLion\+Projects/screenreclib/lib/SRVideo\+Input.\+cpp\end{DoxyCompactItemize}
