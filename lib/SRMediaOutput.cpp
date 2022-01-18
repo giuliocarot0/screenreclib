@@ -196,6 +196,7 @@ AVCodecContext *SRMediaOutput::getAudioCodecContext() {
 
 int SRMediaOutput::writePacket(AVPacket *packet, media_type type) {
     int ret;
+    std::unique_lock w_lock(w_mutex);
     if(type == 0) { //video
         packet->stream_index = videoStreamID;
         av_packet_rescale_ts(packet, videoCtx->time_base, outputCtx->streams[videoStreamID]->time_base);

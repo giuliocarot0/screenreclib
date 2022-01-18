@@ -5,7 +5,7 @@ int main(){
 
 
     SRConfiguration configuration;
-    configuration.enable_audio = false;
+    configuration.enable_audio = true;
     configuration.enable_video = true;
     configuration.filename = filename;
     configuration.enable_crop = false;

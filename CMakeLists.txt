@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.20)
 project(screenreclib)
 
 set(CMAKE_CXX_STANDARD 17)
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
 
 if(WIN32)
     link_directories(C:\\Users\\aless\\Desktop\\ffmpeg-4.4-full_build-shared\\ffmpeg-4.4-full_build-shared\\lib)

@@ -87,20 +87,35 @@ void SRRecorder::audioLoop() {
 
     static int64_t pts = 0;
     long long int last = 0;
-    int secondi = 5;
-    printf("[SRlib] recording audio\n");
-    while (last/22000 < secondi*2-1/*record for five sec*/) {
 
-        if (audioInput.readPacket(inPacket,0) >= 0) {
+    std::shared_lock<std::shared_mutex> r_lock(r_mutex, std::defer_lock);
+    bool last_state;
+    long long int pause_pts = 0;
+    long long int last_pts = 0;
+    long long int pause_dur = 0;
 
-            if(capture_switch) {
-                last = inPacket->pts;
-                printf("[SRlib][AudioThread] recording\n");
+    printf("[SRlib][AudioThread] started\n");
+
+    while(true) {
+
+        if(r_lock.try_lock()){
+            last_state = capture_switch;
+            if(kill_switch)
+                break;
+            r_lock.unlock();
+        }
+        /* set an additive offset to readPacket*/
+        if(!last_state)
+            pause_dur = pause_pts - last_pts;
+        else pause_dur = 0;
+
+        if (audioInput.readPacket(inPacket,pause_dur) >= 0) {
+            if(last_state) {
+                last_pts = inPacket->pts;
             }
             else {
-                printf("[SRlib][AudioThread] paused\n");
+                pause_pts = inPacket->pts;
                 continue;
-
             }
 
             audioDecoder.decodePacket(inPacket);

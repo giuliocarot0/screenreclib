@@ -22,8 +22,8 @@
     #define VIDEO_CODEC AV_CODEC_ID_MPEG4
     #define CODEC_NULL AV_CODEC_ID_NONE
 
-    #define AUDIO_SRC ""
-    #define AUDIO_URL ""
+    #define AUDIO_SRC "avfoundation"
+    #define AUDIO_URL "none:1"
     #define AUDIO_CODEC AV_CODEC_ID_AAC
 #endif
 
