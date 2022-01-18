@@ -73,8 +73,7 @@ AVFormatContext* SRVideoInput::open(){
     inVInputFormat = av_find_input_format(device_src);
     value = avformat_open_input(&inFormatContext, device_url, inVInputFormat, &options);
     if (value != 0) {
-        std::string msg = (std::string)"Cannot open selected device (" + device_url + ")";
-        throw openSourceException(msg.c_str());
+        throw openSourceException("Cannot open selected video device");
     }
 
 
@@ -121,7 +120,9 @@ SRResolution SRVideoInput::getInputResolution() {
     if(inCodecContext!=nullptr) {
         return {inCodecContext->width, inCodecContext->height};
     }
-    else return {0,0}; //todo Exception device not open
+    else {
+        throw DeviceNotOpenException("Cannot open the device.");
+    };
 }
 
 

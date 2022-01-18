@@ -11,7 +11,7 @@ int SRDecoder::getDecodedFrame(AVFrame* frame) {
         ret = avcodec_receive_frame(decoder_context, frame);
         if (ret < 0 && ret != AVERROR(EAGAIN) && ret != AVERROR_EOF) {
             fprintf(stderr, "Error during decoding\n");
-            exit(1); //todo: implement decoder_exception
+            throw DecoderException ("Error during decoding");
         } else
             return ret;
     }

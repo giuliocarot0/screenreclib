@@ -13,7 +13,7 @@ void SREncoder::setEncoderContext(AVCodecContext *encoderContext) {
 
 int SREncoder::encodeFrame(AVFrame *frame) {
     int ret = avcodec_send_frame(encoder_context, frame);
-    av_frame_unref(frame);
+    //av_frame_unref(frame);
     return ret;
 }
 
@@ -24,7 +24,7 @@ int SREncoder::getEncodedPacket(AVPacket* packet) {
         return ret;
     else if (ret < 0) {
         fprintf(stderr, "Error during encoding\n");
-        exit(1);
+        throw EncoderException ("Error during encoding");
     }
     return 0;
 }

@@ -8,8 +8,7 @@
 
 AVFrame* SRVideoFilter::filterFrame(AVFrame* input_frame) {
     if(scaled_frame == nullptr || encoder == nullptr || decoder == nullptr || rescaling_context == nullptr) {
-        //todo excepetion uninitialized filter 
-        return nullptr;
+        throw UninitializedFilterException("Audio filter not initialized");
     }
     int ret;
     //initializing scaleFrame
@@ -24,8 +23,7 @@ AVFrame* SRVideoFilter::filterFrame(AVFrame* input_frame) {
     if(cropper_enabled) {
         av_frame_ref(cropped_frame, input_frame);
         if (av_buffersrc_add_frame(cropfilter.src_ctx, cropped_frame) < 0) {
-            //todo cropperException
-            return nullptr;
+            throw CropperException("Error while enabling the video cropper");
         } else {
             ret = av_buffersink_get_frame(cropfilter.sink_ctx, cropped_frame);
             if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
@@ -47,8 +45,7 @@ AVFrame* SRVideoFilter::filterFrame(AVFrame* input_frame) {
 
 void SRVideoFilter::enableBasic() {
     if(encoder == nullptr || decoder == nullptr) {
-        //todo invalid filter parameters
-        return;
+        throw InvalidFilterParametersException("Found wrong parameters while enabling the basic video filter");
     }
     //input_frame = av_frame_alloc();
 
@@ -60,8 +57,7 @@ void SRVideoFilter::enableBasic() {
     auto *video_outbuf = (uint8_t*)av_malloc(nbytes*sizeof (uint8_t));
     if( video_outbuf == nullptr )
     {
-        cout<<"\nunable to allocate memory";
-        exit(1); //todo buffer allocation exception
+        throw BufferAllocationException("Unable to allocate memory");
     }
 
     int ret;
