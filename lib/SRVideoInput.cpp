@@ -34,9 +34,11 @@ void SRVideoInput::set(char *video_src, char *video_url, SRResolution res,int fp
         throw openSourceParameterException("Found capture_cursor value wrong while opening video input");
     }
 #endif
-    value = av_dict_set(&options, "framerate", s, 0);
-    if (value < 0) {
-        throw openSourceParameterException("Found framerate value wrong while opening video input");
+    if(fps > 0) {
+        value = av_dict_set(&options, "framerate", s, 0);
+        if (value < 0) {
+            throw openSourceParameterException("Found framerate value wrong while opening video input");
+        }
     }
     if(res.width != 0 && res.height != 0 ) {
         s[0] = '\0';
@@ -106,8 +108,11 @@ AVFormatContext* SRVideoInput::open(){
     inCodecContext = avcodec_alloc_context3(inVCodec);
 
     avcodec_parameters_to_context(inCodecContext, params);
-    inCodecContext->time_base = AVRational{1, fps};
-    inCodecContext->framerate = AVRational{fps,1};
+    AVRational r_fps;
+    if(fps>0) r_fps = {fps, 1};
+    else r_fps = AVRational{inFormatContext->streams[streamIndex]->r_frame_rate};
+    inCodecContext->framerate = AVRational{r_fps};
+    inCodecContext->time_base = AVRational{r_fps.den, r_fps.num};
     value = avcodec_open2(inCodecContext, inVCodec, nullptr);
     if (value < 0) {
         throw openAVCodecException("Cannot open the av codec.");
