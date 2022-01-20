@@ -15,11 +15,11 @@ int main(){
         SRRecorder recorder(configuration);
         /*before setting crop the recorder must be initialized to retrieve capabilities from the devices*/
         recorder.initCapture();
-        lock_thread_for(8);
+        lock_thread_for(2);
         recorder.startCapture();
-        lock_thread_for(4);
+        lock_thread_for(10);
         recorder.pauseCapture();
-        lock_thread_for(3);
+        lock_thread_for(1);
         recorder.startCapture();
         lock_thread_for(5);
         recorder.stopCaputure();
