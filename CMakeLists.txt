@@ -15,10 +15,11 @@ if(APPLE)
 endif()
 
 include_directories(include)
-add_executable(screenreclib main.cpp lib/SRDecoder.cpp include/transcoding/SRDecoder.h lib/SREncoder.cpp include/transcoding/SREncoder.h lib/SRMediaOutput.cpp include/muxing/SRMediaOutput.h lib/SRVideoInput.cpp include/demuxing/SRVideoInput.h lib/SRAudioInput.cpp include/demuxing/SRAudioInput.h include/SRTools.h lib/SRInput.cpp include/exceptions/SRExceptions.h lib/SRVideoFilter.cpp include/transcoding/SRVideoFilter.h include/transcoding/SRAudioFilter.h lib/SRAudioFilter.cpp lib/SRRecorder.cpp include/SRRecorder.h)
+link_directories(lib)
+add_executable(screenrec main.cpp)
 
 target_link_libraries(
-        screenreclib
+        screenrec
         avformat
         avutil
         avdevice
@@ -27,6 +28,8 @@ target_link_libraries(
         swscale
         #pthread
         swresample
+        screenreclib
+
 )
 
 
