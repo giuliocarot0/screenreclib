@@ -18,12 +18,12 @@
 #ifdef __APPLE__
     #define VIDEO_SRC "avfoundation"
     #define VIDEO_URL "1:none"
-    #define VIDEO_FPS 30
+    #define VIDEO_FPS -1 //automagical detection
     #define VIDEO_CODEC AV_CODEC_ID_MPEG4
     #define CODEC_NULL AV_CODEC_ID_NONE
 
     #define AUDIO_SRC "avfoundation"
-    #define AUDIO_URL "none:1"
+    #define AUDIO_URL "none:0"
     #define AUDIO_CODEC AV_CODEC_ID_AAC
 #endif
 
