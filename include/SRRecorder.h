@@ -23,7 +23,7 @@
     #define CODEC_NULL AV_CODEC_ID_NONE
 
     #define AUDIO_SRC "avfoundation"
-    #define AUDIO_URL "none:1"
+    #define AUDIO_URL "none:0"
     #define AUDIO_CODEC AV_CODEC_ID_AAC
 #endif
 
