@@ -6,6 +6,9 @@
 #include <transcoding/SRAudioFilter.h>
 
 
+/**
+ * The method initializes the fifo buffer used for audio transcoding
+ */
 int SRAudioFilter::init_fifo()
 {
     /* Create the FIFO buffer based on the specified output sample format. */
@@ -17,7 +20,11 @@ int SRAudioFilter::init_fifo()
     return 0;
 }
 
-
+/**
+ * The method adds data to the fifo buffer and reallocate the buffer in case of necessity
+ *
+ * @param frame_size indicates the number of samples added to the buffer
+ */
 int SRAudioFilter::add_samples_to_fifo(const int frame_size){
     int error;
     /* Make the FIFO as large as it needs to be to hold both,
@@ -34,7 +41,16 @@ int SRAudioFilter::add_samples_to_fifo(const int frame_size){
     return 0;
 }
 
-
+/**
+ * The method allocates as many pointers as there are audio channels.
+ * Each pointer will later point to the audio samples of the corresponding
+ * channels (although it may be NULL for interleaved formats).
+ *
+ * It also allocates memory for the samples of all channels in one consecutive
+ * block for convenience.
+ *
+ * @param frame_size indicates the number of samples added to the buffer
+ */
 int SRAudioFilter::initConvertedSamples(int frame_size){
     int error;
     /* Allocate as many pointers as there are audio channels.
@@ -116,6 +132,11 @@ void SRAudioFilter::set(AVCodecContext *v_encoder, AVCodecContext *v_decoder) {
     decoder=v_decoder;
 }
 
+
+/**
+ * SRAudioFilter destructor.
+ * The destructor frees all the pointers contained in the object
+ */
 SRAudioFilter::~SRAudioFilter() {
     swr_free(&resampling_context);
     av_frame_free(&scaled_frame);
