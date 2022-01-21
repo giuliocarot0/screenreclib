@@ -1,6 +1,7 @@
 #include "SRRecorder.h"
 
 int main(){
+    //todo: parse filename and append .mp4 to it, if null then uses default name
     char filename[512] = "filmato_di_prova.mp4";
 
 
