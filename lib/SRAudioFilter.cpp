@@ -52,18 +52,11 @@ int SRAudioFilter::add_samples_to_fifo(const int frame_size){
  * @param frame_size indicates the number of samples added to the buffer
  */
 int SRAudioFilter::initConvertedSamples(int frame_size){
-    int error;
-    /* Allocate as many pointers as there are audio channels.
-     * Each pointer will later point to the audio samples of the corresponding
-     * channels (although it may be NULL for interleaved formats).
-     */
     if (!(resampledData = (uint8_t **)calloc(encoder->channels,
                                                         sizeof(resampledData)))) {
         fprintf(stderr, "Could not allocate converted input sample pointers\n");
         return AVERROR(ENOMEM);
     }
-    /* Allocate memory for the samples of all channels in one consecutive
-     * block for convenience. */
     if (av_samples_alloc(resampledData, nullptr,
                          encoder->channels,
                          frame_size,
@@ -78,6 +71,10 @@ AVAudioFifo *SRAudioFilter::getFifo() const {
     return fifo;
 }
 
+/**
+ * The method initializes the AudioFilter allocating the resampling context and the frame used for filtering
+ *
+ */
 void SRAudioFilter::init() {
     if(encoder == nullptr || decoder == nullptr) {
         throw InvalidFilterParametersException("Found wrong parameters while enabling the audio filter");
@@ -106,6 +103,11 @@ void SRAudioFilter::init() {
     init_fifo();
 }
 
+/**
+ * The method applies the resampling to the frame and set all the parameters needed in the frame before the encoding of the frame
+ *
+ * @param inputFrame is the frame that needs to be filtered
+ */
 AVFrame *SRAudioFilter::filterFrame(AVFrame *inputFrame) {
     if(scaled_frame == nullptr || encoder == nullptr || decoder == nullptr || resampling_context == nullptr) {
         throw UninitializedFilterException("Audio filter not initialized");
@@ -127,6 +129,13 @@ AVFrame *SRAudioFilter::filterFrame(AVFrame *inputFrame) {
     return scaled_frame;
 }
 
+/**
+ * The set method allows to configure the default SRAudioFilter device by
+ * setting the following parameters
+ *
+ * @param v_encoder indicates the encoder
+ * @param v_decoder indicates the decoder
+ */
 void SRAudioFilter::set(AVCodecContext *v_encoder, AVCodecContext *v_decoder) {
     encoder=v_encoder;
     decoder=v_decoder;
