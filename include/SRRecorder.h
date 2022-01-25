@@ -25,9 +25,8 @@
     #define AUDIO_SRC "avfoundation"
     #define AUDIO_URL "none:0"
     #define AUDIO_CODEC AV_CODEC_ID_AAC
-#endif
 
-#ifdef _WIN32
+#elif _WIN32
     #define VIDEO_SRC ("gdigrab")
     #define VIDEO_URL ("desktop")
     #define VIDEO_FPS 30
@@ -37,9 +36,9 @@
     #define AUDIO_SRC ("dshow")
     #define AUDIO_URL ("audio=Microfono (Realtek High Definition Audio)")
     #define AUDIO_CODEC AV_CODEC_ID_AAC
-#endif
-#ifdef __UNIX__
-#define VIDEO_SRC "x11grab"
+
+#elif __LINUX__
+    #define VIDEO_SRC "x11grab"
     #define VIDEO_URL ":0.0+0,0"
     #define VIDEO_FPS 30
     #define VIDEO_CODEC AV_CODEC_ID_MPEG4
