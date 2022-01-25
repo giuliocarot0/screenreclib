@@ -38,14 +38,14 @@
     #define AUDIO_CODEC AV_CODEC_ID_AAC
 
 #elif __LINUX__
-    #define VIDEO_SRC "x11grab"
-    #define VIDEO_URL ":0.0+0,0"
+    #define VIDEO_SRC ("x11grab")
+    #define VIDEO_URL (":0.0+0,0")
     #define VIDEO_FPS 30
     #define VIDEO_CODEC AV_CODEC_ID_MPEG4
     #define CODEC_NULL AV_CODEC_ID_NONE
 
-    #define AUDIO_SRC "pulse"
-    #define AUDIO_URL "alsa_output.pci-0000_00_1b.0.analog-stereo.monitor"
+    #define AUDIO_SRC ("pulse")
+    #define AUDIO_URL ("alsa_output.pci-0000_00_1b.0.analog-stereo.monitor")
     #define AUDIO_CODEC AV_CODEC_ID_AAC
 #endif
 
