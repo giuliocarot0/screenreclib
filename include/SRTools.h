@@ -119,3 +119,13 @@ static void lock_thread_for(int sec){
     std::this_thread::sleep_for(std::chrono::milliseconds(sec*1000));
 }
 #endif //SCREENRECLIB_SRTOOLS_H
+
+static bool assertMP4(char* filename){
+    string temp(filename);
+    temp = temp.substr(temp.find_last_of('.'));
+    if(temp!=".mp4")
+        return false;
+    else
+        return true;
+
+}

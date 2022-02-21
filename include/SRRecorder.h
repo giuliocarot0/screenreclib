@@ -81,7 +81,7 @@ private:
 
     /*the parser analyzes configurations and throws exception if it is wrong*/
 
-    void parseConfiguration();
+    void parseConfiguration() const;
 
 
 
