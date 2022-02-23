@@ -38,6 +38,7 @@ private slots:
     void on_nav_btn_clicked();
     void on_start_btn_clicked();
     void on_stop_btn_clicked();
+    void on_pause_btn_clicked();
 
 private:
     QLabel *filename_label;

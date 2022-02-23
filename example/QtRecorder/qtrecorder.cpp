@@ -154,6 +154,8 @@ void QtRecorder::ready_to_record(){
     start_button->show();
     pause_button->show();
     stop_button->show();
+    pause_button->setEnabled(false);
+    stop_button->setEnabled(false);
 }
 
 void QtRecorder::on_nav_btn_clicked()
@@ -267,7 +269,8 @@ void QtRecorder::on_start_btn_clicked() {
     SRConfiguration config;
     config.enable_audio = rec_audio;
     config.enable_video = rec_video;
-    config.filename = "filename.mp4";
+    filename += ".mp4";
+    config.filename = filename.toStdString();
     config.enable_crop = crop;
     if(crop) {
         config.crop_info.dimension.height.den = 1;
@@ -284,6 +287,10 @@ void QtRecorder::on_start_btn_clicked() {
             recorder = new SRRecorder(config);
         recorder->initCapture();
         recorder->startCapture();
+        start_button->setEnabled(false);
+        pause_button->setEnabled(true);
+        stop_button->setEnabled(true);
+
     }catch(SRException &e_){
         fprintf(stderr,"[SRLib] Exception occured: %s", e_.what());
     }
@@ -294,11 +301,33 @@ void QtRecorder::on_start_btn_clicked() {
 void QtRecorder::on_stop_btn_clicked() {
     try {
         recorder->stopCaputure();
-
+        delete recorder;
+        recorder = nullptr;
+        start_button->setEnabled(true);
+        pause_button->setEnabled(false);
+        stop_button->setEnabled(false);
     }catch(SRException &e_){
         fprintf(stderr,"[SRLib] Exception occured: %s", e_.what());
     }
 
+}
+
+void QtRecorder::on_pause_btn_clicked() {
+    try {
+        stop_button->setEnabled(true);
+        start_button->setEnabled(false);
+        if(recorder->isRecording()){
+            pause_button->setText("RESUME CAPTURE");
+            recorder->pauseCapture();
+        }
+        else if(recorder->isPaused()){
+            pause_button->setText("PAUSE CAPTURE");
+            recorder->startCapture();
+        }
+
+    }catch (SRException &e_){
+        fprintf(stderr,"[SRLib] Exception occured: %s", e_.what());
+    }
 }
 
 
