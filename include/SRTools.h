@@ -118,7 +118,6 @@ static SROffset rescale_offset(SRResolution input, SROffsetRational rescaler){
 static void lock_thread_for(int sec){
     std::this_thread::sleep_for(std::chrono::milliseconds(sec*1000));
 }
-#endif //SCREENRECLIB_SRTOOLS_H
 
 static bool assertMP4(char* filename){
     string temp(filename);
@@ -127,5 +126,6 @@ static bool assertMP4(char* filename){
         return false;
     else
         return true;
-
 }
+#endif //SCREENRECLIB_SRTOOLS_H
+
