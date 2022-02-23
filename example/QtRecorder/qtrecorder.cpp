@@ -11,6 +11,7 @@ QtRecorder::QtRecorder(QWidget *parent)
     , size_y(0)
     , off_x(0)
     , off_y(0)
+    , recorder(nullptr)
     , rec_video(false)
     , rec_audio(false)
     , crop(false)
@@ -60,7 +61,7 @@ void QtRecorder::startWizard(){
    stop_button ->hide();
    filename_label->show();
    filename_box->show();
-   if(crop) crop_check->setText(crop_check->text() + " "+ QString::number(size_x) + ":" + QString::number(size_x) + "+(offset)" +  QString::number(off_x) + ":" + QString::number(off_y));
+   if(crop) crop_check->setText(crop_check->text() + " "+ QString::number(size_x) + ":" + QString::number(size_y) + "+(offset)" +  QString::number(off_x) + ":" + QString::number(off_y));
    screenshot_label->hide();
    if(rubberband!=nullptr) rubberband->hide();
    video_check->setChecked(rec_video);
@@ -126,8 +127,8 @@ void QtRecorder::mouseReleaseEvent(QMouseEvent *event)
     size_y = (qreal)rubberband->height() / screenshot_label->height();
 
     //compute the relative offset
-    off_x = 1 - rubberband->pos().x()/(qreal)screenshot_label->pos().x();
-    off_y = 1 - rubberband->pos().y()/(qreal)screenshot_label->pos().y();
+    off_x = abs((rubberband->pos().x()-(qreal)screenshot_label->pos().x())/(qreal)screenshot_label->width());
+    off_y = abs((rubberband->pos().y()-(qreal)screenshot_label->pos().y())/(qreal)screenshot_label->height());
     startWizard();
     // determine selection, for example using QRect::intersects()
     // and QRect::contains().
@@ -199,7 +200,7 @@ void QtRecorder::crop_procedure(){
     this->setWindowTitle("QtRecorder - select which area to capture");
 
     screenshot_label->setFixedSize(this->size()*0.95);
-    screenshot_label->setPixmap(qpx_pixmap.scaled(screenshot_label->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    screenshot_label->setPixmap(qpx_pixmap.scaled(screenshot_label->size(), Qt::KeepAspectRatioByExpanding));
     screenshot_label->show();
 
    // this->setWindowFlags(Qt::Widget | Qt::FramelessWindowHint);
@@ -259,6 +260,45 @@ void QtRecorder::on_lineEdit_textChanged(const QString &arg1)
         next_button->setEnabled(true);
     }
     else next_button->setEnabled(false);
+}
+
+void QtRecorder::on_start_btn_clicked() {
+    //instantiate the recorder
+    SRConfiguration config;
+    config.enable_audio = rec_audio;
+    config.enable_video = rec_video;
+    config.filename = "filename.mp4";
+    config.enable_crop = crop;
+    if(crop) {
+        config.crop_info.dimension.height.den = 1;
+        config.crop_info.dimension.height.num = (double)size_y;
+        config.crop_info.dimension.width.den = 1;
+        config.crop_info.dimension.width.num =(double)size_x;
+        config.crop_info.offset.x.den = 1;
+        config.crop_info.offset.x.num = (double)off_x;
+        config.crop_info.offset.y.den = 1;
+        config.crop_info.offset.y.num = (double)off_y;
+    }
+    try {
+        if (recorder == nullptr)
+            recorder = new SRRecorder(config);
+        recorder->initCapture();
+        recorder->startCapture();
+    }catch(SRException &e_){
+        fprintf(stderr,"[SRLib] Exception occured: %s", e_.what());
+    }
+
+
+}
+
+void QtRecorder::on_stop_btn_clicked() {
+    try {
+        recorder->stopCaputure();
+
+    }catch(SRException &e_){
+        fprintf(stderr,"[SRLib] Exception occured: %s", e_.what());
+    }
+
 }
 
 

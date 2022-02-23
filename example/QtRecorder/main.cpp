@@ -1,4 +1,4 @@
-#include "../../../../QTScreenRecorder/qtrecorder.h"
+#include "qtrecorder.h"
 
 #include <QApplication>
 #include <QLocale>

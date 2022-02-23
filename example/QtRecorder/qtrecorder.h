@@ -11,6 +11,7 @@
 #include <QScreen>
 #include <QPixmap>
 #include <QLineEdit>
+#include "../../include/SRRecorder.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class QtRecorder; }
@@ -31,14 +32,12 @@ public:
 
 private slots:
     void on_checkBox_stateChanged(int arg1);
-
     void on_checkBox_2_stateChanged(int arg1);
-
     void on_checkBox_3_stateChanged(int arg1);
-
     void on_lineEdit_textChanged(const QString &arg1);
-
     void on_nav_btn_clicked();
+    void on_start_btn_clicked();
+    void on_stop_btn_clicked();
 
 private:
     QLabel *filename_label;
@@ -69,6 +68,7 @@ private:
     bool crop;
     QString filename;
     QSize last_size;
+    SRRecorder *recorder;
 
 };
 #endif // QTRECORDER_H
