@@ -11,7 +11,6 @@
 #include <QScreen>
 #include <QPixmap>
 #include <QLineEdit>
-#include <SRRecorder.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class QtRecorder; }
