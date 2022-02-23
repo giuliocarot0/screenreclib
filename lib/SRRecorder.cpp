@@ -7,10 +7,23 @@
 #include <utility>
 /*the constructor sets the inputs and open them to get their capabilities*/
 
-SRRecorder::SRRecorder(SRConfiguration configuration){
+SRRecorder::SRRecorder(SRConfiguration configuration):
     /*audio and video have to be instantiated*/
     /* set the configuration*/
-    this->configuration = configuration;
+    videoInput(nullptr),
+    audioInput(nullptr),
+    /*transcoding*/
+    videoEncoder(nullptr),
+    videoDecoder(nullptr),
+    videoFilter(nullptr),
+    audioFilter(nullptr),
+    audioEncoder(nullptr),
+    audioDecoder(nullptr),
+    //SRVideoFilter videoFilter;
+    /*muxing*/
+    outputFile(nullptr)
+{
+    this->configuration = SRConfiguration{configuration};
     try{
         parseConfiguration();
     }
@@ -54,7 +67,7 @@ void SRRecorder::videoLoop() {
             pause_dur = pause_pts - last_pts;
         else pause_dur = 0;
 
-        if(videoInput.readPacket(inPacket, pause_dur) >= 0){
+        if(videoInput->readPacket(inPacket, pause_dur) >= 0){
                if(last_state) {
                     last_pts = inPacket->pts;
                 }
@@ -64,13 +77,13 @@ void SRRecorder::videoLoop() {
                }
            // r_lock.unlock();
 
-            videoDecoder.decodePacket(inPacket);
-            while(videoDecoder.getDecodedFrame(rawFrame)>=0){
-                scaled_frame = videoFilter.filterFrame(rawFrame);
-                if(videoEncoder.encodeFrame(scaled_frame) < 0)
+            videoDecoder->decodePacket(inPacket);
+            while(videoDecoder->getDecodedFrame(rawFrame)>=0){
+                scaled_frame = videoFilter->filterFrame(rawFrame);
+                if(videoEncoder->encodeFrame(scaled_frame) < 0)
                     printf("DROPPED");
-                while (videoEncoder.getEncodedPacket(outPacket) >= 0) {
-                    if (outputFile.writePacket(outPacket, video /*passing a video packet*/) < 0) {
+                while (videoEncoder->getEncodedPacket(outPacket) >= 0) {
+                    if (outputFile->writePacket(outPacket, video /*passing a video packet*/) < 0) {
                         printf("DROPPED");
                     }
                 }
@@ -111,7 +124,7 @@ void SRRecorder::audioLoop() {
             pause_dur = pause_pts - last_pts;
         else pause_dur = 0;
 
-        if (audioInput.readPacket(inPacket,pause_dur) >= 0) {
+        if (audioInput->readPacket(inPacket,pause_dur) >= 0) {
             if(last_state) {
                 last_pts = inPacket->pts;
             }
@@ -120,18 +133,18 @@ void SRRecorder::audioLoop() {
                 continue;
             }
 
-            audioDecoder.decodePacket(inPacket);
-            while (audioDecoder.getDecodedFrame(rawFrame) >= 0) {
-                scaled_frame = audioFilter.filterFrame(rawFrame);
-                while (av_audio_fifo_size(audioFilter.getFifo()) >= audioEncoder.getEncoderContext()->frame_size) {
-                    av_audio_fifo_read(audioFilter.getFifo(), (void **) (scaled_frame->data),audioEncoder.getEncoderContext()->frame_size);
+            audioDecoder->decodePacket(inPacket);
+            while (audioDecoder->getDecodedFrame(rawFrame) >= 0) {
+                scaled_frame = audioFilter->filterFrame(rawFrame);
+                while (av_audio_fifo_size(audioFilter->getFifo()) >= audioEncoder->getEncoderContext()->frame_size) {
+                    av_audio_fifo_read(audioFilter->getFifo(), (void **) (scaled_frame->data),audioEncoder->getEncoderContext()->frame_size);
                     scaled_frame->pts = pts;
                     pts += scaled_frame->nb_samples;
-                    if (audioEncoder.encodeFrame(scaled_frame) < 0) {
+                    if (audioEncoder->encodeFrame(scaled_frame) < 0) {
                         printf("DROPPED");
                     };
-                    while (audioEncoder.getEncodedPacket(outPacket) >= 0) {
-                        if (outputFile.writePacket(outPacket, audio /*passing a audio packet*/) < 0) {
+                    while (audioEncoder->getEncodedPacket(outPacket) >= 0) {
+                        if (outputFile->writePacket(outPacket, audio /*passing a audio packet*/) < 0) {
                             printf("DROPPED");
                         }
                     }
@@ -149,44 +162,52 @@ void SRRecorder::initCapture() {
      //set ouput values for audio here
      /*build output configuration*/
      if(configuration.enable_video){
-        videoInput.set(VIDEO_SRC, VIDEO_URL, AUTO_RESOLUTION, VIDEO_FPS);
-        videoInput.open();
-        videoDecoder.setDecoderContext(videoInput.getCodecContext());
+        if(videoInput == nullptr) videoInput = new SRVideoInput();
+        videoInput->set(VIDEO_SRC, VIDEO_URL, AUTO_RESOLUTION, VIDEO_FPS);
+        videoInput->open();
+        if (videoDecoder == nullptr) videoDecoder = new SRDecoder();
+        videoDecoder->setDecoderContext(videoInput->getCodecContext());
         outputSettings.enable_crop = configuration.enable_crop;
-        outputSettings.crop = configuration.crop_info;
+        outputSettings.crop = SRCropRegion {configuration.crop_info};
         outputSettings.fps = VIDEO_FPS;
         outputSettings.video_codec = VIDEO_CODEC;
-        outputSettings.outscreenres =videoInput.getInputResolution();
+        outputSettings.outscreenres =videoInput->getInputResolution();
      }
      else
          outputSettings.video_codec =AV_CODEC_ID_NONE;
 
      if(configuration.enable_audio){
-         audioInput.set(AUDIO_SRC, AUDIO_URL);
-         audioInput.open();
-         audioDecoder = SRDecoder();
-         audioDecoder.setDecoderContext(audioInput.getCodecContext());
+         if(audioInput == nullptr) audioInput = new SRAudioInput();
+         audioInput->set(AUDIO_SRC, AUDIO_URL);
+         audioInput->open();
+
+         if (audioDecoder == nullptr) audioDecoder = new SRDecoder();
+         audioDecoder->setDecoderContext(audioInput->getCodecContext());
          outputSettings.audio_codec = AUDIO_CODEC;
-         outputSettings.audio_samplerate = audioInput.getCodecContext()->sample_rate;
-         outputSettings.audio_channels = audioInput.getCodecContext()->channels;
+         outputSettings.audio_samplerate = audioInput->getCodecContext()->sample_rate;
+         outputSettings.audio_channels = audioInput->getCodecContext()->channels;
      }
      else
          outputSettings.audio_codec =AV_CODEC_ID_NONE;
      outputSettings.filename = configuration.filename;
-
-     outputFile.set(configuration.filename,outputSettings);
-     outputFile.initFile();
+     if(outputFile == nullptr) outputFile = new SRMediaOutput();
+     outputFile->set(configuration.filename,outputSettings);
+     outputFile->initFile();
 
      if(configuration.enable_video){
-         videoEncoder.setEncoderContext(outputFile.getVideoCodecContext());
-         videoFilter.set(videoEncoder.getEncoderContext(), videoDecoder.getDecoderContext(),outputSettings);
-         videoFilter.enableBasic();
-         if(configuration.enable_crop) videoFilter.enableCropper();
+         if (videoEncoder == nullptr) videoEncoder = new SREncoder();
+         videoEncoder->setEncoderContext(outputFile->getVideoCodecContext());
+         if (videoFilter == nullptr) videoFilter = new SRVideoFilter();
+         videoFilter->set(videoEncoder->getEncoderContext(), videoDecoder->getDecoderContext(),outputSettings);
+         videoFilter->enableBasic();
+         if(configuration.enable_crop) videoFilter->enableCropper();
      }
      if(configuration.enable_audio){
-         audioEncoder.setEncoderContext(outputFile.getAudioCodecContext());
-         audioFilter.set(audioEncoder.getEncoderContext(), audioDecoder.getDecoderContext());
-         audioFilter.init();
+         if (audioEncoder == nullptr) audioEncoder = new SREncoder();
+         audioEncoder->setEncoderContext(outputFile->getAudioCodecContext());
+         if (audioFilter == nullptr) audioFilter = new SRAudioFilter();
+         audioFilter->set(audioEncoder->getEncoderContext(), audioDecoder->getDecoderContext());
+         audioFilter->init();
      }
     }catch(SRException& e){
      throw e;
@@ -202,9 +223,10 @@ void SRRecorder::parseConfiguration() const {
     /* at least one codec should be provided*/
     if(!configuration.enable_audio && !configuration.enable_video )
         throw ConfigurationParserException("At least one codec must be set");
-    if(configuration.filename == nullptr || strcmp(configuration.filename, "") == 0 )
+    if(configuration.filename.empty())
         throw ConfigurationParserException("Invalid file name");
-    if(!assertMP4(configuration.filename)) strcat(configuration.filename, ".mp4");
+    if(!assertMP4(configuration.filename))
+        throw ConfigurationParserException("Invalid file extension");
     if(configuration.enable_crop &&
     (configuration.crop_info.dimension.width.num > configuration.crop_info.dimension.width.den || configuration.crop_info.offset.x.num >= configuration.crop_info.offset.x.den||
     (configuration.crop_info.dimension.height.num > configuration.crop_info.dimension.height.den || configuration.crop_info.offset.y.num >= configuration.crop_info.offset.y.den )))
@@ -242,5 +264,9 @@ void SRRecorder::stopCaputure() {
 SRRecorder::~SRRecorder() {
     if(configuration.enable_video && videoThread.joinable()) videoThread.join();
     if(configuration.enable_audio && audioThread.joinable()) audioThread.join();
-
+    delete outputFile;
+    delete videoFilter;
+    delete audioFilter;
+    delete videoInput;
+    delete audioInput;
 }

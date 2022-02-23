@@ -18,7 +18,7 @@
 #ifdef __APPLE__
     #define VIDEO_SRC "avfoundation"
     #define VIDEO_URL "1:none"
-    #define VIDEO_FPS -1 //automagical detection
+    #define VIDEO_FPS 30 //automagical detection
     #define VIDEO_CODEC AV_CODEC_ID_MPEG4
     #define CODEC_NULL AV_CODEC_ID_NONE
 
@@ -53,18 +53,18 @@ class SRRecorder {
 private:
     /*pointers for holding initialized units*/
     /*demuxer*/
-    SRVideoInput videoInput;
-    SRAudioInput audioInput;
+    SRVideoInput *videoInput;
+    SRAudioInput *audioInput;
     /*transcoding*/
-    SREncoder videoEncoder;
-    SRDecoder videoDecoder;
-    SRVideoFilter videoFilter;
-    SRAudioFilter audioFilter;
-    SREncoder audioEncoder;
-    SRDecoder audioDecoder;
+    SREncoder *videoEncoder;
+    SRDecoder *videoDecoder;
+    SRVideoFilter *videoFilter;
+    SRAudioFilter *audioFilter;
+    SREncoder *audioEncoder;
+    SRDecoder *audioDecoder;
     //SRVideoFilter videoFilter;
     /*muxing*/
-    SRMediaOutput outputFile;
+    SRMediaOutput *outputFile;
     SROutputSettings outputSettings{};
 
     /*the configuration is created by the main app and passed through the constructor*/
@@ -100,7 +100,6 @@ public:
 
      ~SRRecorder();
 };
-//VHDL SImulator for BASe  Son eChip
 
 
 #endif //SCREENRECLIB_SRRECORDER_H
