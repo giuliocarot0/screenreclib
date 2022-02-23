@@ -19,6 +19,7 @@ SRRecorder::SRRecorder(SRConfiguration configuration):
     audioFilter(nullptr),
     audioEncoder(nullptr),
     audioDecoder(nullptr),
+    status(0),
     //SRVideoFilter videoFilter;
     /*muxing*/
     outputFile(nullptr)
@@ -215,6 +216,7 @@ void SRRecorder::initCapture() {
 
     if(configuration.enable_video) videoThread = thread([&](){videoLoop();});
     if(configuration.enable_audio) audioThread = thread([&](){audioLoop();});
+    status = 1;
 }
 
 
@@ -239,7 +241,7 @@ void SRRecorder::startCapture() {
     capture_switch = true;
     if(configuration.enable_video) printf("[SRlib][VideoThread] capturing\n");
     if(configuration.enable_audio) printf("[SRlib][AudioThread] capturing\n");
-
+    status = 2;
 }
 
 void SRRecorder::pauseCapture() {
@@ -248,6 +250,7 @@ void SRRecorder::pauseCapture() {
     capture_switch = false;
     if(configuration.enable_video) printf("[SRlib][VideoThread] paused\n");
     if(configuration.enable_audio) printf("[SRlib][AudioThread] paused\n");
+    status = 3;
 }
 
 
@@ -269,4 +272,16 @@ SRRecorder::~SRRecorder() {
     delete audioFilter;
     delete videoInput;
     delete audioInput;
+}
+
+bool SRRecorder::isRecording() {
+    return status == 2;
+}
+
+bool SRRecorder::isInitialized() {
+    return status == 1;
+}
+
+bool SRRecorder::isPaused() {
+    return status == 3;
 }

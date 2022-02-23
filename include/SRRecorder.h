@@ -78,6 +78,7 @@ private:
     bool kill_switch{};
     shared_mutex r_mutex;
 
+    int status;
 
     /*the parser analyzes configurations and throws exception if it is wrong*/
 
@@ -97,7 +98,9 @@ public:
     void stopCaputure();
     void pauseCapture();
     void resumeCapture();
-
+    bool isRecording();
+    bool isPaused();
+    bool isInitialized();
      ~SRRecorder();
 };
 
