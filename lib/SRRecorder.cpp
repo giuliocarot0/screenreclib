@@ -10,7 +10,7 @@
 SRRecorder::SRRecorder(SRConfiguration configuration){
     /*audio and video have to be instantiated*/
     /* set the configuration*/
-    this->configuration = std::move(configuration);
+    this->configuration = configuration;
     try{
         parseConfiguration();
     }
