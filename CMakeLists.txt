@@ -15,7 +15,6 @@ if(APPLE)
 endif()
 
 include_directories(include)
-#add_executable(screenreclib example/simple_main.cpp lib/SRDecoder.cpp include/transcoding/SRDecoder.h lib/SREncoder.cpp include/transcoding/SREncoder.h lib/SRMediaOutput.cpp include/muxing/SRMediaOutput.h lib/SRVideoInput.cpp include/demuxing/SRVideoInput.h lib/SRAudioInput.cpp include/demuxing/SRAudioInput.h include/SRTools.h lib/SRInput.cpp include/exceptions/SRExceptions.h lib/SRVideoFilter.cpp include/transcoding/SRVideoFilter.h include/transcoding/SRAudioFilter.h lib/SRAudioFilter.cpp lib/SRRecorder.cpp include/SRRecorder.h)
 
 #compile the library
 add_library(screenreclib lib/SRDecoder.cpp include/transcoding/SRDecoder.h lib/SREncoder.cpp include/transcoding/SREncoder.h lib/SRMediaOutput.cpp include/muxing/SRMediaOutput.h lib/SRVideoInput.cpp include/demuxing/SRVideoInput.h lib/SRAudioInput.cpp include/demuxing/SRAudioInput.h include/SRTools.h lib/SRInput.cpp include/exceptions/SRExceptions.h lib/SRVideoFilter.cpp include/transcoding/SRVideoFilter.h include/transcoding/SRAudioFilter.h lib/SRAudioFilter.cpp lib/SRRecorder.cpp include/SRRecorder.h)
