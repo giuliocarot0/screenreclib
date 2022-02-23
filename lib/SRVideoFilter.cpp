@@ -145,5 +145,5 @@ SRVideoFilter::~SRVideoFilter() {
 void SRVideoFilter::set(AVCodecContext *v_encoder, AVCodecContext *v_decoder, SROutputSettings v_settings) {
     this->encoder = v_encoder;
     this->decoder = v_decoder;
-    this->settings = v_settings;
+    this->settings = SROutputSettings{v_settings};
 }

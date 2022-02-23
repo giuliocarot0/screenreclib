@@ -13,7 +13,7 @@ SRMediaOutput::SRMediaOutput() {
 }
 
 
-void SRMediaOutput::set(char* o_filename, SROutputSettings o_settings) {
+void SRMediaOutput::set(string o_filename, SROutputSettings o_settings) {
     this->settings = {o_settings};
     this->filename = o_filename;
 
@@ -30,7 +30,7 @@ void SRMediaOutput::set(char* o_filename, SROutputSettings o_settings) {
 
 //initialize the output File
 int SRMediaOutput::initFile() {
-    char* filename = settings.filename;
+    const char* filename = settings.filename.c_str();
 
     int value = 0;
 
@@ -211,7 +211,7 @@ int SRMediaOutput::writePacket(AVPacket *packet, media_type type) {
 
 }
 
-char *SRMediaOutput::getFilename() {
+string SRMediaOutput::getFilename() {
     return settings.filename;
 }
 

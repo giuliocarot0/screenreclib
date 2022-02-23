@@ -21,14 +21,14 @@ private:
     SROutputSettings settings{};
     int audioStreamID;
     int videoStreamID;
-    char* filename;
+    string filename;
     shared_mutex w_mutex;
     //these are the only two supported streams by the recorder
     int createAudioStream();
     int createVideoStream();
 public:
     SRMediaOutput();
-    void set(char* o_filename, SROutputSettings o_settings);
+    void set(string o_filename, SROutputSettings o_settings);
 
     int initFile();
     AVCodecContext* getVideoCodecContext();
@@ -36,7 +36,7 @@ public:
     //output format context cannot be disclosed due to critical region in writing packets
     int writePacket(AVPacket* packet, media_type type);
 
-    char *getFilename();
+    string getFilename();
 
     ~SRMediaOutput();
 };
