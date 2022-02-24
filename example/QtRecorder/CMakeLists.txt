@@ -8,18 +8,22 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
-set(CMAKE_PREFIX_PATH  /Users/giuliocarota/Qt/QtDesignStudio/qt5_design_studio_reduced_version/lib/cmake/)
 
-find_package(Qt5 REQUIRED COMPONENTS Core Gui Widgets)
 if(WIN32)
+    set(CMAKE_PREFIX_PATH C:\\Qt\\6.1.2\\mingw81_64\\lib\\cmake\\)
     link_directories(C:\\Users\\aless\\Desktop\\ffmpeg-4.4-full_build-shared\\ffmpeg-4.4-full_build-shared\\lib)
     include_directories(C:\\Users\\aless\\Desktop\\ffmpeg-4.4-full_build-shared\\ffmpeg-4.4-full_build-shared\\include)
+    find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets)
+
 endif()
 
 
 if(APPLE)
+    set(CMAKE_PREFIX_PATH  /Users/giuliocarota/Qt/QtDesignStudio/qt5_design_studio_reduced_version/lib/cmake/)
     link_directories(/usr/local/Cellar/ffmpeg/4.4.1_5/lib)
     include_directories(/usr/local/Cellar/ffmpeg/4.4.1_5/include)
+    find_package(Qt5 REQUIRED COMPONENTS Core Gui Widgets)
+
 endif()
 
 include_directories(../../include)
