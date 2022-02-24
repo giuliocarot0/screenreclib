@@ -267,11 +267,6 @@ void SRRecorder::stopCaputure() {
 SRRecorder::~SRRecorder() {
     if(configuration.enable_video && videoThread.joinable()) videoThread.join();
     if(configuration.enable_audio && audioThread.joinable()) audioThread.join();
-    delete outputFile;
-    delete videoFilter;
-    delete audioFilter;
-    delete videoInput;
-    delete audioInput;
 }
 
 bool SRRecorder::isRecording() {

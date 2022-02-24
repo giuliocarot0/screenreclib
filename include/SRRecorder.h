@@ -53,19 +53,19 @@ class SRRecorder {
 private:
     /*pointers for holding initialized units*/
     /*demuxer*/
-    SRVideoInput *videoInput;
-    SRAudioInput *audioInput;
+    std::unique_ptr<SRVideoInput> *videoInput;
+    std::unique_ptr<SRAudioInput> *audioInput;
     /*transcoding*/
-    SREncoder *videoEncoder;
-    SRDecoder *videoDecoder;
-    SRVideoFilter *videoFilter;
-    SRAudioFilter *audioFilter;
-    SREncoder *audioEncoder;
-    SRDecoder *audioDecoder;
+    std::unique_ptr<SREncoder> *videoEncoder;
+    std::unique_ptr<SRDecoder> *videoDecoder;
+    std::unique_ptr<SRVideoFilter> *videoFilter;
+    std::unique_ptr<SRAudioFilter> *audioFilter;
+    std::unique_ptr<SREncoder> *audioEncoder;
+    std::unique_ptr<SRDecoder> *audioDecoder;
     //SRVideoFilter videoFilter;
     /*muxing*/
-    SRMediaOutput *outputFile;
-    SROutputSettings outputSettings{};
+    std::unique_ptr<SRMediaOutput> *outputFile;
+    std::unique_ptr<SROutputSettings> outputSettings{};
 
     /*the configuration is created by the main app and passed through the constructor*/
     SRConfiguration configuration{};
