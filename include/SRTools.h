@@ -52,8 +52,8 @@ extern "C" {
 
 using namespace  std;
 typedef struct R{
-    int num;
-    int den;
+    double num;
+    double den;
 }SRRational;
 typedef struct S{
     int width;
@@ -86,7 +86,7 @@ typedef struct A{
     uint16_t  fps;
     int audio_samplerate;
     int audio_channels;
-    char* filename;
+    string filename;
     AVCodecID audio_codec;
     AVCodecID video_codec;
     bool enable_crop;
@@ -97,7 +97,7 @@ typedef struct B{
    bool enable_video;
    bool enable_crop;
    SRCropRegion crop_info;
-   char* filename;
+   string filename;
 
 }SRConfiguration;
 
@@ -118,4 +118,13 @@ static SROffset rescale_offset(SRResolution input, SROffsetRational rescaler){
 static void lock_thread_for(int sec){
     std::this_thread::sleep_for(std::chrono::milliseconds(sec*1000));
 }
+
+static bool assertMP4(string filename){
+    filename = filename.substr(filename.find_last_of('.'));
+    if(filename!=".mp4")
+        return false;
+    else
+        return true;
+}
 #endif //SCREENRECLIB_SRTOOLS_H
+

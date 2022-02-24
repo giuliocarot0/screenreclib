@@ -72,7 +72,12 @@ void SRVideoInput::set(char *video_src, char *video_url, SRResolution _res,int _
  * putting data in the device buffer.
  *
  * @return the device context
+ * @throw openSourceException
+ * @throw streamIndexException
+ * @throw streamInformationException
+ * @throw openAVCodecException
  */
+
 AVFormatContext* SRVideoInput::open(){
     //if one of them != nullptr then input already initialized
     if(inFormatContext != nullptr || inCodecContext!= nullptr || streamIndex != -1)
@@ -87,14 +92,14 @@ AVFormatContext* SRVideoInput::open(){
     inVInputFormat = av_find_input_format(device_src);
     value = avformat_open_input(&inFormatContext, device_url, inVInputFormat, &options);
     if (value != 0) {
-        throw openSourceException("Cannot open selected video device");
+        throw openSourceException(strcat("Cannot open selected video device: ", device_src));
     }
 
 
     //get video stream infos from context
     value = avformat_find_stream_info(inFormatContext, nullptr);
     if (value < 0) {
-        throw streamInformationException("Cannot find the stream information");
+        throw streamInformationException("Cannot extract stream information");
     }
 
     //find the first video stream with a given code
@@ -106,7 +111,7 @@ AVFormatContext* SRVideoInput::open(){
     }
 
     if (streamIndex == -1) {
-        throw streamIndexException("The device has no streams");
+        throw streamIndexException("No streams found for the selected device");
 
     }
 
@@ -137,6 +142,7 @@ AVFormatContext* SRVideoInput::open(){
  * If available, the methods retrieves the device resolution and returns it
  *
  * @return a SRResolution data structure containing the input resolution
+ * @throw DeviceNotOpenException if the device is not open or initialized correctly
  */
 SRResolution SRVideoInput::getInputResolution() {
     if(inCodecContext!=nullptr) {

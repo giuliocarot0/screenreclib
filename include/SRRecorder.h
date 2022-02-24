@@ -18,16 +18,15 @@
 #ifdef __APPLE__
     #define VIDEO_SRC "avfoundation"
     #define VIDEO_URL "1:none"
-    #define VIDEO_FPS -1 //automagical detection
+    #define VIDEO_FPS 30 //automagical detection
     #define VIDEO_CODEC AV_CODEC_ID_MPEG4
     #define CODEC_NULL AV_CODEC_ID_NONE
 
     #define AUDIO_SRC "avfoundation"
     #define AUDIO_URL "none:0"
     #define AUDIO_CODEC AV_CODEC_ID_AAC
-#endif
 
-#ifdef _WIN32
+#elif _WIN32
     #define VIDEO_SRC ("gdigrab")
     #define VIDEO_URL ("desktop")
     #define VIDEO_FPS 30
@@ -37,25 +36,35 @@
     #define AUDIO_SRC ("dshow")
     #define AUDIO_URL ("audio=Microfono (Realtek High Definition Audio)")
     #define AUDIO_CODEC AV_CODEC_ID_AAC
-#endif
 
+#elif __LINUX__
+    #define VIDEO_SRC ("x11grab")
+    #define VIDEO_URL (":0.0+0,0")
+    #define VIDEO_FPS 30
+    #define VIDEO_CODEC AV_CODEC_ID_MPEG4
+    #define CODEC_NULL AV_CODEC_ID_NONE
+
+    #define AUDIO_SRC ("pulse")
+    #define AUDIO_URL ("alsa_output.pci-0000_00_1b.0.analog-stereo.monitor")
+    #define AUDIO_CODEC AV_CODEC_ID_AAC
+#endif
 
 class SRRecorder {
 private:
     /*pointers for holding initialized units*/
     /*demuxer*/
-    SRVideoInput videoInput;
-    SRAudioInput audioInput;
+    SRVideoInput *videoInput;
+    SRAudioInput *audioInput;
     /*transcoding*/
-    SREncoder videoEncoder;
-    SRDecoder videoDecoder;
-    SRVideoFilter videoFilter;
-    SRAudioFilter audioFilter;
-    SREncoder audioEncoder;
-    SRDecoder audioDecoder;
+    SREncoder *videoEncoder;
+    SRDecoder *videoDecoder;
+    SRVideoFilter *videoFilter;
+    SRAudioFilter *audioFilter;
+    SREncoder *audioEncoder;
+    SRDecoder *audioDecoder;
     //SRVideoFilter videoFilter;
     /*muxing*/
-    SRMediaOutput outputFile;
+    SRMediaOutput *outputFile;
     SROutputSettings outputSettings{};
 
     /*the configuration is created by the main app and passed through the constructor*/
@@ -69,10 +78,11 @@ private:
     bool kill_switch{};
     shared_mutex r_mutex;
 
+    int status;
 
     /*the parser analyzes configurations and throws exception if it is wrong*/
 
-    void parseConfiguration();
+    void parseConfiguration() const;
 
 
 
@@ -88,10 +98,11 @@ public:
     void stopCaputure();
     void pauseCapture();
     void resumeCapture();
-
+    bool isRecording();
+    bool isPaused();
+    bool isInitialized();
      ~SRRecorder();
 };
-
 
 
 #endif //SCREENRECLIB_SRRECORDER_H
