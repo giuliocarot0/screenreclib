@@ -17,7 +17,10 @@ public:
     }
 };
 
-
+class SRNonJoinableException: public SRException{
+public:
+    explicit SRNonJoinableException(const char* msg): SRException(msg){};
+};
 class openSourceParameterException: public SRException{
 public:
     explicit openSourceParameterException(const char* msg): SRException(msg){};
