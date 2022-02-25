@@ -20,9 +20,9 @@ SRRecorder::SRRecorder(SRConfiguration configuration):
     audioEncoder(nullptr),
     audioDecoder(nullptr),
     status(0),
-    //SRVideoFilter videoFilter;
-    /*muxing*/
-    outputFile(nullptr)
+    outputFile(nullptr),
+    videoThread(nullptr),
+    audioThread(nullptr)
 {
     this->configuration = SRConfiguration{configuration};
     try{
@@ -163,10 +163,10 @@ void SRRecorder::initCapture() {
      //set ouput values for audio here
      /*build output configuration*/
      if(configuration.enable_video){
-        if(videoInput == nullptr) videoInput = new SRVideoInput();
+        if(videoInput == nullptr) videoInput = make_unique<SRVideoInput>();
         videoInput->set(VIDEO_SRC, VIDEO_URL, AUTO_RESOLUTION, VIDEO_FPS);
         videoInput->open();
-        if (videoDecoder == nullptr) videoDecoder = new SRDecoder();
+        if (videoDecoder == nullptr) videoDecoder = make_unique<SRDecoder>();
         videoDecoder->setDecoderContext(videoInput->getCodecContext());
         outputSettings.enable_crop = configuration.enable_crop;
         outputSettings.crop = SRCropRegion {configuration.crop_info};
@@ -178,11 +178,11 @@ void SRRecorder::initCapture() {
          outputSettings.video_codec =AV_CODEC_ID_NONE;
 
      if(configuration.enable_audio){
-         if(audioInput == nullptr) audioInput = new SRAudioInput();
+         if(audioInput == nullptr) audioInput = make_unique<SRAudioInput>();
          audioInput->set(AUDIO_SRC, AUDIO_URL);
          audioInput->open();
 
-         if (audioDecoder == nullptr) audioDecoder = new SRDecoder();
+         if (audioDecoder == nullptr) audioDecoder = make_unique<SRDecoder>();
          audioDecoder->setDecoderContext(audioInput->getCodecContext());
          outputSettings.audio_codec = AUDIO_CODEC;
          outputSettings.audio_samplerate = audioInput->getCodecContext()->sample_rate;
@@ -191,22 +191,22 @@ void SRRecorder::initCapture() {
      else
          outputSettings.audio_codec =AV_CODEC_ID_NONE;
      outputSettings.filename = configuration.filename;
-     if(outputFile == nullptr) outputFile = new SRMediaOutput();
+     if(outputFile == nullptr) outputFile = make_unique<SRMediaOutput>();
      outputFile->set(configuration.filename,outputSettings);
      outputFile->initFile();
 
      if(configuration.enable_video){
-         if (videoEncoder == nullptr) videoEncoder = new SREncoder();
+         if (videoEncoder == nullptr) videoEncoder = make_unique<SREncoder>();
          videoEncoder->setEncoderContext(outputFile->getVideoCodecContext());
-         if (videoFilter == nullptr) videoFilter = new SRVideoFilter();
+         if (videoFilter == nullptr) videoFilter = make_unique<SRVideoFilter>();
          videoFilter->set(videoEncoder->getEncoderContext(), videoDecoder->getDecoderContext(),outputSettings);
          videoFilter->enableBasic();
          if(configuration.enable_crop) videoFilter->enableCropper();
      }
      if(configuration.enable_audio){
-         if (audioEncoder == nullptr) audioEncoder = new SREncoder();
+         if (audioEncoder == nullptr) audioEncoder = make_unique<SREncoder>();
          audioEncoder->setEncoderContext(outputFile->getAudioCodecContext());
-         if (audioFilter == nullptr) audioFilter = new SRAudioFilter();
+         if (audioFilter == nullptr) audioFilter = make_unique<SRAudioFilter>();
          audioFilter->set(audioEncoder->getEncoderContext(), audioDecoder->getDecoderContext());
          audioFilter->init();
      }
@@ -214,8 +214,8 @@ void SRRecorder::initCapture() {
      throw e;
  }
 
-    if(configuration.enable_video) videoThread = thread([&](){videoLoop();});
-    if(configuration.enable_audio) audioThread = thread([&](){audioLoop();});
+    if(configuration.enable_video) videoThread = std::make_unique<thread>([&](){videoLoop();});
+    if(configuration.enable_audio) audioThread = std::make_unique<thread>([&](){audioLoop();});
     status = 1;
 }
 
@@ -259,15 +259,20 @@ void SRRecorder::stopCaputure() {
     std::unique_lock<std::shared_mutex> r_lock(r_mutex);
     capture_switch = false;
     kill_switch = true;
-    if(configuration.enable_video) printf("[SRlib][VideoThread] stopped\n");
-    if(configuration.enable_audio) printf("[SRlib][AudioThread] stopped\n");
+    try {
+        if (videoThread != nullptr && videoThread->joinable()) {
+            videoThread->join();
+            printf("[SRlib][VideoThread] stopped\n");
+        }
+        if (audioThread != nullptr && audioThread->joinable()) {
+            audioThread->join();
+            printf("[SRlib][AudioThread] stopped\n");
+        }
+    }catch (SRException &e_){
+        throw SRNonJoinableException("Cannot join threads");
+    }
 }
 
-
-SRRecorder::~SRRecorder() {
-    if(configuration.enable_video && videoThread.joinable()) videoThread.join();
-    if(configuration.enable_audio && audioThread.joinable()) audioThread.join();
-}
 
 bool SRRecorder::isRecording() {
     return status == 2;

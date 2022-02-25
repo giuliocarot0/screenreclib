@@ -53,25 +53,26 @@ class SRRecorder {
 private:
     /*pointers for holding initialized units*/
     /*demuxer*/
-    std::unique_ptr<SRVideoInput> *videoInput;
-    std::unique_ptr<SRAudioInput> *audioInput;
+    std::unique_ptr<SRVideoInput> videoInput;
+    std::unique_ptr<SRAudioInput> audioInput;
     /*transcoding*/
-    std::unique_ptr<SREncoder> *videoEncoder;
-    std::unique_ptr<SRDecoder> *videoDecoder;
-    std::unique_ptr<SRVideoFilter> *videoFilter;
-    std::unique_ptr<SRAudioFilter> *audioFilter;
-    std::unique_ptr<SREncoder> *audioEncoder;
-    std::unique_ptr<SRDecoder> *audioDecoder;
+    std::unique_ptr<SREncoder> videoEncoder;
+    std::unique_ptr<SRDecoder> videoDecoder;
+    std::unique_ptr<SRVideoFilter> videoFilter;
+    std::unique_ptr<SRAudioFilter> audioFilter;
+    std::unique_ptr<SREncoder> audioEncoder;
+    std::unique_ptr<SRDecoder> audioDecoder;
     //SRVideoFilter videoFilter;
     /*muxing*/
-    std::unique_ptr<SRMediaOutput> *outputFile;
-    std::unique_ptr<SROutputSettings> outputSettings{};
+    std::unique_ptr<SRMediaOutput> outputFile;
+    SROutputSettings outputSettings{};
 
     /*the configuration is created by the main app and passed through the constructor*/
     SRConfiguration configuration{};
 
-    thread videoThread;
-    thread audioThread;
+    /* threads */
+    std::unique_ptr<thread> videoThread;
+    std::unique_ptr<thread> audioThread;
 
     /*condition variables for threads*/
     bool capture_switch;
@@ -81,7 +82,6 @@ private:
     int status;
 
     /*the parser analyzes configurations and throws exception if it is wrong*/
-
     void parseConfiguration() const;
 
 
