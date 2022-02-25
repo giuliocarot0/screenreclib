@@ -19,7 +19,7 @@
     #define VIDEO_SRC "avfoundation"
     #define VIDEO_URL "1:none"
     #define VIDEO_FPS 30 //automagical detection
-    #define VIDEO_CODEC AV_CODEC_ID_MPEG4
+    #define VIDEO_CODEC AV_CODEC_ID_H264
     #define CODEC_NULL AV_CODEC_ID_NONE
 
     #define AUDIO_SRC "avfoundation"
