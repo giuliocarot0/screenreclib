@@ -11,6 +11,7 @@
 #include <QScreen>
 #include <QPixmap>
 #include <QLineEdit>
+#include <QErrorMessage>
 #include "../../include/SRRecorder.h"
 
 QT_BEGIN_NAMESPACE
@@ -54,6 +55,7 @@ private:
     QRubberBand *rubberband;
     Ui::QtRecorder *ui;
     void closeWelcomePage();
+    void showError(SRException &e);
     void startWizard();
     void crop_procedure();
     void end_crop_procedure();

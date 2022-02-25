@@ -98,20 +98,24 @@ typedef struct B{
    bool enable_crop;
    SRCropRegion crop_info;
    string filename;
-
+   string video_url;
+   string audio_url;
 }SRConfiguration;
 
 static SRResolution rescale_resolution(SRResolution input, SRResolutionRational rescaler){
     SRResolution  out;
     out.width = floor(input.width* rescaler.width.num / rescaler.width.den);
+    if(out.width%2 != 0) out.width += 1;
     out.height = floor(input.height* rescaler.height.num / rescaler.height.den);
+    if(out.height%2 != 0) out.height += 1;
+
     return out;
 }
 
 static SROffset rescale_offset(SRResolution input, SROffsetRational rescaler){
     SROffset out;
     out.x = ceil(input.width*rescaler.x.num / rescaler.x.den);
-    out.y = ceil(input.width*rescaler.x.num / rescaler.x.den);
+    out.y = ceil(input.height*rescaler.y.num / rescaler.y.den);
     return out;
 }
 

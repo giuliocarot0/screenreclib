@@ -290,9 +290,9 @@ void QtRecorder::on_start_btn_clicked() {
         start_button->setEnabled(false);
         pause_button->setEnabled(true);
         stop_button->setEnabled(true);
-
+        next_button->setEnabled(false);
     }catch(SRException &e_){
-        fprintf(stderr,"[SRLib] Exception occured: %s", e_.what());
+        showError(e_);
     }
 
 
@@ -306,8 +306,9 @@ void QtRecorder::on_stop_btn_clicked() {
         start_button->setEnabled(true);
         pause_button->setEnabled(false);
         stop_button->setEnabled(false);
+        next_button->setEnabled(true);
     }catch(SRException &e_){
-        fprintf(stderr,"[SRLib] Exception occured: %s", e_.what());
+        showError(e_);
     }
 
 }
@@ -326,8 +327,11 @@ void QtRecorder::on_pause_btn_clicked() {
         }
 
     }catch (SRException &e_){
-        fprintf(stderr,"[SRLib] Exception occured: %s", e_.what());
+        showError(e_);
     }
 }
 
-
+void QtRecorder::showError(SRException &e){
+    auto *err = new QErrorMessage();
+    err->showMessage("An error has been encountered! Please verify your settings before trying again.\n" + QString(e.what()));
+}
