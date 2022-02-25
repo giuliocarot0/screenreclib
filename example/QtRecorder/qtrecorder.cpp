@@ -290,7 +290,7 @@ void QtRecorder::on_start_btn_clicked() {
         start_button->setEnabled(false);
         pause_button->setEnabled(true);
         stop_button->setEnabled(true);
-
+        next_button->setEnabled(false);
     }catch(SRException &e_){
         showError(e_);
     }
@@ -306,6 +306,7 @@ void QtRecorder::on_stop_btn_clicked() {
         start_button->setEnabled(true);
         pause_button->setEnabled(false);
         stop_button->setEnabled(false);
+        next_button->setEnabled(true);
     }catch(SRException &e_){
         showError(e_);
     }
