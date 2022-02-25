@@ -233,10 +233,15 @@ void SRRecorder::parseConfiguration() const {
         throw ConfigurationParserException("Invalid file name");
     if(!assertMP4(configuration.filename))
         throw ConfigurationParserException("Invalid file extension");
-    if(configuration.enable_crop &&
-
-                    (configuration.crop_info.dimension.width.num > configuration.crop_info.dimension.width.den || configuration.crop_info.offset.x.num >= configuration.crop_info.offset.x.den||
-    (configuration.crop_info.dimension.height.num > configuration.crop_info.dimension.height.den || configuration.crop_info.offset.y.num >= configuration.crop_info.offset.y.den )))
+    if(configuration.enable_crop && ((
+                configuration.crop_info.dimension.width.den == 0||
+                configuration.crop_info.dimension.height.den  == 0||
+                configuration.crop_info.offset.x.den  == 0 ||
+                configuration.crop_info.offset.y.den  == 0 )
+                ||
+                (configuration.crop_info.dimension.width.num/configuration.crop_info.dimension.width.den + configuration.crop_info.offset.x.num/configuration.crop_info.offset.x.den > 1||
+    (configuration.crop_info.dimension.height.num/configuration.crop_info.dimension.height.den + configuration.crop_info.offset.y.num/configuration.crop_info.offset.y.den > 1))
+                                    ))
         throw ConfigurationParserException("Invalid crop setup");
 }
 
