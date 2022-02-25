@@ -51,6 +51,10 @@
 
 class SRRecorder {
 private:
+public:
+    virtual ~SRRecorder();
+
+private:
     /*pointers for holding initialized units*/
     /*demuxer*/
     std::unique_ptr<SRVideoInput> videoInput;
@@ -101,7 +105,6 @@ public:
     bool isRecording();
     bool isPaused();
     bool isInitialized();
-     ~SRRecorder();
 };
 
 

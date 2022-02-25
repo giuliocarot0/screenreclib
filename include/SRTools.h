@@ -98,7 +98,8 @@ typedef struct B{
    bool enable_crop;
    SRCropRegion crop_info;
    string filename;
-
+   string video_url;
+   string audio_url;
 }SRConfiguration;
 
 static SRResolution rescale_resolution(SRResolution input, SRResolutionRational rescaler){

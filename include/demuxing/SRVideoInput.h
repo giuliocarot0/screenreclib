@@ -15,7 +15,7 @@ private:
 public:
 
     SRVideoInput() :fps(-1), SRInput() {};
-    void set(char *deviceSrc, char *deviceUrl, SRResolution _res, int _fps);
+    void set(char *deviceSrc,char *deviceUrl, SRResolution _res, int _fps);
     AVFormatContext* open() override;
     SRResolution getInputResolution();
 };

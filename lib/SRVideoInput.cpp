@@ -15,7 +15,7 @@
  * @param _fps set the requested frame rate, if not supported the capture will have an automatic frame rate selected by the device
  */
 
-void SRVideoInput::set(char *video_src, char *video_url, SRResolution _res,int _fps){
+void SRVideoInput::set( char *video_src, char *video_url, SRResolution _res,int _fps){
     device_url = video_url;
     device_src = video_src;
     this->fps = _fps;

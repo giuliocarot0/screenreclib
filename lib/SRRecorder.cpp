@@ -164,7 +164,9 @@ void SRRecorder::initCapture() {
      /*build output configuration*/
      if(configuration.enable_video){
         if(videoInput == nullptr) videoInput = make_unique<SRVideoInput>();
-        videoInput->set(VIDEO_SRC, VIDEO_URL, AUTO_RESOLUTION, VIDEO_FPS);
+        char *video_url = const_cast<char *>((configuration.video_url.empty()) ? VIDEO_URL
+                                                                               : configuration.video_url.c_str());
+        videoInput->set(VIDEO_SRC, video_url, AUTO_RESOLUTION, VIDEO_FPS);
         videoInput->open();
         if (videoDecoder == nullptr) videoDecoder = make_unique<SRDecoder>();
         videoDecoder->setDecoderContext(videoInput->getCodecContext());
@@ -179,7 +181,9 @@ void SRRecorder::initCapture() {
 
      if(configuration.enable_audio){
          if(audioInput == nullptr) audioInput = make_unique<SRAudioInput>();
-         audioInput->set(AUDIO_SRC, AUDIO_URL);
+         char *audio_url = const_cast<char *>((configuration.audio_url.empty()) ? AUDIO_URL
+                                                                                : configuration.audio_url.c_str());
+         audioInput->set(AUDIO_SRC, audio_url);
          audioInput->open();
 
          if (audioDecoder == nullptr) audioDecoder = make_unique<SRDecoder>();
@@ -230,7 +234,8 @@ void SRRecorder::parseConfiguration() const {
     if(!assertMP4(configuration.filename))
         throw ConfigurationParserException("Invalid file extension");
     if(configuration.enable_crop &&
-    (configuration.crop_info.dimension.width.num > configuration.crop_info.dimension.width.den || configuration.crop_info.offset.x.num >= configuration.crop_info.offset.x.den||
+
+                    (configuration.crop_info.dimension.width.num > configuration.crop_info.dimension.width.den || configuration.crop_info.offset.x.num >= configuration.crop_info.offset.x.den||
     (configuration.crop_info.dimension.height.num > configuration.crop_info.dimension.height.den || configuration.crop_info.offset.y.num >= configuration.crop_info.offset.y.den )))
         throw ConfigurationParserException("Invalid crop setup");
 }
@@ -259,18 +264,7 @@ void SRRecorder::stopCaputure() {
     std::unique_lock<std::shared_mutex> r_lock(r_mutex);
     capture_switch = false;
     kill_switch = true;
-    try {
-        if (videoThread != nullptr && videoThread->joinable()) {
-            videoThread->join();
-            printf("[SRlib][VideoThread] stopped\n");
-        }
-        if (audioThread != nullptr && audioThread->joinable()) {
-            audioThread->join();
-            printf("[SRlib][AudioThread] stopped\n");
-        }
-    }catch (SRException &e_){
-        throw SRNonJoinableException("Cannot join threads");
-    }
+
 }
 
 
@@ -284,4 +278,19 @@ bool SRRecorder::isInitialized() {
 
 bool SRRecorder::isPaused() {
     return status == 3;
+}
+
+SRRecorder::~SRRecorder() {
+    try {
+        if (videoThread != nullptr && videoThread->joinable()) {
+            videoThread->join();
+            printf("[SRlib][VideoThread] stopped\n");
+        }
+        if (audioThread != nullptr && audioThread->joinable()) {
+            audioThread->join();
+            printf("[SRlib][AudioThread] stopped\n");
+        }
+    }catch (SRException &e_){
+        throw SRNonJoinableException("Cannot join threads");
+    }
 }
