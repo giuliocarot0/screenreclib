@@ -166,7 +166,7 @@ void SRRecorder::initCapture() {
         if(videoInput == nullptr) videoInput = make_unique<SRVideoInput>();
         char *video_url = const_cast<char *>((configuration.video_url.empty()) ? VIDEO_URL
                                                                                : configuration.video_url.c_str());
-        videoInput->set(VIDEO_SRC, video_url, AUTO_RESOLUTION, VIDEO_FPS);
+        videoInput->set((char*)VIDEO_SRC, video_url, AUTO_RESOLUTION, VIDEO_FPS);
         videoInput->open();
         if (videoDecoder == nullptr) videoDecoder = make_unique<SRDecoder>();
         videoDecoder->setDecoderContext(videoInput->getCodecContext());
@@ -183,7 +183,7 @@ void SRRecorder::initCapture() {
          if(audioInput == nullptr) audioInput = make_unique<SRAudioInput>();
          char *audio_url = const_cast<char *>((configuration.audio_url.empty()) ? AUDIO_URL
                                                                                 : configuration.audio_url.c_str());
-         audioInput->set(AUDIO_SRC, audio_url);
+         audioInput->set((char*)AUDIO_SRC, audio_url);
          audioInput->open();
 
          if (audioDecoder == nullptr) audioDecoder = make_unique<SRDecoder>();

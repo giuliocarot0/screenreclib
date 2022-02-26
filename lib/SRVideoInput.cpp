@@ -15,7 +15,7 @@
  * @param _fps set the requested frame rate, if not supported the capture will have an automatic frame rate selected by the device
  */
 
-void SRVideoInput::set( char *video_src, char *video_url, SRResolution _res,int _fps){
+void SRVideoInput::set(char *video_src, char *video_url, SRResolution _res,int _fps){
     device_url = video_url;
     device_src = video_src;
     this->fps = _fps;
@@ -92,7 +92,7 @@ AVFormatContext* SRVideoInput::open(){
     inVInputFormat = av_find_input_format(device_src);
     value = avformat_open_input(&inFormatContext, device_url, inVInputFormat, &options);
     if (value != 0) {
-        throw openSourceException(strcat("Cannot open selected video device: ", device_src));
+        throw openSourceException(strcat((char*)"Cannot open selected video device: ", device_src));
     }
 
 
