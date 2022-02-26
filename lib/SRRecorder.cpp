@@ -4,9 +4,10 @@
 
 #include "SRRecorder.h"
 
-#include <utility>
-/*the constructor sets the inputs and open them to get their capabilities*/
-
+/**
+ * SRRecorder constructor.
+ * The constructor sets the inputs and open them to get their capabilities
+ */
 SRRecorder::SRRecorder(SRConfiguration configuration):
     /*audio and video have to be instantiated*/
     /* set the configuration*/
