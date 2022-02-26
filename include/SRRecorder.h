@@ -30,7 +30,7 @@
     #define VIDEO_SRC ("gdigrab")
     #define VIDEO_URL ("desktop")
     #define VIDEO_FPS 30
-    #define VIDEO_CODEC AV_CODEC_ID_MPEG4
+    #define VIDEO_CODEC AV_CODEC_ID_H264
     #define CODEC_NULL AV_CODEC_ID_NONE
 
     #define AUDIO_SRC ("dshow")

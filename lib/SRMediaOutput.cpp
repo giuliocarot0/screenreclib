@@ -81,7 +81,7 @@ int SRMediaOutput::initFile() {
 }
 
 /**
- * The method creates the Audio output context
+ * The method creates the Audio output context setting all the proper parameters based on the settings configured with the set method
  */
 int SRMediaOutput::createAudioStream() {
     int i;
@@ -140,7 +140,7 @@ int SRMediaOutput::createAudioStream() {
 }
 
 /**
- * The method creates the Video output context
+ * The method creates the Video output context setting all the proper parameters based on the settings configured with the set method
  */
 int SRMediaOutput::createVideoStream() {
     int i;

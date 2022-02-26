@@ -39,7 +39,10 @@ SRRecorder::SRRecorder(SRConfiguration configuration):
 }
 
 
-
+/**
+ * This method defines the loop that wraps all the operations needed for the video capturing such as:
+ * getting the video frames, transcoding them and then writing them in output file
+ */
 void SRRecorder::videoLoop() {
     AVPacket *inPacket, *outPacket;
     AVFrame *rawFrame, *scaled_frame;
@@ -93,7 +96,10 @@ void SRRecorder::videoLoop() {
     }
 }
 
-
+/**
+ * This method defines the loop that wraps all the operations needed for the audio capturing such as:
+ * getting the audio frames, transcoding them and then writing them in output file
+ */
 void SRRecorder::audioLoop() {
     AVPacket *inPacket, *outPacket;
     AVFrame *rawFrame, *scaled_frame;
@@ -155,6 +161,10 @@ void SRRecorder::audioLoop() {
     }
 }
 
+/**
+ * This method sets the configuration of the output file and the video filter
+ * and then creates the two threads which will loop on the audio and video cycles
+ */
 void SRRecorder::initCapture() {
  /*instantiate SR modules */
  try{
@@ -224,7 +234,9 @@ void SRRecorder::initCapture() {
 }
 
 
-/*throws parse configuration exception*/
+/**
+ * This method reads the configuration passed to the Recorder and looks for mistakes
+ */
 void SRRecorder::parseConfiguration() const {
     /* at least one codec should be provided*/
     if(!configuration.enable_audio && !configuration.enable_video )
@@ -244,7 +256,9 @@ void SRRecorder::parseConfiguration() const {
                                     ))
         throw ConfigurationParserException("Invalid crop setup");
 }
-
+/**
+ * This method starts the threads setting the value of the capture_switch to true
+ */
 void SRRecorder::startCapture() {
     if(kill_switch) return;
     std::unique_lock<std::shared_mutex> r_lock(r_mutex);
@@ -254,6 +268,9 @@ void SRRecorder::startCapture() {
     status = 2;
 }
 
+/**
+ * This method pauses the threads setting the value of the capture_switch to false
+ */
 void SRRecorder::pauseCapture() {
     if(kill_switch) return;
     std::unique_lock<std::shared_mutex> r_lock(r_mutex);
@@ -263,7 +280,9 @@ void SRRecorder::pauseCapture() {
     status = 3;
 }
 
-
+/**
+ * This method stops the threads setting the value of the kill_switch to true
+ */
 void SRRecorder::stopCaputure() {
     if(kill_switch) return;
     std::unique_lock<std::shared_mutex> r_lock(r_mutex);
@@ -284,7 +303,10 @@ bool SRRecorder::isInitialized() {
 bool SRRecorder::isPaused() {
     return status == 3;
 }
-
+/**
+ * SRRecorder destructor.
+ * The destructor waits for the termination of the audio and video threads using the join method
+ */
 SRRecorder::~SRRecorder() {
     try {
         if (videoThread != nullptr && videoThread->joinable()) {
