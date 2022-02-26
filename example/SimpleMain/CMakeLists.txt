@@ -14,7 +14,7 @@ if(APPLE)
     include_directories(/usr/local/Cellar/ffmpeg/4.4.1_5/include)
 endif()
 
-include_directories(include)
+include_directories(../../include)
 add_executable(SimpleMain
         main.cpp
         ../../lib/SRDecoder.cpp
