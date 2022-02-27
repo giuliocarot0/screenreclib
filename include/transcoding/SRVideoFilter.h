@@ -8,8 +8,9 @@
 
 #include "SRTools.h"
 
+/*the struct cropperdata_t contains a set of pointers which reference
+ * objects needed by the crop filter */
 typedef struct a{
-
     AVFilterInOut *outputs;
     AVFilterInOut *inputs;
     AVFilterGraph *graph;

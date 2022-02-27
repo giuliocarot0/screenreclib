@@ -5,7 +5,17 @@
 #include "transcoding/SRVideoFilter.h"
 
 
-
+/**
+ * The filterFrame() method is responsible for processing the frame according to
+ * the defined filters chain.
+ * The filters chain can be created by using the basic filter (responsible for preparing the decoded frame
+ * for the encoder) and the crop filter (responsible for cropping the frame).
+ * At least basicFilter has to be enabled.
+ * The input frame is deleted after the process and cannot be used anymore.
+ *
+ * @param input_frame is the raw frame received from the decoder
+ * @return the pointer to the processed frame
+ */
 AVFrame* SRVideoFilter::filterFrame(AVFrame* input_frame) {
     if(scaled_frame == nullptr || encoder == nullptr || decoder == nullptr || rescaling_context == nullptr) {
         throw UninitializedFilterException("Audio filter not initialized");
@@ -43,6 +53,12 @@ AVFrame* SRVideoFilter::filterFrame(AVFrame* input_frame) {
 
 }
 
+/**
+ * This method adds the basicFilter to the filters chain.
+ * When the method is called, all the necessary modules and object to support the filter are instantiated.
+ * The filter is set up by using information both from the input codec context and both from the output codec context,
+ * to understand how the frame has to be processed.
+ */
 void SRVideoFilter::enableBasic() {
     if(encoder == nullptr || decoder == nullptr) {
         throw InvalidFilterParametersException("Found wrong parameters while enabling the basic video filter");
@@ -78,6 +94,14 @@ void SRVideoFilter::enableBasic() {
                              encoder->pix_fmt,
                              SWS_BICUBIC, NULL, NULL, NULL);
 }
+
+/**
+ * This method adds the cropFilter to the filters chain.
+ * When the method is called, all the necessary modules and object to support the filter are instantiated.
+ * The filter is set up by using information from the input codec context
+ * (to understand the input resolution and pixel format) from the output codec context (which has to be set with
+ * the cropped resolution before calling this method) and from the crop settings to understand the crop offset.
+ */
 void SRVideoFilter::enableCropper() {
     char args[512];
     int ret = 0;
@@ -128,6 +152,7 @@ void SRVideoFilter::enableCropper() {
                                         SWS_BICUBIC, NULL, NULL, NULL);
 }
 
+
 SRVideoFilter::~SRVideoFilter() {
     sws_freeContext(rescaling_context);
     av_frame_free(&scaled_frame);
@@ -142,6 +167,13 @@ SRVideoFilter::~SRVideoFilter() {
     }
 }
 
+/**
+ * set() allows the caller to pass information about the transcoding and processing.
+ *
+ * @param v_encoder is a pointer to a valid encoding context
+ * @param v_decoder is a pointer to a valid decoding context
+ * @param v_settings is a struct containing information concerning the crop setup.
+ */
 void SRVideoFilter::set(AVCodecContext *v_encoder, AVCodecContext *v_decoder, SROutputSettings v_settings) {
     this->encoder = v_encoder;
     this->decoder = v_decoder;
