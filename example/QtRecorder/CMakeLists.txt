@@ -10,9 +10,13 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 if(WIN32)
-    set(CMAKE_PREFIX_PATH C:\\Qt\\6.1.2\\mingw81_64\\lib\\cmake\\)
-    link_directories(C:\\Users\\aless\\Desktop\\ffmpeg-4.4-full_build-shared\\ffmpeg-4.4-full_build-shared\\lib)
-    include_directories(C:\\Users\\aless\\Desktop\\ffmpeg-4.4-full_build-shared\\ffmpeg-4.4-full_build-shared\\include)
+    set(PATH_TO_FFMPEG C:\\Users\\aless\\Desktop\\ffmpeg-4.4-full_build-shared\\)
+
+    set(CMAKE_PREFIX_PATH C:\\Qt\\6.2.3\\msvc2019_64\\)
+    link_directories(${PATH_TO_FFMPEG}\\ffmpeg-4.4-full_build-shared\\lib)
+    include_directories(${PATH_TO_FFMPEG}\\ffmpeg-4.4-full_build-shared\\include)
+    #add_library(avformat C:/Users/aless/Desktop/ffmpeg-4.4-full_build-shared/ffmpeg-4.4-full_build-shared/bin/avformat-58.dll)
+    #set_target_properties(avformat PROPERTIES LINKER_LANGUAGE C++)
     find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets)
 
 endif()
