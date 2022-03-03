@@ -12,7 +12,13 @@ SRMediaOutput::SRMediaOutput() {
     audioStreamID= -1;
 }
 
-
+/**
+ * The set method allows to configure the default SRMediaOutput device by
+ * setting the following parameters
+ *
+ * @param o_filename indicates the output filename
+ * @param o_settings indicates the settings set by the user
+ */
 void SRMediaOutput::set(string o_filename, SROutputSettings o_settings) {
     this->settings = {o_settings};
     this->filename = o_filename;
@@ -28,7 +34,9 @@ void SRMediaOutput::set(string o_filename, SROutputSettings o_settings) {
 
 }
 
-//initialize the output File
+/**
+ * The method initializes the output file
+ */
 int SRMediaOutput::initFile() {
     const char* filename = settings.filename.c_str();
 
@@ -71,6 +79,10 @@ int SRMediaOutput::initFile() {
 
     return 0;
 }
+
+/**
+ * The method creates the Audio output context setting all the proper parameters based on the settings configured with the set method
+ */
 int SRMediaOutput::createAudioStream() {
     int i;
     AVCodec* outACodec = nullptr;
@@ -126,6 +138,10 @@ int SRMediaOutput::createAudioStream() {
     avcodec_parameters_from_context(outputCtx->streams[audioStreamID]->codecpar, audioCtx);
     return 1;
 }
+
+/**
+ * The method creates the Video output context setting all the proper parameters based on the settings configured with the set method
+ */
 int SRMediaOutput::createVideoStream() {
     int i;
     AVStream *video_st = avformat_new_stream(outputCtx, nullptr);
@@ -194,6 +210,12 @@ AVCodecContext *SRMediaOutput::getAudioCodecContext() {
     return audioCtx;
 }
 
+/**
+ * The method writes a packet to an output media file after doing a rescale on the packet depending on the output context
+ *
+ * @param packet indicates the packet that is going to be written
+ * @param type indicates the type of frame to be written (audio or video)
+ */
 int SRMediaOutput::writePacket(AVPacket *packet, media_type type) {
     int ret;
     std::unique_lock w_lock(w_mutex);
@@ -215,6 +237,10 @@ string SRMediaOutput::getFilename() {
     return settings.filename;
 }
 
+/**
+ * SRMediaOutput destructor.
+ * The destructor frees all the pointers contained in the object
+ */
 SRMediaOutput::~SRMediaOutput() {
     if(outputCtx){
         if( av_write_trailer(outputCtx) < 0)

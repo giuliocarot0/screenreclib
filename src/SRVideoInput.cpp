@@ -13,9 +13,10 @@
  * @param _res can be used to set a precise device resolution. Use the macro AUTO_RESOLUTION to set
  * the maximum supported resolution
  * @param _fps set the requested frame rate, if not supported the capture will have an automatic frame rate selected by the device
+ * @throw SRDeviceDictionaryException if settings are invalid or not supported by the input device
  */
 
-void SRVideoInput::set( char *video_src, char *video_url, SRResolution _res,int _fps){
+void SRVideoInput::set(char *video_src, char *video_url, SRResolution _res,int _fps){
     device_url = video_url;
     device_src = video_src;
     this->fps = _fps;

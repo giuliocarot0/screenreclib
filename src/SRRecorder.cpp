@@ -4,9 +4,10 @@
 
 #include "SRRecorder.h"
 
-#include <utility>
-/*the constructor sets the inputs and open them to get their capabilities*/
-
+/**
+ * SRRecorder constructor.
+ * The constructor sets the inputs and open them to get their capabilities
+ */
 SRRecorder::SRRecorder(SRConfiguration configuration):
     /*audio and video have to be instantiated*/
     /* set the configuration*/
@@ -42,7 +43,8 @@ SRRecorder::SRRecorder(SRConfiguration configuration):
 
 
 /**
- * videoLoop
+ * This method defines the loop that wraps all the operations needed for the video capturing such as:
+ * getting the video frames, transcoding them and then writing them in output file
  */
 void SRRecorder::videoLoop() {
     AVPacket *inPacket, *outPacket;
@@ -97,7 +99,10 @@ void SRRecorder::videoLoop() {
     }
 }
 
-
+/**
+ * This method defines the loop that wraps all the operations needed for the audio capturing such as:
+ * getting the audio frames, transcoding them and then writing them in output file
+ */
 void SRRecorder::audioLoop() {
     AVPacket *inPacket, *outPacket;
     AVFrame *rawFrame, *scaled_frame;
@@ -162,9 +167,12 @@ void SRRecorder::audioLoop() {
     }
 }
 
+/**
+ * This method sets the configuration of the output file and the video filter
+ * and then creates the two threads which will loop on the audio and video cycles
+ */
 void SRRecorder::initCapture() {
-
-    /*instantiate SR modules */
+ /*instantiate SR modules */
  try{
      // set basics in outputSettings
 
@@ -174,7 +182,7 @@ void SRRecorder::initCapture() {
         if(videoInput == nullptr) videoInput = make_unique<SRVideoInput>();
         char *video_url = const_cast<char *>((configuration.video_url.empty()) ? VIDEO_URL
                                                                                : configuration.video_url.c_str());
-        videoInput->set(VIDEO_SRC, video_url, AUTO_RESOLUTION, VIDEO_FPS);
+        videoInput->set((char*)VIDEO_SRC, video_url, AUTO_RESOLUTION, VIDEO_FPS);
         videoInput->open();
         if (videoDecoder == nullptr) videoDecoder = make_unique<SRDecoder>();
         videoDecoder->setDecoderContext(videoInput->getCodecContext());
@@ -191,7 +199,7 @@ void SRRecorder::initCapture() {
          if(audioInput == nullptr) audioInput = make_unique<SRAudioInput>();
          char *audio_url = const_cast<char *>((configuration.audio_url.empty()) ? AUDIO_URL
                                                                                 : configuration.audio_url.c_str());
-         audioInput->set(AUDIO_SRC, audio_url);
+         audioInput->set((char*)AUDIO_SRC, audio_url);
          audioInput->open();
 
          if (audioDecoder == nullptr) audioDecoder = make_unique<SRDecoder>();
@@ -232,7 +240,9 @@ void SRRecorder::initCapture() {
 }
 
 
-/*throws parse configuration exception*/
+/**
+ * This method reads the configuration passed to the Recorder and looks for mistakes
+ */
 void SRRecorder::parseConfiguration() const {
     /* at least one codec should be provided*/
     if(!configuration.enable_audio && !configuration.enable_video )
@@ -252,7 +262,9 @@ void SRRecorder::parseConfiguration() const {
                                     ))
         throw ConfigurationParserException("Invalid crop setup");
 }
-
+/**
+ * This method starts the threads setting the value of the capture_switch to true
+ */
 void SRRecorder::startCapture() {
     if(kill_switch) return;
     std::unique_lock<std::shared_mutex> r_lock(r_mutex);
@@ -262,6 +274,9 @@ void SRRecorder::startCapture() {
     status = 2;
 }
 
+/**
+ * This method pauses the threads setting the value of the capture_switch to false
+ */
 void SRRecorder::pauseCapture() {
     if(kill_switch) return;
     std::unique_lock<std::shared_mutex> r_lock(r_mutex);
@@ -271,7 +286,9 @@ void SRRecorder::pauseCapture() {
     status = 3;
 }
 
-
+/**
+ * This method stops the threads setting the value of the kill_switch to true
+ */
 void SRRecorder::stopCaputure() {
     if(kill_switch) return;
     std::unique_lock<std::shared_mutex> r_lock(r_mutex);
@@ -292,7 +309,10 @@ bool SRRecorder::isInitialized() {
 bool SRRecorder::isPaused() {
     return status == 3;
 }
-
+/**
+ * SRRecorder destructor.
+ * The destructor waits for the termination of the audio and video threads using the join method
+ */
 SRRecorder::~SRRecorder() {
     try {
         if (videoThread != nullptr && videoThread->joinable()) {

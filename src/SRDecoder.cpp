@@ -4,7 +4,11 @@
 
 #include "transcoding/SRDecoder.h"
 
-
+/**
+ * The method wraps the avcodec_receive_frame which returns decoded output data from a decoder and includes some error checks
+ *
+ * @param frame is the frame that needs to be decoded
+ */
 int SRDecoder::getDecodedFrame(AVFrame* frame) {
     int ret;
     if(frame == nullptr) throw SRNullFrameException("Output frame has to be initialized by the caller");
@@ -17,6 +21,12 @@ int SRDecoder::getDecodedFrame(AVFrame* frame) {
             return ret;
 }
 
+/**
+ * The method wraps the avcodec_send_packet which supplies raw packet data as input to a decoder.
+ * Internally, this call will copy relevant AVCodecContext fields, which can influence decoding per-packet, and apply them when the packet is actually decoded.
+ *
+ * @param packet is the packet that needs to be decoded
+ */
 int SRDecoder::decodePacket(AVPacket* packet) {
     int ret;
     if(packet == nullptr) throw SRNullPacketException("Decoder received a null packet.");
