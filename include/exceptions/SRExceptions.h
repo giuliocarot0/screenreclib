@@ -21,24 +21,24 @@ class SRNonJoinableException: public SRException{
 public:
     explicit SRNonJoinableException(const char* msg): SRException(msg){};
 };
-class openSourceParameterException: public SRException{
+class SRDeviceDictionaryException: public SRException{
 public:
-    explicit openSourceParameterException(const char* msg): SRException(msg){};
+    explicit SRDeviceDictionaryException(const char* msg): SRException(msg){};
 };
 
-class openSourceException: public SRException{
+class SRDeviceException: public SRException{
 public:
-    explicit openSourceException(const char* msg): SRException(msg){};
+    explicit SRDeviceException(const char* msg): SRException(msg){};
 };
 
-class streamInformationException: public SRException{
+class SRStreamInformationException: public SRException{
 public:
-    explicit streamInformationException(const char* msg): SRException(msg){};
+    explicit SRStreamInformationException(const char* msg): SRException(msg){};
 };
 
-class streamIndexException: public SRException{
+class SRStreamIndexException: public SRException{
 public:
-    explicit streamIndexException(const char* msg): SRException(msg){};
+    explicit SRStreamIndexException(const char* msg): SRException(msg){};
 };
 
 class findDecoderException: public SRException{

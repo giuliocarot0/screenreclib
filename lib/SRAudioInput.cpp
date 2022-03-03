@@ -25,7 +25,7 @@ AVFormatContext* SRAudioInput::open(){
     inAInputFormat = av_find_input_format(device_src);
     value = avformat_open_input(&inFormatContext, device_url, inAInputFormat, &options);
     if (value != 0) {
-        throw openSourceException("Cannot open selected audio device");
+        throw SRDeviceException("Cannot open selected audio device");
 
     }
 
@@ -33,7 +33,7 @@ AVFormatContext* SRAudioInput::open(){
     //get audio stream infos from context
     value = avformat_find_stream_info(inFormatContext, nullptr);
     if (value < 0) {
-        throw streamInformationException("Cannot find the stream information");
+        throw SRStreamInformationException("Cannot find the stream information");
     }
 
     //find the first audio stream with a given code
@@ -46,7 +46,7 @@ AVFormatContext* SRAudioInput::open(){
     }
 
     if (streamIndex == -1) {
-        throw streamIndexException("Cannot find the video stream index.");
+        throw SRStreamIndexException("Cannot find the video stream index.");
 
     }
 

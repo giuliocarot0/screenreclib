@@ -134,7 +134,7 @@ void SRVideoFilter::enableCropper() {
         /*end:
             avfilter_inout_free(&cropfilter.inputs);
             avfilter_inout_free(&cropfilter.outputs);
-            //todo cropperException
+
     */
     // Allocate and return swsContext.
     // a pointer to an allocated context, or NULL in case of error

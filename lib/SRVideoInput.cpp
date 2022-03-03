@@ -37,13 +37,13 @@ void SRVideoInput::set( char *video_src, char *video_url, SRResolution _res,int 
     }
     value = av_dict_set(&options, "capture_cursor", "1", 0);
     if (value < 0) {
-        throw openSourceParameterException("Found capture_cursor value wrong while opening video input");
+        throw SRDeviceDictionaryException("Found capture_cursor value wrong while opening video input");
     }
 #endif
     if(fps > 0) {
         value = av_dict_set(&options, "framerate", s, 0);
         if (value < 0) {
-            throw openSourceParameterException("Found framerate value wrong while opening video input");
+            throw SRDeviceDictionaryException("Found framerate value wrong while opening video input");
         }
     }
     if(_res.width != 0 && _res.height != 0 ) {
@@ -52,17 +52,17 @@ void SRVideoInput::set( char *video_src, char *video_url, SRResolution _res,int 
 
         value = av_dict_set(&options, "video_size", s, 0);
         if (value < 0) {
-            throw openSourceParameterException("Found video size value wrong while opening video input");
+            throw SRDeviceDictionaryException("Found video size value wrong while opening video input");
         }
     }
     value = av_dict_set(&options, "preset", "high", 0);
     if (value < 0) {
-        throw openSourceParameterException("Found preset value wrong while opening video input");
+        throw SRDeviceDictionaryException("Found preset value wrong while opening video input");
     }
 
     value = av_dict_set(&options, "probesize", "60M", 0);
     if (value < 0) {
-        throw openSourceParameterException("Found probesize value wrong while opening video input");
+        throw SRDeviceDictionaryException("Found probesize value wrong while opening video input");
     }
 
 }
@@ -72,9 +72,9 @@ void SRVideoInput::set( char *video_src, char *video_url, SRResolution _res,int 
  * putting data in the device buffer.
  *
  * @return the device context
- * @throw openSourceException
- * @throw streamIndexException
- * @throw streamInformationException
+ * @throw SRDeviceException
+ * @throw SRStreamIndexException
+ * @throw SRStreamInformationException
  * @throw openAVCodecException
  */
 
@@ -92,14 +92,14 @@ AVFormatContext* SRVideoInput::open(){
     inVInputFormat = av_find_input_format(device_src);
     value = avformat_open_input(&inFormatContext, device_url, inVInputFormat, &options);
     if (value != 0) {
-        throw openSourceException(strcat("Cannot open selected video device: ", device_src));
+        throw SRDeviceException(strcat("Cannot open selected video device: ", device_src));
     }
 
 
     //get video stream infos from context
     value = avformat_find_stream_info(inFormatContext, nullptr);
     if (value < 0) {
-        throw streamInformationException("Cannot extract stream information");
+        throw SRStreamInformationException("Cannot extract stream information");
     }
 
     //find the first video stream with a given code
@@ -111,7 +111,7 @@ AVFormatContext* SRVideoInput::open(){
     }
 
     if (streamIndex == -1) {
-        throw streamIndexException("No streams found for the selected device");
+        throw SRStreamIndexException("No streams found for the selected device");
 
     }
 
