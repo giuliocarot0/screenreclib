@@ -56,6 +56,7 @@ public:
 
 private:
     /*pointers for holding initialized units*/
+
     /*demuxer*/
     std::unique_ptr<SRVideoInput> videoInput;
     std::unique_ptr<SRAudioInput> audioInput;
@@ -77,6 +78,8 @@ private:
     /* threads */
     std::unique_ptr<thread> videoThread;
     std::unique_ptr<thread> audioThread;
+    exception_ptr v_exception;
+    exception_ptr a_exception;
 
     /*condition variables for threads*/
     bool capture_switch;

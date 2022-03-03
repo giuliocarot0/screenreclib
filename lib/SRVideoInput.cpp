@@ -86,18 +86,18 @@ AVFormatContext* SRVideoInput::open(){
     AVInputFormat* inVInputFormat =nullptr;
     int value = 0;
 
-    inFormatContext = avformat_alloc_context();
+    inFormatContext = avformat_alloc_context_shared();
 
     //get input format
     inVInputFormat = av_find_input_format(device_src);
-    value = avformat_open_input(&inFormatContext, device_url, inVInputFormat, &options);
+    value = avformat_open_input(&((AVFormatContext*)inFormatContext.get()), device_url, inVInputFormat, &options);
     if (value != 0) {
         throw openSourceException(strcat("Cannot open selected video device: ", device_src));
     }
 
 
     //get video stream infos from context
-    value = avformat_find_stream_info(inFormatContext, nullptr);
+    value = avformat_find_stream_info(inFormatContext.get(), nullptr);
     if (value < 0) {
         throw streamInformationException("Cannot extract stream information");
     }
@@ -122,9 +122,9 @@ AVFormatContext* SRVideoInput::open(){
     }
 
 
-    inCodecContext = avcodec_alloc_context3(inVCodec);
+    inCodecContext = avcodec_alloc_context_shared(inVCodec);
 
-    avcodec_parameters_to_context(inCodecContext, params);
+    avcodec_parameters_to_context(inCodecContext.get(), params);
     AVRational r_fps;
     if(fps>0) r_fps = {fps, 1};
     else r_fps = AVRational{inFormatContext->streams[streamIndex]->r_frame_rate};
@@ -142,14 +142,14 @@ AVFormatContext* SRVideoInput::open(){
  * If available, the methods retrieves the device resolution and returns it
  *
  * @return a SRResolution data structure containing the input resolution
- * @throw DeviceNotOpenException if the device is not open or initialized correctly
+ * @throw SRNullInputException if the device is not open or initialized correctly
  */
 SRResolution SRVideoInput::getInputResolution() {
     if(inCodecContext!=nullptr) {
         return {inCodecContext->width, inCodecContext->height};
     }
     else {
-        throw DeviceNotOpenException("Device not ready, cannot retrieve resolution");
+        throw SRNullInputException("Device not ready, cannot retrieve resolution");
     };
 }
 

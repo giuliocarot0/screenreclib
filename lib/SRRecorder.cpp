@@ -12,7 +12,9 @@ SRRecorder::SRRecorder(SRConfiguration configuration):
     /* set the configuration*/
     videoInput(nullptr),
     audioInput(nullptr),
-    /*transcoding*/
+    v_exception(nullptr),
+    a_exception(nullptr),
+        /*transcoding*/
     videoEncoder(nullptr),
     videoDecoder(nullptr),
     videoFilter(nullptr),
@@ -39,7 +41,9 @@ SRRecorder::SRRecorder(SRConfiguration configuration):
 }
 
 
-
+/**
+ * videoLoop
+ */
 void SRRecorder::videoLoop() {
     AVPacket *inPacket, *outPacket;
     AVFrame *rawFrame, *scaled_frame;
@@ -54,42 +58,42 @@ void SRRecorder::videoLoop() {
     long long int pause_dur = 0;
 
     printf("[SRlib][VideoThread] started\n");
+    try {
+        while (true) {
+            if (r_lock.try_lock()) {
+                last_state = capture_switch;
+                if (kill_switch)
+                    break;
+                r_lock.unlock();
+            }
+            /* set an additive offset to readPacket*/
+            if (!last_state)
+                pause_dur = pause_pts - last_pts;
+            else pause_dur = 0;
 
-    while(true) {
-
-        if(r_lock.try_lock()){
-            last_state = capture_switch;
-            if(kill_switch)
-                break;
-            r_lock.unlock();
-        }
-        /* set an additive offset to readPacket*/
-        if(!last_state)
-            pause_dur = pause_pts - last_pts;
-        else pause_dur = 0;
-
-        if(videoInput->readPacket(inPacket, pause_dur) >= 0){
-               if(last_state) {
+            if (videoInput->readPacket(inPacket, pause_dur) >= 0) {
+                if (last_state) {
                     last_pts = inPacket->pts;
+                } else {
+                    pause_pts = inPacket->pts;
+                    continue;
                 }
-               else {
-                   pause_pts = inPacket->pts;
-                   continue;
-               }
-           // r_lock.unlock();
 
-            videoDecoder->decodePacket(inPacket);
-            while(videoDecoder->getDecodedFrame(rawFrame)>=0){
-                scaled_frame = videoFilter->filterFrame(rawFrame);
-                if(videoEncoder->encodeFrame(scaled_frame) < 0)
-                    printf("DROPPED");
-                while (videoEncoder->getEncodedPacket(outPacket) >= 0) {
-                    if (outputFile->writePacket(outPacket, video /*passing a video packet*/) < 0) {
+                videoDecoder->decodePacket(inPacket);
+                while (videoDecoder->getDecodedFrame(rawFrame) >= 0) {
+                    scaled_frame = videoFilter->filterFrame(rawFrame);
+                    if (videoEncoder->encodeFrame(scaled_frame) < 0)
                         printf("DROPPED");
+                    while (videoEncoder->getEncodedPacket(outPacket) >= 0) {
+                        if (outputFile->writePacket(outPacket, video /*passing a video packet*/) < 0) {
+                            printf("DROPPED");
+                        }
                     }
                 }
             }
         }
+    }catch (exception &e){
+        v_exception = current_exception();
     }
 }
 
@@ -111,52 +115,56 @@ void SRRecorder::audioLoop() {
     long long int pause_dur = 0;
 
     printf("[SRlib][AudioThread] started\n");
-
-    while(true) {
-
-        if(r_lock.try_lock()){
-            last_state = capture_switch;
-            if(kill_switch)
-                break;
-            r_lock.unlock();
-        }
-        /* set an additive offset to readPacket*/
-        if(!last_state)
-            pause_dur = pause_pts - last_pts;
-        else pause_dur = 0;
-
-        if (audioInput->readPacket(inPacket,pause_dur) >= 0) {
-            if(last_state) {
-                last_pts = inPacket->pts;
+    try {
+        while (true) {
+            if (r_lock.try_lock()) {
+                last_state = capture_switch;
+                if (kill_switch)
+                    break;
+                r_lock.unlock();
             }
-            else {
-                pause_pts = inPacket->pts;
-                continue;
-            }
+            /* set an additive offset to readPacket*/
+            if (!last_state)
+                pause_dur = pause_pts - last_pts;
+            else pause_dur = 0;
 
-            audioDecoder->decodePacket(inPacket);
-            while (audioDecoder->getDecodedFrame(rawFrame) >= 0) {
-                scaled_frame = audioFilter->filterFrame(rawFrame);
-                while (av_audio_fifo_size(audioFilter->getFifo()) >= audioEncoder->getEncoderContext()->frame_size) {
-                    av_audio_fifo_read(audioFilter->getFifo(), (void **) (scaled_frame->data),audioEncoder->getEncoderContext()->frame_size);
-                    scaled_frame->pts = pts;
-                    pts += scaled_frame->nb_samples;
-                    if (audioEncoder->encodeFrame(scaled_frame) < 0) {
-                        printf("DROPPED");
-                    };
-                    while (audioEncoder->getEncodedPacket(outPacket) >= 0) {
-                        if (outputFile->writePacket(outPacket, audio /*passing a audio packet*/) < 0) {
+            if (audioInput->readPacket(inPacket, pause_dur) >= 0) {
+                if (last_state) {
+                    last_pts = inPacket->pts;
+                } else {
+                    pause_pts = inPacket->pts;
+                    continue;
+                }
+
+                audioDecoder->decodePacket(inPacket);
+                while (audioDecoder->getDecodedFrame(rawFrame) >= 0) {
+                    scaled_frame = audioFilter->filterFrame(rawFrame);
+                    while (av_audio_fifo_size(audioFilter->getFifo()) >=
+                           audioEncoder->getEncoderContext()->frame_size) {
+                        av_audio_fifo_read(audioFilter->getFifo(), (void **) (scaled_frame->data),
+                                           audioEncoder->getEncoderContext()->frame_size);
+                        scaled_frame->pts = pts;
+                        pts += scaled_frame->nb_samples;
+                        if (audioEncoder->encodeFrame(scaled_frame) < 0) {
                             printf("DROPPED");
+                        };
+                        while (audioEncoder->getEncodedPacket(outPacket) >= 0) {
+                            if (outputFile->writePacket(outPacket, audio /*passing a audio packet*/) < 0) {
+                                printf("DROPPED");
+                            }
                         }
                     }
                 }
             }
         }
+    }catch(exception &e){
+        a_exception = current_exception();
     }
 }
 
 void SRRecorder::initCapture() {
- /*instantiate SR modules */
+
+    /*instantiate SR modules */
  try{
      // set basics in outputSettings
 
@@ -298,4 +306,8 @@ SRRecorder::~SRRecorder() {
     }catch (SRException &e_){
         throw SRNonJoinableException("Cannot join threads");
     }
+    if(v_exception != nullptr)
+        rethrow_exception(v_exception);
+    if(a_exception != nullptr)
+        rethrow_exception(a_exception);
 }

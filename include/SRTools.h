@@ -130,5 +130,14 @@ static bool assertMP4(string filename){
     else
         return true;
 }
+
+static shared_ptr<AVFormatContext> avformat_alloc_context_shared(){
+    shared_ptr<AVFormatContext> avfctx (avformat_alloc_context(), avformat_close_input);
+    return avfctx;
+}
+static shared_ptr<AVCodecContext> avcodec_alloc_context_shared(AVCodec *codec){
+    shared_ptr<AVCodecContext> avcodctx(avcodec_alloc_context3(codec), avcodec_free_context);
+    return avcodctx;
+}
 #endif //SCREENRECLIB_SRTOOLS_H
 

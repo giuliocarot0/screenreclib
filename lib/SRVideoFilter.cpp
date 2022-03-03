@@ -18,7 +18,7 @@
  */
 AVFrame* SRVideoFilter::filterFrame(AVFrame* input_frame) {
     if(scaled_frame == nullptr || encoder == nullptr || decoder == nullptr || rescaling_context == nullptr) {
-        throw UninitializedFilterException("Audio filter not initialized");
+        throw UninitializedFilterException("Filter Chain has not been initialized correctly.");
     }
     int ret;
     //initializing scaleFrame
@@ -121,25 +121,21 @@ void SRVideoFilter::enableCropper() {
              off.x, off.y);
 
     ret = avfilter_graph_parse2(cropfilter.graph, args, &cropfilter.inputs, &cropfilter.outputs);
-    if (ret < 0) exit(1);
+    if (ret < 0) throw SRFilterException("Cannot initialize crop filter");
     assert(cropfilter.inputs == nullptr && cropfilter.outputs == nullptr);
     ret = avfilter_graph_config(cropfilter.graph, nullptr);
-    if (ret < 0) exit(1);
+    if (ret < 0) throw SRFilterException("Cannot initialize crop filter");
 
     cropfilter.src_ctx = avfilter_graph_get_filter(cropfilter.graph, "Parsed_buffer_0");
     cropfilter.sink_ctx = avfilter_graph_get_filter(cropfilter.graph, "Parsed_buffersink_2");
 
-
-        assert(cropfilter.src_ctx != nullptr);
-        assert(cropfilter.sink_ctx != nullptr);
-
+    if (cropfilter.src_ctx == nullptr || cropfilter.sink_ctx == nullptr) throw SRFilterException("Cannot initialize crop filter");
         cropper_enabled = true;
         /*end:
             avfilter_inout_free(&cropfilter.inputs);
             avfilter_inout_free(&cropfilter.outputs);
             //todo cropperException
     */
-
     // Allocate and return swsContext.
     // a pointer to an allocated context, or NULL in case of error
     // Deprecated : Use sws_getCachedContext() instead.
