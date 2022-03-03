@@ -86,18 +86,18 @@ AVFormatContext* SRVideoInput::open(){
     AVInputFormat* inVInputFormat =nullptr;
     int value = 0;
 
-    inFormatContext = avformat_alloc_context_shared();
+    inFormatContext = avformat_alloc_context();
 
     //get input format
     inVInputFormat = av_find_input_format(device_src);
-    value = avformat_open_input(&((AVFormatContext*)inFormatContext.get()), device_url, inVInputFormat, &options);
+    value = avformat_open_input(&inFormatContext, device_url, inVInputFormat, &options);
     if (value != 0) {
         throw openSourceException(strcat("Cannot open selected video device: ", device_src));
     }
 
 
     //get video stream infos from context
-    value = avformat_find_stream_info(inFormatContext.get(), nullptr);
+    value = avformat_find_stream_info(inFormatContext, nullptr);
     if (value < 0) {
         throw streamInformationException("Cannot extract stream information");
     }
@@ -122,9 +122,9 @@ AVFormatContext* SRVideoInput::open(){
     }
 
 
-    inCodecContext = avcodec_alloc_context_shared(inVCodec);
+    inCodecContext = avcodec_alloc_context3(inVCodec);
 
-    avcodec_parameters_to_context(inCodecContext.get(), params);
+    avcodec_parameters_to_context(inCodecContext, params);
     AVRational r_fps;
     if(fps>0) r_fps = {fps, 1};
     else r_fps = AVRational{inFormatContext->streams[streamIndex]->r_frame_rate};

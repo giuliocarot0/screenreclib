@@ -14,15 +14,15 @@ class SRInput {
         char* device_url;
         AVDictionary *options;
         int streamIndex;
-        std::shared_ptr<AVFormatContext> inFormatContext;
-        std::shared_ptr<AVCodecContext> inCodecContext;
+        AVFormatContext *inFormatContext;
+        AVCodecContext *inCodecContext;
 
     public:
         SRInput();
 
-        virtual std::shared_ptr<AVFormatContext> open() = 0;
+        virtual AVFormatContext* open() = 0;
         virtual ~SRInput();
-        std::shared_ptr<AVCodecContext> getCodecContext() const;
+        AVCodecContext *getCodecContext() const;
 
     int readPacket(AVPacket* read_packet, long long int pts_offset);
 };
