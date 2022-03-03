@@ -17,24 +17,24 @@ endif()
 include_directories(../../include)
 add_executable(SimpleMain
         main.cpp
-        ../../lib/SRDecoder.cpp
+        ../../src/SRDecoder.cpp
         ../../include/transcoding/SRDecoder.h
-        ../../lib/SREncoder.cpp
+        ../../src/SREncoder.cpp
         ../../include/transcoding/SREncoder.h
-        ../../lib/SRMediaOutput.cpp
+        ../../src/SRMediaOutput.cpp
         ../../include/muxing/SRMediaOutput.h
-        ../../lib/SRVideoInput.cpp
+        ../../src/SRVideoInput.cpp
         ../../include/demuxing/SRVideoInput.h
-        ../../lib/SRAudioInput.cpp
+        ../../src/SRAudioInput.cpp
         ../../include/demuxing/SRAudioInput.h
         ../../include/SRTools.h
-        ../../lib/SRInput.cpp
+        ../../src/SRInput.cpp
         ../../include/exceptions/SRExceptions.h
-        ../../lib/SRVideoFilter.cpp
+        ../../src/SRVideoFilter.cpp
         ../../include/transcoding/SRVideoFilter.h
         ../../include/transcoding/SRAudioFilter.h
-        ../../lib/SRAudioFilter.cpp
-        ../../lib/SRRecorder.cpp
+        ../../src/SRAudioFilter.cpp
+        ../../src/SRRecorder.cpp
         ../../include/SRRecorder.h)
 
 target_link_libraries(
