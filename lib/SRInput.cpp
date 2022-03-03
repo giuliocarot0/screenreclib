@@ -29,19 +29,15 @@ SRInput::SRInput() {
  */
 int SRInput::readPacket(AVPacket* read_packet, long long int pts_offset) {
     int ret;
-    //todo: Invalid device exception
-    ret = av_read_frame(inFormatContext, read_packet);
+    if(inFormatContext!= nullptr) throw SRNullContextException("Invalid Input Format Context. Check if SRInput has been correctly initialized");
+    ret = av_read_frame(inFormatContext.get(), read_packet);
     if (ret >= 0 && read_packet->stream_index == streamIndex) {
-        //todo: check if a rescale is needed here
-        // todo: make write to output container thread safe
-        //printf("\nBefore: %lld,%lld\n", read_packet->pts, read_packet->duration);
         av_packet_rescale_ts(read_packet, inFormatContext->streams[streamIndex]->time_base,inCodecContext->time_base);
         if(first_pts<0)
             first_pts = read_packet->pts;
         if(pts_offset>0){
             first_pts = first_pts + pts_offset;
         }
-        //read_packet->dts -= (first_pts + pts_offset);
         read_packet->pts -= first_pts;
         return ret;
     } else

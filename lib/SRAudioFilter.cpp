@@ -36,7 +36,6 @@ int SRAudioFilter::add_samples_to_fifo(const int frame_size){
 
 
 int SRAudioFilter::initConvertedSamples(int frame_size){
-    int error;
     /* Allocate as many pointers as there are audio channels.
      * Each pointer will later point to the audio samples of the corresponding
      * channels (although it may be NULL for interleaved formats).

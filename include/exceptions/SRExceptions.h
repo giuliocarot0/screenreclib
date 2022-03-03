@@ -56,11 +56,14 @@ public:
     explicit ConfigurationParserException(const char* msg): SRException(msg){};
 };
 
-class DeviceNotOpenException: public SRException{
+class SRNullInputException: public SRException{
 public:
-    explicit DeviceNotOpenException(const char* msg): SRException(msg){};
+    explicit SRNullInputException(const char* msg): SRException(msg){};
 };
-
+class SRFilterException: public SRException{
+public:
+    explicit SRFilterException(const char* msg): SRException(msg){};
+};
 class DecoderException: public SRException{
 public:
     explicit DecoderException(const char* msg): SRException(msg){};
@@ -142,4 +145,18 @@ public:
     explicit NoFreeStreamException(const char* msg): SRException(msg){};
 };
 
+class SRNullFrameException: public SRException{
+public:
+    explicit SRNullFrameException(const char* msg): SRException(msg){};
+};
+
+class SRNullPacketException: public SRException{
+public:
+    explicit SRNullPacketException(const char* msg): SRException(msg){};
+};
+
+class SRNullContextException: public SRException{
+public:
+    explicit SRNullContextException(const char* msg): SRException(msg){};
+};
 #endif //SCREENRECLIB_SREXCEPTIONS_H

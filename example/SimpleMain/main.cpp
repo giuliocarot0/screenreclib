@@ -1,7 +1,6 @@
 #include "../../include/SRRecorder.h"
 
 int main(){
-    //todo: parse filename and append .mp4 to it, if null then uses default name
 
 
     SRConfiguration configuration;
