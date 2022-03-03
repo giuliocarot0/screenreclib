@@ -30,7 +30,7 @@ SRInput::SRInput() {
 int SRInput::readPacket(AVPacket* read_packet, long long int pts_offset) {
     int ret;
     if(inFormatContext!= nullptr) throw SRNullContextException("Invalid Input Format Context. Check if SRInput has been correctly initialized");
-    ret = av_read_frame(inFormatContext.get(), read_packet);
+    ret = av_read_frame(inFormatContext, read_packet);
     if (ret >= 0 && read_packet->stream_index == streamIndex) {
         av_packet_rescale_ts(read_packet, inFormatContext->streams[streamIndex]->time_base,inCodecContext->time_base);
         if(first_pts<0)
