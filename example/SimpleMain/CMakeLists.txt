@@ -4,8 +4,10 @@ project(SimpleMain)
 set(CMAKE_CXX_STANDARD 17)
 
 if(WIN32)
-    link_directories(C:\\Users\\aless\\Desktop\\ffmpeg-4.4-full_build-shared\\ffmpeg-4.4-full_build-shared\\lib)
-    include_directories(C:\\Users\\aless\\Desktop\\ffmpeg-4.4-full_build-shared\\ffmpeg-4.4-full_build-shared\\include)
+    set(PATH_TO_FFMPEG C:\\Users\\aless\\Desktop\\ffmpeg-4.4-full_build-shared\\)
+
+    link_directories(${PATH_TO_FFMPEG}\\ffmpeg-4.4-full_build-shared\\lib)
+    include_directories(${PATH_TO_FFMPEG}\\ffmpeg-4.4-full_build-shared\\include)
 endif()
 
 

@@ -26,6 +26,7 @@ int SREncoder::encodeFrame(AVFrame *frame) {
  * The method wraps the avcodec_receive_packet which reads encoded data from the encoder and includes some error checks
  *
  * @param packet is the packet that needs to be decoded
+ * @throws EncoderException if an error occurs while getting the packet from the encoder
  */
 int SREncoder::getEncodedPacket(AVPacket* packet) {
     int ret;

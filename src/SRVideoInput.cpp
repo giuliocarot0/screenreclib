@@ -73,10 +73,11 @@ void SRVideoInput::set(char *video_src, char *video_url, SRResolution _res,int _
  * putting data in the device buffer.
  *
  * @return the device context
- * @throw SRDeviceException
- * @throw SRStreamIndexException
- * @throw SRStreamInformationException
- * @throw openAVCodecException
+ * @throw SRDeviceException if the device, selected with the device_src and device_url strings, cannot be opened
+ * @throw SRStreamIndexException if information about the input format context cannot be found
+ * @throw SRStreamInformationException if the index of the audio stream cannot be found
+ * @throws findDecoderException if the input codec cannot be found
+ * @throw openAVCodecException if the codec context generated from the decoder cannot be opened
  */
 
 AVFormatContext* SRVideoInput::open(){

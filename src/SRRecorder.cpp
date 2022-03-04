@@ -242,6 +242,9 @@ void SRRecorder::initCapture() {
 
 /**
  * This method reads the configuration passed to the Recorder and looks for mistakes
+ *
+ * @throws ConfigurationParserException if any parameter of the configuration passed to the SRRecorder is not correct
+ *
  */
 void SRRecorder::parseConfiguration() const {
     /* at least one codec should be provided*/
@@ -312,6 +315,9 @@ bool SRRecorder::isPaused() {
 /**
  * SRRecorder destructor.
  * The destructor waits for the termination of the audio and video threads using the join method
+ *
+ * @throws SRNonJoinableException if the join of the threads fails
+ *
  */
 SRRecorder::~SRRecorder() {
     try {

@@ -36,6 +36,12 @@ void SRMediaOutput::set(string o_filename, SROutputSettings o_settings) {
 
 /**
  * The method initializes the output file
+ *
+ * @throws OutputFormatException if the output format cannot be guessed from the filename
+ * @throws OutputContextAllocationException if the allocation of the output context fails
+ * @throws FileOpeningException if the creation and opening of the output file fails
+ * @throws NoValidStreamsException if the output file doesn't contain any stream
+ * @throws OutputHeaderWritingException if an error occurs while writing the headers of the file
  */
 int SRMediaOutput::initFile() {
     const char* filename = settings.filename.c_str();
@@ -82,6 +88,13 @@ int SRMediaOutput::initFile() {
 
 /**
  * The method creates the Audio output context setting all the proper parameters based on the settings configured with the set method
+ *
+ * @throws StreamException if the audio stream cannot be created
+ * @throws FindEncoderException if the encoder selected cannot be found
+ * @throws AVCodecAllocationException if the allocation of the Codec Context fails
+ * @throws CodecOpeningException if the opening of the codec context fails
+ * @throws NoFreeStreamException if a free stream for audio on the output cannot be found
+ *
  */
 int SRMediaOutput::createAudioStream() {
     int i;
@@ -141,6 +154,12 @@ int SRMediaOutput::createAudioStream() {
 
 /**
  * The method creates the Video output context setting all the proper parameters based on the settings configured with the set method
+ *
+ * @throws StreamException if the video stream cannot be created
+ * @throws FindEncoderException if the encoder selected cannot be found
+ * @throws AVCodecAllocationException if the allocation of the Codec Context fails
+ * @throws CodecOpeningException if the opening of the codec context fails
+ * @throws NoFreeStreamException if a free stream for audio on the output cannot be found
  */
 int SRMediaOutput::createVideoStream() {
     int i;
@@ -151,7 +170,7 @@ int SRMediaOutput::createVideoStream() {
     }
     AVCodec* outVCodec = avcodec_find_encoder(settings.video_codec);
     if (!outVCodec) {
-        throw FindEncoderException("Cannot find requested audio encoder");
+        throw FindEncoderException("Cannot find requested video encoder");
     }
     videoCtx = avcodec_alloc_context3(outVCodec);
     if (!videoCtx) {

@@ -8,6 +8,9 @@
  * The method wraps the avcodec_receive_frame which returns decoded output data from a decoder and includes some error checks
  *
  * @param frame is the frame that needs to be decoded
+ * @throws SRNullFrameException if the output frame has not been initialized
+ * @throws SRNullContextException if the decoder has not been initialized correctly
+ * @throws DecoderException if an error occurs while getting the frame from the decoder
  */
 int SRDecoder::getDecodedFrame(AVFrame* frame) {
     int ret;
@@ -26,6 +29,8 @@ int SRDecoder::getDecodedFrame(AVFrame* frame) {
  * Internally, this call will copy relevant AVCodecContext fields, which can influence decoding per-packet, and apply them when the packet is actually decoded.
  *
  * @param packet is the packet that needs to be decoded
+ * @throws SRNullPacketException if the received packet is null
+ * @throws SRNullContextException if the decoder has not been initialized correctly
  */
 int SRDecoder::decodePacket(AVPacket* packet) {
     int ret;

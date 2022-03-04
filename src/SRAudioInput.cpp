@@ -10,6 +10,11 @@
  *
  * @override
  * @return the device context
+ * @throws SRDeviceException if the device, selected with the device_src and device_url strings, cannot be opened
+ * @throws SRStreamInformationException if information about the input format context cannot be found
+ * @throws SRStreamIndexException if the index of the audio stream cannot be found
+ * @throws findDecoderException if the input codec cannot be found
+ * @throws openAVCodecException if the codec context generated from the decoder cannot be opened
  */
 AVFormatContext* SRAudioInput::open(){
     //if one of them != nullptr then input already initialized
@@ -46,7 +51,7 @@ AVFormatContext* SRAudioInput::open(){
     }
 
     if (streamIndex == -1) {
-        throw SRStreamIndexException("Cannot find the video stream index.");
+        throw SRStreamIndexException("Cannot find the audio stream index.");
 
     }
 

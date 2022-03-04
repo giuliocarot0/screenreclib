@@ -14,6 +14,7 @@
  * The input frame is deleted after the process and cannot be used anymore.
  *
  * @param input_frame is the raw frame received from the decoder
+ * @throws CropperException if an error while enabling the video cropper occurs
  * @return the pointer to the processed frame
  */
 AVFrame* SRVideoFilter::filterFrame(AVFrame* input_frame) {
@@ -58,6 +59,10 @@ AVFrame* SRVideoFilter::filterFrame(AVFrame* input_frame) {
  * When the method is called, all the necessary modules and object to support the filter are instantiated.
  * The filter is set up by using information both from the input codec context and both from the output codec context,
  * to understand how the frame has to be processed.
+ *
+ * @throws InvalidFilterParametersException if the decoder or the encoder are not correctly initialized
+ * @throws BufferAllocationException if the malloc for allocation the video buffer fails
+ *
  */
 void SRVideoFilter::enableBasic() {
     if(encoder == nullptr || decoder == nullptr) {
@@ -101,6 +106,9 @@ void SRVideoFilter::enableBasic() {
  * The filter is set up by using information from the input codec context
  * (to understand the input resolution and pixel format) from the output codec context (which has to be set with
  * the cropped resolution before calling this method) and from the crop settings to understand the crop offset.
+ *
+ * @throws SRFilterException if the crop filter cannot be initialized
+ *
  */
 void SRVideoFilter::enableCropper() {
     char args[512];

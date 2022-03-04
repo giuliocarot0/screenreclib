@@ -76,6 +76,7 @@ AVAudioFifo *SRAudioFilter::getFifo() const {
 /**
  * The method initializes the AudioFilter allocating the resampling context and the frame used for filtering
  *
+ * @throws InvalidFilterParametersException if the decoder or the encoder are not correctly initialized
  */
 void SRAudioFilter::init() {
     if(encoder == nullptr || decoder == nullptr) {
@@ -109,6 +110,8 @@ void SRAudioFilter::init() {
  * The method applies the resampling to the frame and set all the parameters needed in the frame before the encoding of the frame
  *
  * @param inputFrame is the frame that needs to be filtered
+ * @throws UninitializedFilterException if the decoder or the resampling context or the encoder or the exit frame are not correctly initialized
+ * @return the scaled frame resampled with the configured context
  */
 AVFrame *SRAudioFilter::filterFrame(AVFrame *inputFrame) {
     if(scaled_frame == nullptr || encoder == nullptr || decoder == nullptr || resampling_context == nullptr) {
