@@ -141,6 +141,12 @@ AVCodecContext *&#160;</td><td class="memItemRight" valign="bottom"><b>inCodecCo
 </div><div class="memdoc">
 <p >If available, the methods retrieves the device resolution and returns it</p>
 <dl class="section return"><dt>Returns</dt><dd>a SRResolution data structure containing the input resolution </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="class_s_r_null_input_exception.html">SRNullInputException</a></td><td>if the device is not open or initialized correctly </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -168,6 +174,16 @@ AVCodecContext *&#160;</td><td class="memItemRight" valign="bottom"><b>inCodecCo
 </div><div class="memdoc">
 <p >The method opens the device, defines a codec context for decoding the video stream and starts putting data in the device buffer.</p>
 <dl class="section return"><dt>Returns</dt><dd>the device context </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="class_s_r_device_exception.html">SRDeviceException</a></td><td>if the device, selected with the device_src and device_url strings, cannot be opened </td></tr>
+    <tr><td class="paramname"><a class="el" href="class_s_r_stream_index_exception.html">SRStreamIndexException</a></td><td>if information about the input format context cannot be found </td></tr>
+    <tr><td class="paramname"><a class="el" href="class_s_r_stream_information_exception.html">SRStreamInformationException</a></td><td>if the index of the audio stream cannot be found </td></tr>
+    <tr><td class="paramname"><a class="el" href="classfind_decoder_exception.html">findDecoderException</a></td><td>if the input codec cannot be found </td></tr>
+    <tr><td class="paramname"><a class="el" href="classopen_a_v_codec_exception.html">openAVCodecException</a></td><td>if the codec context generated from the decoder cannot be opened </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p>Implements <a class="el" href="class_s_r_input.html">SRInput</a>.</p>
 
@@ -220,12 +236,18 @@ AVCodecContext *&#160;</td><td class="memItemRight" valign="bottom"><b>inCodecCo
   </table>
   </dd>
 </dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="class_s_r_device_dictionary_exception.html">SRDeviceDictionaryException</a></td><td>if settings are invalid or not supported by the input device </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>/Users/giuliocarota/CLionProjects/screenreclib/include/demuxing/<a class="el" href="_s_r_video_input_8h_source.html">SRVideoInput.h</a></li>
-<li>/Users/giuliocarota/CLionProjects/screenreclib/lib/SRVideoInput.cpp</li>
+<li>/Users/giuliocarota/CLionProjects/screenreclib/src/SRVideoInput.cpp</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

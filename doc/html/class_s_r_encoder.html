@@ -79,18 +79,73 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>setEncoderContext</b>
 <tr class="memitem:adba74ca0c932a2af164500d575eaf472"><td class="memItemLeft" align="right" valign="top"><a id="adba74ca0c932a2af164500d575eaf472" name="adba74ca0c932a2af164500d575eaf472"></a>
 AVCodecContext *&#160;</td><td class="memItemRight" valign="bottom"><b>getEncoderContext</b> ()</td></tr>
 <tr class="separator:adba74ca0c932a2af164500d575eaf472"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a63acae29187371421e9df4812e5a8bb4"><td class="memItemLeft" align="right" valign="top"><a id="a63acae29187371421e9df4812e5a8bb4" name="a63acae29187371421e9df4812e5a8bb4"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>encodeFrame</b> (AVFrame *frame)</td></tr>
+<tr class="memitem:a63acae29187371421e9df4812e5a8bb4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_r_encoder.html#a63acae29187371421e9df4812e5a8bb4">encodeFrame</a> (AVFrame *frame)</td></tr>
 <tr class="separator:a63acae29187371421e9df4812e5a8bb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a12a619b7f61a39430d30c3a188fbb857"><td class="memItemLeft" align="right" valign="top"><a id="a12a619b7f61a39430d30c3a188fbb857" name="a12a619b7f61a39430d30c3a188fbb857"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>getEncodedPacket</b> (AVPacket *packet)</td></tr>
+<tr class="memitem:a12a619b7f61a39430d30c3a188fbb857"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_r_encoder.html#a12a619b7f61a39430d30c3a188fbb857">getEncodedPacket</a> (AVPacket *packet)</td></tr>
 <tr class="separator:a12a619b7f61a39430d30c3a188fbb857"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >REMEMBER!!! both video and audio transcoders need to implement their own rescaling procedure. </p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a63acae29187371421e9df4812e5a8bb4" name="a63acae29187371421e9df4812e5a8bb4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a63acae29187371421e9df4812e5a8bb4">&#9670;&nbsp;</a></span>encodeFrame()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int SREncoder::encodeFrame </td>
+          <td>(</td>
+          <td class="paramtype">AVFrame *&#160;</td>
+          <td class="paramname"><em>frame</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >The method wraps the avcodec_send_frame which supplies a raw video or audio frame to the encoder and includes some error checks</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">frame</td><td>is the frame that needs to be decoded </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a12a619b7f61a39430d30c3a188fbb857" name="a12a619b7f61a39430d30c3a188fbb857"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a12a619b7f61a39430d30c3a188fbb857">&#9670;&nbsp;</a></span>getEncodedPacket()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int SREncoder::getEncodedPacket </td>
+          <td>(</td>
+          <td class="paramtype">AVPacket *&#160;</td>
+          <td class="paramname"><em>packet</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >The method wraps the avcodec_receive_packet which reads encoded data from the encoder and includes some error checks</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">packet</td><td>is the packet that needs to be decoded </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="class_encoder_exception.html">EncoderException</a></td><td>if an error occurs while getting the packet from the encoder </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>/Users/giuliocarota/CLionProjects/screenreclib/include/transcoding/<a class="el" href="_s_r_encoder_8h_source.html">SREncoder.h</a></li>
-<li>/Users/giuliocarota/CLionProjects/screenreclib/lib/SREncoder.cpp</li>
+<li>/Users/giuliocarota/CLionProjects/screenreclib/src/SREncoder.cpp</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

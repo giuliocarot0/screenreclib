@@ -5,7 +5,7 @@
 %%For: 
 %Magnification: 1.00
 %%Orientation: Portrait
-%%BoundingBox: 0 0 500 1238.095215
+%%BoundingBox: 0 0 500 1476.190430
 %%Pages: 0
 %%BeginSetup
 %%EndSetup
@@ -19,12 +19,12 @@
 /marginwidth 10 def
 /distx 20 def
 /disty 40 def
-/boundaspect 0.403846 def  % aspect ratio of the BoundingBox (width/height)
+/boundaspect 0.338710 def  % aspect ratio of the BoundingBox (width/height)
 /boundx 500 def
 /boundy boundx boundaspect div def
 /xspacing 0 def
 /yspacing 0 def
-/rows 26 def
+/rows 31 def
 /cols 2 def
 /scalefactor 0 def
 /boxfont /Times-Roman findfont fontheight scalefont def
@@ -181,7 +181,6 @@ boxfont setfont
 (ConfigurationParserException) cw
 (CropperException) cw
 (DecoderException) cw
-(SRNullInputException) cw
 (EncoderException) cw
 (FileOpeningException) cw
 (FindEncoderException) cw
@@ -191,14 +190,20 @@ boxfont setfont
 (OutputContextAllocationException) cw
 (OutputFormatException) cw
 (OutputHeaderWritingException) cw
+(SRDeviceDictionaryException) cw
+(SRDeviceException) cw
+(SRFilterException) cw
+(SRNonJoinableException) cw
+(SRNullContextException) cw
+(SRNullFrameException) cw
+(SRNullInputException) cw
+(SRNullPacketException) cw
+(SRStreamIndexException) cw
+(SRStreamInformationException) cw
 (StreamException) cw
 (UninitializedFilterException) cw
 (findDecoderException) cw
 (openAVCodecException) cw
-(SRDeviceException) cw
-(SRDeviceDictionaryException) cw
-(SRStreamIndexException) cw
-(SRStreamInformationException) cw
 /boxwidth boxwidth marginwidth 2 mul add def
 /xspacing boxwidth distx add def
 /yspacing boxheight disty add def
@@ -210,41 +215,56 @@ boundx scalefactor div boundy scalefactor div scale
 
 % ----- classes -----
 
- (SRException) 0.000000 24.000000 box
- (std::exception) 0.000000 25.000000 box
- (AVCodecAllocationException) 1.000000 23.000000 box
- (BufferAllocationException) 1.000000 22.000000 box
- (CodecOpeningException) 1.000000 21.000000 box
- (ConfigurationParserException) 1.000000 20.000000 box
- (CropperException) 1.000000 19.000000 box
- (DecoderException) 1.000000 18.000000 box
- (SRNullInputException) 1.000000 17.000000 box
- (EncoderException) 1.000000 16.000000 box
- (FileOpeningException) 1.000000 15.000000 box
- (FindEncoderException) 1.000000 14.000000 box
- (InvalidFilterParametersException) 1.000000 13.000000 box
- (NoFreeStreamException) 1.000000 12.000000 box
- (NoValidStreamsException) 1.000000 11.000000 box
- (OutputContextAllocationException) 1.000000 10.000000 box
- (OutputFormatException) 1.000000 9.000000 box
- (OutputHeaderWritingException) 1.000000 8.000000 box
- (StreamException) 1.000000 7.000000 box
- (UninitializedFilterException) 1.000000 6.000000 box
- (findDecoderException) 1.000000 5.000000 box
- (openAVCodecException) 1.000000 4.000000 box
- (SRDeviceException) 1.000000 3.000000 box
- (SRDeviceDictionaryException) 1.000000 2.000000 box
- (SRStreamIndexException) 1.000000 1.000000 box
- (SRStreamInformationException) 1.000000 0.000000 box
+ (SRException) 0.000000 29.000000 box
+ (std::exception) 0.000000 30.000000 box
+ (AVCodecAllocationException) 1.000000 28.000000 box
+ (BufferAllocationException) 1.000000 27.000000 box
+ (CodecOpeningException) 1.000000 26.000000 box
+ (ConfigurationParserException) 1.000000 25.000000 box
+ (CropperException) 1.000000 24.000000 box
+ (DecoderException) 1.000000 23.000000 box
+ (EncoderException) 1.000000 22.000000 box
+ (FileOpeningException) 1.000000 21.000000 box
+ (FindEncoderException) 1.000000 20.000000 box
+ (InvalidFilterParametersException) 1.000000 19.000000 box
+ (NoFreeStreamException) 1.000000 18.000000 box
+ (NoValidStreamsException) 1.000000 17.000000 box
+ (OutputContextAllocationException) 1.000000 16.000000 box
+ (OutputFormatException) 1.000000 15.000000 box
+ (OutputHeaderWritingException) 1.000000 14.000000 box
+ (SRDeviceDictionaryException) 1.000000 13.000000 box
+ (SRDeviceException) 1.000000 12.000000 box
+ (SRFilterException) 1.000000 11.000000 box
+ (SRNonJoinableException) 1.000000 10.000000 box
+ (SRNullContextException) 1.000000 9.000000 box
+ (SRNullFrameException) 1.000000 8.000000 box
+ (SRNullInputException) 1.000000 7.000000 box
+ (SRNullPacketException) 1.000000 6.000000 box
+ (SRStreamIndexException) 1.000000 5.000000 box
+ (SRStreamInformationException) 1.000000 4.000000 box
+ (StreamException) 1.000000 3.000000 box
+ (UninitializedFilterException) 1.000000 2.000000 box
+ (findDecoderException) 1.000000 1.000000 box
+ (openAVCodecException) 1.000000 0.000000 box
 
 % ----- relations -----
 
 solid
-0 0.000000 24.000000 out
+0 0.000000 29.000000 out
 solid
-1 0.000000 25.000000 in
+1 0.000000 30.000000 in
 solid
-1 0.000000 23.250000 out
+1 0.000000 28.250000 out
+solid
+0 0.000000 28.500000 hedge
+solid
+0 0.000000 27.500000 hedge
+solid
+0 0.000000 26.500000 hedge
+solid
+0 0.000000 25.500000 hedge
+solid
+0 0.000000 24.500000 hedge
 solid
 0 0.000000 23.500000 hedge
 solid
@@ -294,4 +314,4 @@ solid
 solid
 0 0.000000 0.500000 hedge
 solid
-0.000000 24.000000 0.500000 vedge
+0.000000 29.000000 0.500000 vedge

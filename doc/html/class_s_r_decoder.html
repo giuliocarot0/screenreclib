@@ -77,16 +77,80 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>setDecoderContext</b>
 <tr class="memitem:aa5638a2657230c0b921f2d4a499180fe"><td class="memItemLeft" align="right" valign="top"><a id="aa5638a2657230c0b921f2d4a499180fe" name="aa5638a2657230c0b921f2d4a499180fe"></a>
 AVCodecContext *&#160;</td><td class="memItemRight" valign="bottom"><b>getDecoderContext</b> ()</td></tr>
 <tr class="separator:aa5638a2657230c0b921f2d4a499180fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad86be912a028c24244d506063b45e6d3"><td class="memItemLeft" align="right" valign="top"><a id="ad86be912a028c24244d506063b45e6d3" name="ad86be912a028c24244d506063b45e6d3"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>decodePacket</b> (AVPacket *packet)</td></tr>
+<tr class="memitem:ad86be912a028c24244d506063b45e6d3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_r_decoder.html#ad86be912a028c24244d506063b45e6d3">decodePacket</a> (AVPacket *packet)</td></tr>
 <tr class="separator:ad86be912a028c24244d506063b45e6d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9008208694b3a7277f6249934840af3c"><td class="memItemLeft" align="right" valign="top"><a id="a9008208694b3a7277f6249934840af3c" name="a9008208694b3a7277f6249934840af3c"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>getDecodedFrame</b> (AVFrame *frame)</td></tr>
+<tr class="memitem:a9008208694b3a7277f6249934840af3c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_r_decoder.html#a9008208694b3a7277f6249934840af3c">getDecodedFrame</a> (AVFrame *frame)</td></tr>
 <tr class="separator:a9008208694b3a7277f6249934840af3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="ad86be912a028c24244d506063b45e6d3" name="ad86be912a028c24244d506063b45e6d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad86be912a028c24244d506063b45e6d3">&#9670;&nbsp;</a></span>decodePacket()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int SRDecoder::decodePacket </td>
+          <td>(</td>
+          <td class="paramtype">AVPacket *&#160;</td>
+          <td class="paramname"><em>packet</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >The method wraps the avcodec_send_packet which supplies raw packet data as input to a decoder. Internally, this call will copy relevant AVCodecContext fields, which can influence decoding per-packet, and apply them when the packet is actually decoded.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">packet</td><td>is the packet that needs to be decoded </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="class_s_r_null_packet_exception.html">SRNullPacketException</a></td><td>if the received packet is null </td></tr>
+    <tr><td class="paramname"><a class="el" href="class_s_r_null_context_exception.html">SRNullContextException</a></td><td>if the decoder has not been initialized correctly </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a9008208694b3a7277f6249934840af3c" name="a9008208694b3a7277f6249934840af3c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9008208694b3a7277f6249934840af3c">&#9670;&nbsp;</a></span>getDecodedFrame()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int SRDecoder::getDecodedFrame </td>
+          <td>(</td>
+          <td class="paramtype">AVFrame *&#160;</td>
+          <td class="paramname"><em>frame</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >The method wraps the avcodec_receive_frame which returns decoded output data from a decoder and includes some error checks</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">frame</td><td>is the frame that needs to be decoded </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="class_s_r_null_frame_exception.html">SRNullFrameException</a></td><td>if the output frame has not been initialized </td></tr>
+    <tr><td class="paramname"><a class="el" href="class_s_r_null_context_exception.html">SRNullContextException</a></td><td>if the decoder has not been initialized correctly </td></tr>
+    <tr><td class="paramname"><a class="el" href="class_decoder_exception.html">DecoderException</a></td><td>if an error occurs while getting the frame from the decoder </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>/Users/giuliocarota/CLionProjects/screenreclib/include/transcoding/<a class="el" href="_s_r_decoder_8h_source.html">SRDecoder.h</a></li>
-<li>/Users/giuliocarota/CLionProjects/screenreclib/lib/SRDecoder.cpp</li>
+<li>/Users/giuliocarota/CLionProjects/screenreclib/src/SRDecoder.cpp</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

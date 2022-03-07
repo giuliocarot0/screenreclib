@@ -3,30 +3,121 @@
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{class_s_r_audio_filter_ab963f7f2f020b2254d2b63b9b9df169f}\label{class_s_r_audio_filter_ab963f7f2f020b2254d2b63b9b9df169f}} 
-void {\bfseries init} ()
+void \mbox{\hyperlink{class_s_r_audio_filter_ab963f7f2f020b2254d2b63b9b9df169f}{init}} ()
 \item 
-\mbox{\Hypertarget{class_s_r_audio_filter_a35527d900d9d0ef8f2d0b3f181fbcab6}\label{class_s_r_audio_filter_a35527d900d9d0ef8f2d0b3f181fbcab6}} 
-AVFrame $\ast$ {\bfseries filter\+Frame} (AVFrame $\ast$input\+Frame)
+AVFrame $\ast$ \mbox{\hyperlink{class_s_r_audio_filter_a35527d900d9d0ef8f2d0b3f181fbcab6}{filter\+Frame}} (AVFrame $\ast$input\+Frame)
 \item 
-\mbox{\Hypertarget{class_s_r_audio_filter_a7035b9b92565cdc5302570afe11abf95}\label{class_s_r_audio_filter_a7035b9b92565cdc5302570afe11abf95}} 
-void {\bfseries set} (AVCodec\+Context $\ast$v\+\_\+encoder, AVCodec\+Context $\ast$v\+\_\+decoder)
+void \mbox{\hyperlink{class_s_r_audio_filter_a7035b9b92565cdc5302570afe11abf95}{set}} (AVCodec\+Context $\ast$v\+\_\+encoder, AVCodec\+Context $\ast$v\+\_\+decoder)
 \item 
 \mbox{\Hypertarget{class_s_r_audio_filter_aa8bdb2f145040e53730b4513b887a6b9}\label{class_s_r_audio_filter_aa8bdb2f145040e53730b4513b887a6b9}} 
 AVAudio\+Fifo $\ast$ {\bfseries get\+Fifo} () const
 \item 
-\mbox{\Hypertarget{class_s_r_audio_filter_af8fb2fac8f58c5a28e322c8aa36c4394}\label{class_s_r_audio_filter_af8fb2fac8f58c5a28e322c8aa36c4394}} 
-int {\bfseries add\+\_\+samples\+\_\+to\+\_\+fifo} (const int frame\+\_\+size)
+virtual \mbox{\hyperlink{class_s_r_audio_filter_ac2fbcbd78ab5a4cfeed48384d09f4e7a}{$\sim$\+SRAudio\+Filter}} ()
 \item 
-\mbox{\Hypertarget{class_s_r_audio_filter_a91694510b7521949d86a20c457090f23}\label{class_s_r_audio_filter_a91694510b7521949d86a20c457090f23}} 
-int {\bfseries init\+\_\+fifo} ()
+int \mbox{\hyperlink{class_s_r_audio_filter_af8fb2fac8f58c5a28e322c8aa36c4394}{add\+\_\+samples\+\_\+to\+\_\+fifo}} (const int frame\+\_\+size)
 \item 
-\mbox{\Hypertarget{class_s_r_audio_filter_ad95b47eec692d641afbdcdab1d165b6b}\label{class_s_r_audio_filter_ad95b47eec692d641afbdcdab1d165b6b}} 
-int {\bfseries init\+Converted\+Samples} (int frame\+\_\+size)
+int \mbox{\hyperlink{class_s_r_audio_filter_a91694510b7521949d86a20c457090f23}{init\+\_\+fifo}} ()
+\item 
+int \mbox{\hyperlink{class_s_r_audio_filter_ad95b47eec692d641afbdcdab1d165b6b}{init\+Converted\+Samples}} (int frame\+\_\+size)
 \end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_s_r_audio_filter_ac2fbcbd78ab5a4cfeed48384d09f4e7a}\label{class_s_r_audio_filter_ac2fbcbd78ab5a4cfeed48384d09f4e7a}} 
+\index{SRAudioFilter@{SRAudioFilter}!````~SRAudioFilter@{$\sim$SRAudioFilter}}
+\index{````~SRAudioFilter@{$\sim$SRAudioFilter}!SRAudioFilter@{SRAudioFilter}}
+\doxysubsubsection{\texorpdfstring{$\sim$SRAudioFilter()}{~SRAudioFilter()}}
+{\footnotesize\ttfamily SRAudio\+Filter\+::$\sim$\+SRAudio\+Filter (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+\mbox{\hyperlink{class_s_r_audio_filter}{SRAudio\+Filter}} destructor. The destructor frees all the pointers contained in the object 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_s_r_audio_filter_af8fb2fac8f58c5a28e322c8aa36c4394}\label{class_s_r_audio_filter_af8fb2fac8f58c5a28e322c8aa36c4394}} 
+\index{SRAudioFilter@{SRAudioFilter}!add\_samples\_to\_fifo@{add\_samples\_to\_fifo}}
+\index{add\_samples\_to\_fifo@{add\_samples\_to\_fifo}!SRAudioFilter@{SRAudioFilter}}
+\doxysubsubsection{\texorpdfstring{add\_samples\_to\_fifo()}{add\_samples\_to\_fifo()}}
+{\footnotesize\ttfamily int SRAudio\+Filter\+::add\+\_\+samples\+\_\+to\+\_\+fifo (\begin{DoxyParamCaption}\item[{const int}]{frame\+\_\+size }\end{DoxyParamCaption})}
+
+The method adds data to the fifo buffer and reallocate the buffer in case of necessity
+
+
+\begin{DoxyParams}{Parameters}
+{\em frame\+\_\+size} & indicates the number of samples added to the buffer \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_s_r_audio_filter_a35527d900d9d0ef8f2d0b3f181fbcab6}\label{class_s_r_audio_filter_a35527d900d9d0ef8f2d0b3f181fbcab6}} 
+\index{SRAudioFilter@{SRAudioFilter}!filterFrame@{filterFrame}}
+\index{filterFrame@{filterFrame}!SRAudioFilter@{SRAudioFilter}}
+\doxysubsubsection{\texorpdfstring{filterFrame()}{filterFrame()}}
+{\footnotesize\ttfamily AVFrame $\ast$ SRAudio\+Filter\+::filter\+Frame (\begin{DoxyParamCaption}\item[{AVFrame $\ast$}]{input\+Frame }\end{DoxyParamCaption})}
+
+The method applies the resampling to the frame and set all the parameters needed in the frame before the encoding of the frame
+
+
+\begin{DoxyParams}{Parameters}
+{\em input\+Frame} & is the frame that needs to be filtered \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \mbox{\hyperlink{class_uninitialized_filter_exception}{Uninitialized\+Filter\+Exception}}} & if the decoder or the resampling context or the encoder or the exit frame are not correctly initialized \\
+\hline
+\end{DoxyExceptions}
+\begin{DoxyReturn}{Returns}
+the scaled frame resampled with the configured context 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_s_r_audio_filter_ab963f7f2f020b2254d2b63b9b9df169f}\label{class_s_r_audio_filter_ab963f7f2f020b2254d2b63b9b9df169f}} 
+\index{SRAudioFilter@{SRAudioFilter}!init@{init}}
+\index{init@{init}!SRAudioFilter@{SRAudioFilter}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily void SRAudio\+Filter\+::init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+The method initializes the Audio\+Filter allocating the resampling context and the frame used for filtering
+
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \mbox{\hyperlink{class_invalid_filter_parameters_exception}{Invalid\+Filter\+Parameters\+Exception}}} & if the decoder or the encoder are not correctly initialized \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{class_s_r_audio_filter_a91694510b7521949d86a20c457090f23}\label{class_s_r_audio_filter_a91694510b7521949d86a20c457090f23}} 
+\index{SRAudioFilter@{SRAudioFilter}!init\_fifo@{init\_fifo}}
+\index{init\_fifo@{init\_fifo}!SRAudioFilter@{SRAudioFilter}}
+\doxysubsubsection{\texorpdfstring{init\_fifo()}{init\_fifo()}}
+{\footnotesize\ttfamily int SRAudio\+Filter\+::init\+\_\+fifo (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+The method initializes the fifo buffer used for audio transcoding \mbox{\Hypertarget{class_s_r_audio_filter_ad95b47eec692d641afbdcdab1d165b6b}\label{class_s_r_audio_filter_ad95b47eec692d641afbdcdab1d165b6b}} 
+\index{SRAudioFilter@{SRAudioFilter}!initConvertedSamples@{initConvertedSamples}}
+\index{initConvertedSamples@{initConvertedSamples}!SRAudioFilter@{SRAudioFilter}}
+\doxysubsubsection{\texorpdfstring{initConvertedSamples()}{initConvertedSamples()}}
+{\footnotesize\ttfamily int SRAudio\+Filter\+::init\+Converted\+Samples (\begin{DoxyParamCaption}\item[{int}]{frame\+\_\+size }\end{DoxyParamCaption})}
+
+The method allocates as many pointers as there are audio channels. Each pointer will later point to the audio samples of the corresponding channels (although it may be NULL for interleaved formats).
+
+It also allocates memory for the samples of all channels in one consecutive block for convenience.
+
+
+\begin{DoxyParams}{Parameters}
+{\em frame\+\_\+size} & indicates the number of samples added to the buffer \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_s_r_audio_filter_a7035b9b92565cdc5302570afe11abf95}\label{class_s_r_audio_filter_a7035b9b92565cdc5302570afe11abf95}} 
+\index{SRAudioFilter@{SRAudioFilter}!set@{set}}
+\index{set@{set}!SRAudioFilter@{SRAudioFilter}}
+\doxysubsubsection{\texorpdfstring{set()}{set()}}
+{\footnotesize\ttfamily void SRAudio\+Filter\+::set (\begin{DoxyParamCaption}\item[{AVCodec\+Context $\ast$}]{v\+\_\+encoder,  }\item[{AVCodec\+Context $\ast$}]{v\+\_\+decoder }\end{DoxyParamCaption})}
+
+The set method allows to configure the default \mbox{\hyperlink{class_s_r_audio_filter}{SRAudio\+Filter}} device by setting the following parameters
+
+
+\begin{DoxyParams}{Parameters}
+{\em v\+\_\+encoder} & indicates the encoder \\
+\hline
+{\em v\+\_\+decoder} & indicates the decoder \\
+\hline
+\end{DoxyParams}
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
 /\+Users/giuliocarota/\+CLion\+Projects/screenreclib/include/transcoding/SRAudio\+Filter.\+h\item 
-/\+Users/giuliocarota/\+CLion\+Projects/screenreclib/lib/SRAudio\+Filter.\+cpp\end{DoxyCompactItemize}
+/\+Users/giuliocarota/\+CLion\+Projects/screenreclib/src/SRAudio\+Filter.\+cpp\end{DoxyCompactItemize}

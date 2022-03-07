@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.3"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>screenrec_library: Class Diagram</title>
+<title>screenrec_library: screenreclib c++ library</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,57 +62,50 @@ $(function() {
 
 </div><!-- top -->
 <div><div class="header">
-  <div class="headertitle"><div class="title">Class Diagram </div></div>
+  <div class="headertitle"><div class="title">screenreclib c++ library </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><div class="fragment"><div class="line">Interface SCPPInput {</div>
-<div class="line">    - AVCodec* inCodec</div>
-<div class="line">    - AVFormatContext *inFormatContext</div>
-<div class="line">    - AVPacket* deliverable_packet</div>
-<div class="line"> </div>
-<div class="line">    + SCPPInput()</div>
-<div class="line">    + open() </div>
-<div class="line">    + getCodec()</div>
-<div class="line">    + getFormatContext()</div>
-<div class="line">    + getStreamIndex()</div>
-<div class="line">    + readPacket()</div>
-<div class="line">}</div>
-<div class="line"> </div>
-<div class="line"> </div>
-<div class="line">Class SCPPVideoInput {</div>
-<div class="line">    + SCPPVideoInput()</div>
-<div class="line">    + open()</div>
-<div class="line"> </div>
-<div class="line">}</div>
-<div class="line"> </div>
-<div class="line">Class SCPPAudioInput {</div>
-<div class="line">    + SCPPAudioInput()</div>
-<div class="line">    + open()</div>
-<div class="line">}</div>
-<div class="line"> </div>
-<div class="line">Class SCPPDecoder {</div>
-<div class="line">    - inputCodecContext</div>
-<div class="line">    - options</div>
-<div class="line">    </div>
-<div class="line">    + decode(AVPacket* encodedPkt)</div>
-<div class="line">}</div>
-<div class="line"> </div>
-<div class="line">Class SCPPEncoder {</div>
-<div class="line">    - outputCodecContext</div>
-<div class="line">    - options</div>
-<div class="line">    + decode(AVPacket* encodedPkt)</div>
-<div class="line">}</div>
-<div class="line"> </div>
-<div class="line">Interface SCPPTranscoder {</div>
-<div class="line">    - encoder</div>
-<div class="line">    - decoder </div>
-<div class="line"> </div>
-<div class="line">    </div>
-<div class="line">    + transcode(AVPacket* encodedPkt)</div>
-<div class="line">}</div>
-<div class="line"> </div>
-<div class="line">SCPPInput --&gt; SCPPVideoInput</div>
-<div class="line">SCPPInput -&gt; SCPPAudioInput</div>
+<div class="textblock"><p ><img src="https://img.shields.io/badge/C++-17-blue.svg?style=flat&amp;logo=c%2B%2B" alt="c++" style="pointer-events: none;" class="inline"/> </p>
+<p ><b>Screenreclib</b> is a multiplatform library which allows to record your desktop and capture some audio at the same time. Users can exploit its simple and intuitive interfaces. The library wraps FFMPEG functionalities and adapts them for screen capturing purposes.</p>
+<h1><a class="anchor" id="autotoc_md1"></a>
+Requirements</h1>
+<p >The screenreclib itself has only few dependencies which can be easily installed on Linux/macOS/Windows</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Dependency   </th><th class="markdownTableHeadNone">Version    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">cmake   </td><td class="markdownTableBodyNone">&gt;= 3.20    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">ffmpeg   </td><td class="markdownTableBodyNone">&gt;= 4.4.x   </td></tr>
+</table>
+<h2><a class="anchor" id="autotoc_md2"></a>
+Install ffmpeg</h2>
+<p >For <b>Linux</b> users the ffmpeg can be installed by using official repositories. The following example refers to debian-based OSs which use atp as packet manager </p><div class="fragment"><div class="line">sudo apt-get update &amp;&amp; sudo apt-get -y install cmake libsdl2-dev libavcodec-dev libavfilter-dev libpostproc-dev libavformat-dev libavutil-dev  libswresample-dev libswscale-dev libavdevice-dev</div>
+</div><!-- fragment --><p> For <b>Windows</b> users, ffmpeg can be installed by downloading the precompiled library <a href="https://www.gyan.dev/ffmpeg/builds/packages/ffmpeg-4.4.1-full_build-shared.7z">here</a>. The cmake file has to be changed according to your installation path. See the CmakeList file from the official repo to understand how to link ffmpeg.</p>
+<p ><b>macOS</b> users can install ffmpeg from their terminal using brew. Please ensure that both brew and the XCode Command Line Tools are correctly installed on your mac. </p><div class="fragment"><div class="line">brew install cmake ffmpeg</div>
+</div><!-- fragment --> <h1><a class="anchor" id="autotoc_md3"></a>
+Building the library</h1>
+<p >The installation procedure is almost trivial and it is based on few steps.</p>
+<p >Clone the repository from github by prompting the following command </p><div class="fragment"><div class="line">mkdir screenreclib</div>
+<div class="line">cd screenreclib</div>
+<div class="line">git clone www.github.com/giuliocarot0/screenreclib</div>
+</div><!-- fragment --><p> Ensure that the macros that define the devices are set correctly based on your configuration a and use the CmakeList.txt in the root directory to build the library. </p><div class="fragment"><div class="line">cd screenreclib</div>
+<div class="line">cmake . </div>
+</div><!-- fragment --><p> The cmake procedure will output a directory called cmake-build-debug in which the builded library will be stored</p>
+<h1><a class="anchor" id="autotoc_md4"></a>
+Modules</h1>
+<h1><a class="anchor" id="autotoc_md5"></a>
+Examples</h1>
+<p >The library comes with some examples. Each example has a CMakeLists.txt file that allows to build it by using cmake. These CMakeLists.txt files are written to build both the entire lib and the example app. So if you want to take a try there is no need for prebuilding the lib.</p>
+<h2><a class="anchor" id="autotoc_md6"></a>
+QtRecorder</h2>
+<p >The <a class="el" href="class_qt_recorder.html">QtRecorder</a> is a Qt app which requires Qt version &gt;= 5 to work well. Before building it please ensure to write the exact QtCmake path in the relative CMakeLists.txt. To use this example</p>
+<div class="fragment"><div class="line">cd screenreclib\example</div>
+<div class="line">cmake QtRecorder</div>
+</div><!-- fragment --> <h2><a class="anchor" id="autotoc_md7"></a>
+SimpleMain</h2>
+<p >SimpleMain is a simple console applications which executes a recording routing automatically. </p><div class="fragment"><div class="line">cd screenreclib\example</div>
+<div class="line">cmake SimpleMain</div>
 </div><!-- fragment --> </div></div><!-- contents -->
 </div><!-- PageDoc -->
 <!-- start footer part -->

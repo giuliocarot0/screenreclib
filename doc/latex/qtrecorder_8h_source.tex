@@ -1,0 +1,83 @@
+\hypertarget{qtrecorder_8h_source}{}\doxysection{qtrecorder.\+h}
+\label{qtrecorder_8h_source}\index{/Users/giuliocarota/CLionProjects/screenreclib/example/QtRecorder/qtrecorder.h@{/Users/giuliocarota/CLionProjects/screenreclib/example/QtRecorder/qtrecorder.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef QTRECORDER\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define QTRECORDER\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <QMainWindow>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <QRubberBand>}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <QMouseEvent>}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <QCheckBox>}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <QLabel>}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <QObject>}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <QPushButton>}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <QScreen>}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <QPixmap>}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include <QLineEdit>}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#include <QErrorMessage>}}
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#include "{}../../include/SRRecorder.h"{}}}
+\DoxyCodeLine{16 }
+\DoxyCodeLine{17 QT\_BEGIN\_NAMESPACE}
+\DoxyCodeLine{18 \textcolor{keyword}{namespace }Ui \{ \textcolor{keyword}{class }\mbox{\hyperlink{class_qt_recorder}{QtRecorder}}; \}}
+\DoxyCodeLine{19 QT\_END\_NAMESPACE}
+\DoxyCodeLine{20 }
+\DoxyCodeLine{21 \textcolor{keyword}{class }\mbox{\hyperlink{class_qt_recorder}{QtRecorder}} : \textcolor{keyword}{public} QMainWindow}
+\DoxyCodeLine{22 \{}
+\DoxyCodeLine{23     Q\_OBJECT}
+\DoxyCodeLine{24 }
+\DoxyCodeLine{25 \textcolor{keyword}{public}:}
+\DoxyCodeLine{26     \textcolor{keywordtype}{void} mousePressEvent(QMouseEvent *event);}
+\DoxyCodeLine{27     \textcolor{keywordtype}{void} mouseMoveEvent(QMouseEvent *event);}
+\DoxyCodeLine{28     \textcolor{keywordtype}{void} mouseReleaseEvent(QMouseEvent *event);}
+\DoxyCodeLine{29     \mbox{\hyperlink{class_qt_recorder}{QtRecorder}}(QWidget *parent = \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{30     \mbox{\hyperlink{class_qt_recorder}{\string~QtRecorder}}();}
+\DoxyCodeLine{31     \textcolor{keywordtype}{void} welcomePage();}
+\DoxyCodeLine{32 }
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34 \textcolor{keyword}{private} slots:}
+\DoxyCodeLine{35     \textcolor{keywordtype}{void} on\_checkBox\_stateChanged(\textcolor{keywordtype}{int} arg1);}
+\DoxyCodeLine{36     \textcolor{keywordtype}{void} on\_checkBox\_2\_stateChanged(\textcolor{keywordtype}{int} arg1);}
+\DoxyCodeLine{37     \textcolor{keywordtype}{void} on\_checkBox\_3\_stateChanged(\textcolor{keywordtype}{int} arg1);}
+\DoxyCodeLine{38     \textcolor{keywordtype}{void} on\_lineEdit\_textChanged(\textcolor{keyword}{const} QString \&arg1);}
+\DoxyCodeLine{39     \textcolor{keywordtype}{void} on\_nav\_btn\_clicked();}
+\DoxyCodeLine{40     \textcolor{keywordtype}{void} on\_start\_btn\_clicked();}
+\DoxyCodeLine{41     \textcolor{keywordtype}{void} on\_stop\_btn\_clicked();}
+\DoxyCodeLine{42     \textcolor{keywordtype}{void} on\_pause\_btn\_clicked();}
+\DoxyCodeLine{43 }
+\DoxyCodeLine{44 \textcolor{keyword}{private}:}
+\DoxyCodeLine{45     QLabel *filename\_label;}
+\DoxyCodeLine{46     QLabel *w\_title;}
+\DoxyCodeLine{47     QLabel *w\_description;}
+\DoxyCodeLine{48     QLabel *screenshot\_label;}
+\DoxyCodeLine{49     QLineEdit *filename\_box;}
+\DoxyCodeLine{50     QCheckBox *audio\_check;}
+\DoxyCodeLine{51     QCheckBox *video\_check;}
+\DoxyCodeLine{52     QCheckBox *crop\_check;}
+\DoxyCodeLine{53     QPoint origin;}
+\DoxyCodeLine{54     QPushButton *next\_button, *start\_button, *pause\_button, *stop\_button;}
+\DoxyCodeLine{55     QRubberBand *rubberband;}
+\DoxyCodeLine{56     \mbox{\hyperlink{class_ui_1_1_qt_recorder}{Ui::QtRecorder}} *ui;}
+\DoxyCodeLine{57     \textcolor{keywordtype}{void} closeWelcomePage();}
+\DoxyCodeLine{58     \textcolor{keywordtype}{void} showError(\mbox{\hyperlink{class_s_r_exception}{SRException}} \&e);}
+\DoxyCodeLine{59     \textcolor{keywordtype}{void} startWizard();}
+\DoxyCodeLine{60     \textcolor{keywordtype}{void} crop\_procedure();}
+\DoxyCodeLine{61     \textcolor{keywordtype}{void} end\_crop\_procedure();}
+\DoxyCodeLine{62     \textcolor{keywordtype}{void} ready\_to\_record();}
+\DoxyCodeLine{63     \textcolor{keywordtype}{int} w\_state; \textcolor{comment}{//should be 0 for welcome, 1 for settings, 2 for cropping}}
+\DoxyCodeLine{64     qreal size\_x;}
+\DoxyCodeLine{65     qreal size\_y;}
+\DoxyCodeLine{66     qreal off\_x;}
+\DoxyCodeLine{67     qreal off\_y;}
+\DoxyCodeLine{68     \textcolor{comment}{//settings}}
+\DoxyCodeLine{69     \textcolor{keywordtype}{bool} rec\_video;}
+\DoxyCodeLine{70     \textcolor{keywordtype}{bool} rec\_audio;}
+\DoxyCodeLine{71     \textcolor{keywordtype}{bool} crop;}
+\DoxyCodeLine{72     QString filename;}
+\DoxyCodeLine{73     QSize last\_size;}
+\DoxyCodeLine{74     \mbox{\hyperlink{class_s_r_recorder}{SRRecorder}} *recorder;}
+\DoxyCodeLine{75 }
+\DoxyCodeLine{76 \};}
+\DoxyCodeLine{77 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// QTRECORDER\_H}}
+
+\end{DoxyCode}

@@ -90,24 +90,31 @@ $(function() {
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="keyword">public</span>:</div>
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <a class="code hl_class" href="class_s_r_audio_filter.html">SRAudioFilter</a>(): encoder(<span class="keyword">nullptr</span>), decoder(<span class="keyword">nullptr</span>), resampling_context(<span class="keyword">nullptr</span>){};</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="keywordtype">void</span> init();</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    AVFrame* filterFrame(AVFrame* inputFrame);</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keywordtype">void</span> set(AVCodecContext *v_encoder, AVCodecContext *v_decoder);</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_s_r_audio_filter.html#ab963f7f2f020b2254d2b63b9b9df169f">init</a>();</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    AVFrame* <a class="code hl_function" href="class_s_r_audio_filter.html#a35527d900d9d0ef8f2d0b3f181fbcab6">filterFrame</a>(AVFrame* inputFrame);</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_s_r_audio_filter.html#a7035b9b92565cdc5302570afe11abf95">set</a>(AVCodecContext *v_encoder, AVCodecContext *v_decoder);</div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    AVAudioFifo *getFifo() <span class="keyword">const</span>;</div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keyword">virtual</span> <a class="code hl_class" href="class_s_r_audio_filter.html">~SRAudioFilter</a>();</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keyword">virtual</span> <a class="code hl_function" href="class_s_r_audio_filter.html#ac2fbcbd78ab5a4cfeed48384d09f4e7a">~SRAudioFilter</a>();</div>
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="keywordtype">int</span> add_samples_to_fifo(<span class="keyword">const</span> <span class="keywordtype">int</span> frame_size);</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="keywordtype">int</span> <a class="code hl_function" href="class_s_r_audio_filter.html#af8fb2fac8f58c5a28e322c8aa36c4394">add_samples_to_fifo</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> frame_size);</div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keywordtype">int</span> init_fifo();</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keywordtype">int</span> <a class="code hl_function" href="class_s_r_audio_filter.html#a91694510b7521949d86a20c457090f23">init_fifo</a>();</div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="keywordtype">int</span> initConvertedSamples(<span class="keywordtype">int</span> frame_size);</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="keywordtype">int</span> <a class="code hl_function" href="class_s_r_audio_filter.html#ad95b47eec692d641afbdcdab1d165b6b">initConvertedSamples</a>(<span class="keywordtype">int</span> frame_size);</div>
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>};</div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="preprocessor">#endif </span><span class="comment">//SCREENRECLIB_SRAUDIOFILTER_H</span></div>
 <div class="ttc" id="aclass_s_r_audio_filter_html"><div class="ttname"><a href="class_s_r_audio_filter.html">SRAudioFilter</a></div><div class="ttdef"><b>Definition:</b> SRAudioFilter.h:10</div></div>
+<div class="ttc" id="aclass_s_r_audio_filter_html_a35527d900d9d0ef8f2d0b3f181fbcab6"><div class="ttname"><a href="class_s_r_audio_filter.html#a35527d900d9d0ef8f2d0b3f181fbcab6">SRAudioFilter::filterFrame</a></div><div class="ttdeci">AVFrame * filterFrame(AVFrame *inputFrame)</div><div class="ttdef"><b>Definition:</b> SRAudioFilter.cpp:116</div></div>
+<div class="ttc" id="aclass_s_r_audio_filter_html_a7035b9b92565cdc5302570afe11abf95"><div class="ttname"><a href="class_s_r_audio_filter.html#a7035b9b92565cdc5302570afe11abf95">SRAudioFilter::set</a></div><div class="ttdeci">void set(AVCodecContext *v_encoder, AVCodecContext *v_decoder)</div><div class="ttdef"><b>Definition:</b> SRAudioFilter.cpp:144</div></div>
+<div class="ttc" id="aclass_s_r_audio_filter_html_a91694510b7521949d86a20c457090f23"><div class="ttname"><a href="class_s_r_audio_filter.html#a91694510b7521949d86a20c457090f23">SRAudioFilter::init_fifo</a></div><div class="ttdeci">int init_fifo()</div><div class="ttdef"><b>Definition:</b> SRAudioFilter.cpp:12</div></div>
+<div class="ttc" id="aclass_s_r_audio_filter_html_ab963f7f2f020b2254d2b63b9b9df169f"><div class="ttname"><a href="class_s_r_audio_filter.html#ab963f7f2f020b2254d2b63b9b9df169f">SRAudioFilter::init</a></div><div class="ttdeci">void init()</div><div class="ttdef"><b>Definition:</b> SRAudioFilter.cpp:81</div></div>
+<div class="ttc" id="aclass_s_r_audio_filter_html_ac2fbcbd78ab5a4cfeed48384d09f4e7a"><div class="ttname"><a href="class_s_r_audio_filter.html#ac2fbcbd78ab5a4cfeed48384d09f4e7a">SRAudioFilter::~SRAudioFilter</a></div><div class="ttdeci">virtual ~SRAudioFilter()</div><div class="ttdef"><b>Definition:</b> SRAudioFilter.cpp:154</div></div>
+<div class="ttc" id="aclass_s_r_audio_filter_html_ad95b47eec692d641afbdcdab1d165b6b"><div class="ttname"><a href="class_s_r_audio_filter.html#ad95b47eec692d641afbdcdab1d165b6b">SRAudioFilter::initConvertedSamples</a></div><div class="ttdeci">int initConvertedSamples(int frame_size)</div><div class="ttdef"><b>Definition:</b> SRAudioFilter.cpp:54</div></div>
+<div class="ttc" id="aclass_s_r_audio_filter_html_af8fb2fac8f58c5a28e322c8aa36c4394"><div class="ttname"><a href="class_s_r_audio_filter.html#af8fb2fac8f58c5a28e322c8aa36c4394">SRAudioFilter::add_samples_to_fifo</a></div><div class="ttdeci">int add_samples_to_fifo(const int frame_size)</div><div class="ttdef"><b>Definition:</b> SRAudioFilter.cpp:28</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

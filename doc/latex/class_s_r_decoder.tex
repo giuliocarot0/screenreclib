@@ -9,15 +9,58 @@ void {\bfseries set\+Decoder\+Context} (AVCodec\+Context $\ast$decoder\+\_\+ctx)
 \mbox{\Hypertarget{class_s_r_decoder_aa5638a2657230c0b921f2d4a499180fe}\label{class_s_r_decoder_aa5638a2657230c0b921f2d4a499180fe}} 
 AVCodec\+Context $\ast$ {\bfseries get\+Decoder\+Context} ()
 \item 
-\mbox{\Hypertarget{class_s_r_decoder_ad86be912a028c24244d506063b45e6d3}\label{class_s_r_decoder_ad86be912a028c24244d506063b45e6d3}} 
-int {\bfseries decode\+Packet} (AVPacket $\ast$packet)
+int \mbox{\hyperlink{class_s_r_decoder_ad86be912a028c24244d506063b45e6d3}{decode\+Packet}} (AVPacket $\ast$packet)
 \item 
-\mbox{\Hypertarget{class_s_r_decoder_a9008208694b3a7277f6249934840af3c}\label{class_s_r_decoder_a9008208694b3a7277f6249934840af3c}} 
-int {\bfseries get\+Decoded\+Frame} (AVFrame $\ast$frame)
+int \mbox{\hyperlink{class_s_r_decoder_a9008208694b3a7277f6249934840af3c}{get\+Decoded\+Frame}} (AVFrame $\ast$frame)
 \end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_s_r_decoder_ad86be912a028c24244d506063b45e6d3}\label{class_s_r_decoder_ad86be912a028c24244d506063b45e6d3}} 
+\index{SRDecoder@{SRDecoder}!decodePacket@{decodePacket}}
+\index{decodePacket@{decodePacket}!SRDecoder@{SRDecoder}}
+\doxysubsubsection{\texorpdfstring{decodePacket()}{decodePacket()}}
+{\footnotesize\ttfamily int SRDecoder\+::decode\+Packet (\begin{DoxyParamCaption}\item[{AVPacket $\ast$}]{packet }\end{DoxyParamCaption})}
+
+The method wraps the avcodec\+\_\+send\+\_\+packet which supplies raw packet data as input to a decoder. Internally, this call will copy relevant AVCodec\+Context fields, which can influence decoding per-\/packet, and apply them when the packet is actually decoded.
+
+
+\begin{DoxyParams}{Parameters}
+{\em packet} & is the packet that needs to be decoded \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \mbox{\hyperlink{class_s_r_null_packet_exception}{SRNull\+Packet\+Exception}}} & if the received packet is null \\
+\hline
+{\em \mbox{\hyperlink{class_s_r_null_context_exception}{SRNull\+Context\+Exception}}} & if the decoder has not been initialized correctly \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{class_s_r_decoder_a9008208694b3a7277f6249934840af3c}\label{class_s_r_decoder_a9008208694b3a7277f6249934840af3c}} 
+\index{SRDecoder@{SRDecoder}!getDecodedFrame@{getDecodedFrame}}
+\index{getDecodedFrame@{getDecodedFrame}!SRDecoder@{SRDecoder}}
+\doxysubsubsection{\texorpdfstring{getDecodedFrame()}{getDecodedFrame()}}
+{\footnotesize\ttfamily int SRDecoder\+::get\+Decoded\+Frame (\begin{DoxyParamCaption}\item[{AVFrame $\ast$}]{frame }\end{DoxyParamCaption})}
+
+The method wraps the avcodec\+\_\+receive\+\_\+frame which returns decoded output data from a decoder and includes some error checks
+
+
+\begin{DoxyParams}{Parameters}
+{\em frame} & is the frame that needs to be decoded \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \mbox{\hyperlink{class_s_r_null_frame_exception}{SRNull\+Frame\+Exception}}} & if the output frame has not been initialized \\
+\hline
+{\em \mbox{\hyperlink{class_s_r_null_context_exception}{SRNull\+Context\+Exception}}} & if the decoder has not been initialized correctly \\
+\hline
+{\em \mbox{\hyperlink{class_decoder_exception}{Decoder\+Exception}}} & if an error occurs while getting the frame from the decoder \\
+\hline
+\end{DoxyExceptions}
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
 /\+Users/giuliocarota/\+CLion\+Projects/screenreclib/include/transcoding/SRDecoder.\+h\item 
-/\+Users/giuliocarota/\+CLion\+Projects/screenreclib/lib/SRDecoder.\+cpp\end{DoxyCompactItemize}
+/\+Users/giuliocarota/\+CLion\+Projects/screenreclib/src/SRDecoder.\+cpp\end{DoxyCompactItemize}
