@@ -84,8 +84,12 @@ AVFormatContext* SRVideoInput::open(){
     //if one of them != nullptr then input already initialized
     if(inFormatContext != nullptr || inCodecContext!= nullptr || streamIndex != -1)
         return inFormatContext;
-
+    #if __linux__
+    const AVInputFormat* inVInputFormat =nullptr;
+    #else
     AVInputFormat* inVInputFormat =nullptr;
+    #endif
+
     int value = 0;
 
     inFormatContext = avformat_alloc_context();
@@ -118,7 +122,7 @@ AVFormatContext* SRVideoInput::open(){
     }
 
     AVCodecParameters *params = inFormatContext->streams[streamIndex]->codecpar;
-    AVCodec *inVCodec = avcodec_find_decoder(params->codec_id);
+    const AVCodec *inVCodec = avcodec_find_decoder(params->codec_id);
     if (inVCodec == nullptr) {
         throw findDecoderException("No supported decoders for the device stream");
     }

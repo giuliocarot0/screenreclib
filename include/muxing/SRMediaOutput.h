@@ -14,7 +14,11 @@ class SRMediaOutput {
 private:
     bool video_recorded;
     bool audio_recorded;
+    #if __linux__
+    const AVOutputFormat* outputFormat;
+    #else
     AVOutputFormat* outputFormat;
+    #endif
     AVFormatContext* outputCtx;
     AVCodecContext* videoCtx;
     AVCodecContext* audioCtx;

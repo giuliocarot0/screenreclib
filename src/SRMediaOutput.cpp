@@ -98,7 +98,7 @@ int SRMediaOutput::initFile() {
  */
 int SRMediaOutput::createAudioStream() {
     int i;
-    AVCodec* outACodec = nullptr;
+    const AVCodec* outACodec = nullptr;
 
     AVStream *audio_st = avformat_new_stream(outputCtx, nullptr);
     if (!audio_st) {
@@ -168,7 +168,7 @@ int SRMediaOutput::createVideoStream() {
     if (!video_st) {
         throw StreamException("Cannot create video stream");
     }
-    AVCodec* outVCodec = avcodec_find_encoder(settings.video_codec);
+    const AVCodec* outVCodec = avcodec_find_encoder(settings.video_codec);
     if (!outVCodec) {
         throw FindEncoderException("Cannot find requested video encoder");
     }

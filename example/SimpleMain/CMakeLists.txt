@@ -4,10 +4,10 @@ project(SimpleMain)
 set(CMAKE_CXX_STANDARD 17)
 
 if(WIN32)
-    set(PATH_TO_FFMPEG C:\\Users\\aless\\Desktop\\ffmpeg-4.4-full_build-shared\\)
+    set(PATH_TO_FFMPEG C:\\Users\\aless\\Desktop\\ffmpeg-4.4.1-full_build-shared)
 
-    link_directories(${PATH_TO_FFMPEG}\\ffmpeg-4.4-full_build-shared\\lib)
-    include_directories(${PATH_TO_FFMPEG}\\ffmpeg-4.4-full_build-shared\\include)
+    link_directories(${PATH_TO_FFMPEG}\\lib)
+    include_directories(${PATH_TO_FFMPEG}\\include)
 endif()
 
 
@@ -50,7 +50,6 @@ target_link_libraries(
         #pthread
         swresample
 )
-
 
 
 
