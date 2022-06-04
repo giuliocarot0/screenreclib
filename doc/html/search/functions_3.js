@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['set_0',['set',['../class_s_r_audio_input.html#aab2fa996559c599fa148f438165c227d',1,'SRAudioInput::set()'],['../class_s_r_video_input.html#adef598ba633075dd213bdfa80593dbe4',1,'SRVideoInput::set()']]],
-  ['srinput_1',['SRInput',['../class_s_r_input.html#af58af0322317ead55324cf41e8c9ead2',1,'SRInput']]]
+  ['filterframe_0',['filterFrame',['../class_s_r_audio_filter.html#a35527d900d9d0ef8f2d0b3f181fbcab6',1,'SRAudioFilter::filterFrame()'],['../class_s_r_video_filter.html#a8c89f2094e02c52bea3941b82ec7d717',1,'SRVideoFilter::filterFrame()']]]
 ];

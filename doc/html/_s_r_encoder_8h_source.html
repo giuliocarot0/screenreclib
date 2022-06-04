@@ -88,8 +88,8 @@ $(function() {
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <span class="keywordtype">void</span> setEncoderContext(AVCodecContext *encoder_context);</div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    AVCodecContext* getEncoderContext();</div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="comment">//receives a rescaled frame from transcoder class eventually</span></div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keywordtype">int</span> encodeFrame(AVFrame* frame);</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="keywordtype">int</span> getEncodedPacket(AVPacket* packet);</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keywordtype">int</span> <a class="code hl_function" href="class_s_r_encoder.html#a63acae29187371421e9df4812e5a8bb4">encodeFrame</a>(AVFrame* frame);</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="keywordtype">int</span> <a class="code hl_function" href="class_s_r_encoder.html#a12a619b7f61a39430d30c3a188fbb857">getEncodedPacket</a>(AVPacket* packet);</div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>};</div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
@@ -97,6 +97,8 @@ $(function() {
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="comment">//SCREENRECLIB_SRENCODER_H</span></div>
 <div class="ttc" id="aclass_s_r_encoder_html"><div class="ttname"><a href="class_s_r_encoder.html">SREncoder</a></div><div class="ttdef"><b>Definition:</b> SREncoder.h:14</div></div>
+<div class="ttc" id="aclass_s_r_encoder_html_a12a619b7f61a39430d30c3a188fbb857"><div class="ttname"><a href="class_s_r_encoder.html#a12a619b7f61a39430d30c3a188fbb857">SREncoder::getEncodedPacket</a></div><div class="ttdeci">int getEncodedPacket(AVPacket *packet)</div><div class="ttdef"><b>Definition:</b> SREncoder.cpp:31</div></div>
+<div class="ttc" id="aclass_s_r_encoder_html_a63acae29187371421e9df4812e5a8bb4"><div class="ttname"><a href="class_s_r_encoder.html#a63acae29187371421e9df4812e5a8bb4">SREncoder::encodeFrame</a></div><div class="ttdeci">int encodeFrame(AVFrame *frame)</div><div class="ttdef"><b>Definition:</b> SREncoder.cpp:19</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

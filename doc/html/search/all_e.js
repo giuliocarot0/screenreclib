@@ -1,4 +1,29 @@
 var searchData=
 [
-  ['uninitializedfilterexception_0',['UninitializedFilterException',['../class_uninitialized_filter_exception.html',1,'']]]
+  ['s_0',['S',['../struct_s.html',1,'']]],
+  ['screenreclib_20c_2b_2b_20library_1',['screenreclib c++ library',['../md___users_giuliocarota__c_lion_projects_screenreclib__r_e_a_d_m_e.html',1,'']]],
+  ['set_2',['set',['../class_s_r_audio_input.html#aab2fa996559c599fa148f438165c227d',1,'SRAudioInput::set()'],['../class_s_r_video_input.html#adef598ba633075dd213bdfa80593dbe4',1,'SRVideoInput::set()'],['../class_s_r_media_output.html#a640d9287e8ec640b59cfe434b790573b',1,'SRMediaOutput::set()'],['../class_s_r_audio_filter.html#a7035b9b92565cdc5302570afe11abf95',1,'SRAudioFilter::set()'],['../class_s_r_video_filter.html#a18a0ce0deadaa0218ecc68472163a35f',1,'SRVideoFilter::set()']]],
+  ['sraudiofilter_3',['SRAudioFilter',['../class_s_r_audio_filter.html',1,'']]],
+  ['sraudioinput_4',['SRAudioInput',['../class_s_r_audio_input.html',1,'']]],
+  ['srdecoder_5',['SRDecoder',['../class_s_r_decoder.html',1,'']]],
+  ['srdevicedictionaryexception_6',['SRDeviceDictionaryException',['../class_s_r_device_dictionary_exception.html',1,'']]],
+  ['srdeviceexception_7',['SRDeviceException',['../class_s_r_device_exception.html',1,'']]],
+  ['srencoder_8',['SREncoder',['../class_s_r_encoder.html',1,'']]],
+  ['srexception_9',['SRException',['../class_s_r_exception.html',1,'']]],
+  ['srfilterexception_10',['SRFilterException',['../class_s_r_filter_exception.html',1,'']]],
+  ['srinput_11',['SRInput',['../class_s_r_input.html',1,'SRInput'],['../class_s_r_input.html#af58af0322317ead55324cf41e8c9ead2',1,'SRInput::SRInput()']]],
+  ['srmediaoutput_12',['SRMediaOutput',['../class_s_r_media_output.html',1,'']]],
+  ['srnonjoinableexception_13',['SRNonJoinableException',['../class_s_r_non_joinable_exception.html',1,'']]],
+  ['srnullcontextexception_14',['SRNullContextException',['../class_s_r_null_context_exception.html',1,'']]],
+  ['srnullframeexception_15',['SRNullFrameException',['../class_s_r_null_frame_exception.html',1,'']]],
+  ['srnullinputexception_16',['SRNullInputException',['../class_s_r_null_input_exception.html',1,'']]],
+  ['srnullpacketexception_17',['SRNullPacketException',['../class_s_r_null_packet_exception.html',1,'']]],
+  ['srrecorder_18',['SRRecorder',['../class_s_r_recorder.html#a811aa8309ec4ec9f53230322baf5501a',1,'SRRecorder::SRRecorder()'],['../class_s_r_recorder.html',1,'SRRecorder']]],
+  ['srstreamindexexception_19',['SRStreamIndexException',['../class_s_r_stream_index_exception.html',1,'']]],
+  ['srstreaminformationexception_20',['SRStreamInformationException',['../class_s_r_stream_information_exception.html',1,'']]],
+  ['srvideofilter_21',['SRVideoFilter',['../class_s_r_video_filter.html',1,'']]],
+  ['srvideoinput_22',['SRVideoInput',['../class_s_r_video_input.html',1,'']]],
+  ['startcapture_23',['startCapture',['../class_s_r_recorder.html#a401882644b9f88a74b704d4f5783cd85',1,'SRRecorder']]],
+  ['stopcaputure_24',['stopCaputure',['../class_s_r_recorder.html#a5dffe329bceaf65d4d5c7bcd3cb6504c',1,'SRRecorder']]],
+  ['streamexception_25',['StreamException',['../class_stream_exception.html',1,'']]]
 ];

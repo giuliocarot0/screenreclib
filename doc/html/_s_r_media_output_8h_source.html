@@ -92,29 +92,33 @@ $(function() {
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <a class="code hl_struct" href="struct_a.html">SROutputSettings</a> settings{};</div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="keywordtype">int</span> audioStreamID;</div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="keywordtype">int</span> videoStreamID;</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keywordtype">char</span>* filename;</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keywordtype">string</span> filename;</div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    shared_mutex w_mutex;</div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="comment">//these are the only two supported streams by the recorder</span></div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    <span class="keywordtype">int</span> createAudioStream();</div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keywordtype">int</span> createVideoStream();</div>
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="keyword">public</span>:</div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <a class="code hl_class" href="class_s_r_media_output.html">SRMediaOutput</a>();</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="keywordtype">void</span> set(<span class="keywordtype">char</span>* o_filename, <a class="code hl_struct" href="struct_a.html">SROutputSettings</a> o_settings);</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_s_r_media_output.html#a640d9287e8ec640b59cfe434b790573b">set</a>(<span class="keywordtype">string</span> o_filename, <a class="code hl_struct" href="struct_a.html">SROutputSettings</a> o_settings);</div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="keywordtype">int</span> initFile();</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="keywordtype">int</span> <a class="code hl_function" href="class_s_r_media_output.html#afc57e5eb81591a7577b089606ff3408f">initFile</a>();</div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    AVCodecContext* getVideoCodecContext();</div>
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    AVCodecContext* getAudioCodecContext();</div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <span class="comment">//output format context cannot be disclosed due to critical region in writing packets</span></div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="keywordtype">int</span> writePacket(AVPacket* packet, media_type type);</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="keywordtype">int</span> <a class="code hl_function" href="class_s_r_media_output.html#ae6b199218d9e1b697f46bdd3288af96e">writePacket</a>(AVPacket* packet, media_type type);</div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="keywordtype">char</span> *getFilename();</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="keywordtype">string</span> getFilename();</div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <a class="code hl_class" href="class_s_r_media_output.html">~SRMediaOutput</a>();</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <a class="code hl_function" href="class_s_r_media_output.html#acc4b2c66fddad3999333ae5aa4c92b87">~SRMediaOutput</a>();</div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>};</div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="preprocessor">#endif </span><span class="comment">//SCREENRECLIB_SRMEDIAOUTPUT_H</span></div>
 <div class="ttc" id="aclass_s_r_media_output_html"><div class="ttname"><a href="class_s_r_media_output.html">SRMediaOutput</a></div><div class="ttdef"><b>Definition:</b> SRMediaOutput.h:13</div></div>
+<div class="ttc" id="aclass_s_r_media_output_html_a640d9287e8ec640b59cfe434b790573b"><div class="ttname"><a href="class_s_r_media_output.html#a640d9287e8ec640b59cfe434b790573b">SRMediaOutput::set</a></div><div class="ttdeci">void set(string o_filename, SROutputSettings o_settings)</div><div class="ttdef"><b>Definition:</b> SRMediaOutput.cpp:22</div></div>
+<div class="ttc" id="aclass_s_r_media_output_html_acc4b2c66fddad3999333ae5aa4c92b87"><div class="ttname"><a href="class_s_r_media_output.html#acc4b2c66fddad3999333ae5aa4c92b87">SRMediaOutput::~SRMediaOutput</a></div><div class="ttdeci">~SRMediaOutput()</div><div class="ttdef"><b>Definition:</b> SRMediaOutput.cpp:263</div></div>
+<div class="ttc" id="aclass_s_r_media_output_html_ae6b199218d9e1b697f46bdd3288af96e"><div class="ttname"><a href="class_s_r_media_output.html#ae6b199218d9e1b697f46bdd3288af96e">SRMediaOutput::writePacket</a></div><div class="ttdeci">int writePacket(AVPacket *packet, media_type type)</div><div class="ttdef"><b>Definition:</b> SRMediaOutput.cpp:238</div></div>
+<div class="ttc" id="aclass_s_r_media_output_html_afc57e5eb81591a7577b089606ff3408f"><div class="ttname"><a href="class_s_r_media_output.html#afc57e5eb81591a7577b089606ff3408f">SRMediaOutput::initFile</a></div><div class="ttdeci">int initFile()</div><div class="ttdef"><b>Definition:</b> SRMediaOutput.cpp:46</div></div>
 <div class="ttc" id="astruct_a_html"><div class="ttname"><a href="struct_a.html">A</a></div><div class="ttdef"><b>Definition:</b> SRTools.h:83</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

@@ -3,11 +3,9 @@
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{class_s_r_media_output_a70f310a5fbf66ec5c0958574f333889e}\label{class_s_r_media_output_a70f310a5fbf66ec5c0958574f333889e}} 
-void {\bfseries set} (char $\ast$o\+\_\+filename, \mbox{\hyperlink{struct_a}{SROutput\+Settings}} o\+\_\+settings)
+void \mbox{\hyperlink{class_s_r_media_output_a640d9287e8ec640b59cfe434b790573b}{set}} (string o\+\_\+filename, \mbox{\hyperlink{struct_a}{SROutput\+Settings}} o\+\_\+settings)
 \item 
-\mbox{\Hypertarget{class_s_r_media_output_afc57e5eb81591a7577b089606ff3408f}\label{class_s_r_media_output_afc57e5eb81591a7577b089606ff3408f}} 
-int {\bfseries init\+File} ()
+int \mbox{\hyperlink{class_s_r_media_output_afc57e5eb81591a7577b089606ff3408f}{init\+File}} ()
 \item 
 \mbox{\Hypertarget{class_s_r_media_output_a84ef7842d7c0e11491231def9802808f}\label{class_s_r_media_output_a84ef7842d7c0e11491231def9802808f}} 
 AVCodec\+Context $\ast$ {\bfseries get\+Video\+Codec\+Context} ()
@@ -15,15 +13,79 @@ AVCodec\+Context $\ast$ {\bfseries get\+Video\+Codec\+Context} ()
 \mbox{\Hypertarget{class_s_r_media_output_a47e8cac739ecd3b9c6efdd13a16c7c55}\label{class_s_r_media_output_a47e8cac739ecd3b9c6efdd13a16c7c55}} 
 AVCodec\+Context $\ast$ {\bfseries get\+Audio\+Codec\+Context} ()
 \item 
-\mbox{\Hypertarget{class_s_r_media_output_ae6b199218d9e1b697f46bdd3288af96e}\label{class_s_r_media_output_ae6b199218d9e1b697f46bdd3288af96e}} 
-int {\bfseries write\+Packet} (AVPacket $\ast$packet, media\+\_\+type type)
+int \mbox{\hyperlink{class_s_r_media_output_ae6b199218d9e1b697f46bdd3288af96e}{write\+Packet}} (AVPacket $\ast$packet, media\+\_\+type type)
 \item 
-\mbox{\Hypertarget{class_s_r_media_output_a4c203e01eacc5b2b2223ca11c37418d1}\label{class_s_r_media_output_a4c203e01eacc5b2b2223ca11c37418d1}} 
-char $\ast$ {\bfseries get\+Filename} ()
+\mbox{\Hypertarget{class_s_r_media_output_a94678c52d6e8ff3ec489976746661b87}\label{class_s_r_media_output_a94678c52d6e8ff3ec489976746661b87}} 
+string {\bfseries get\+Filename} ()
+\item 
+\mbox{\hyperlink{class_s_r_media_output_acc4b2c66fddad3999333ae5aa4c92b87}{$\sim$\+SRMedia\+Output}} ()
 \end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_s_r_media_output_acc4b2c66fddad3999333ae5aa4c92b87}\label{class_s_r_media_output_acc4b2c66fddad3999333ae5aa4c92b87}} 
+\index{SRMediaOutput@{SRMediaOutput}!````~SRMediaOutput@{$\sim$SRMediaOutput}}
+\index{````~SRMediaOutput@{$\sim$SRMediaOutput}!SRMediaOutput@{SRMediaOutput}}
+\doxysubsubsection{\texorpdfstring{$\sim$SRMediaOutput()}{~SRMediaOutput()}}
+{\footnotesize\ttfamily SRMedia\+Output\+::$\sim$\+SRMedia\+Output (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\hyperlink{class_s_r_media_output}{SRMedia\+Output}} destructor. The destructor frees all the pointers contained in the object 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_s_r_media_output_afc57e5eb81591a7577b089606ff3408f}\label{class_s_r_media_output_afc57e5eb81591a7577b089606ff3408f}} 
+\index{SRMediaOutput@{SRMediaOutput}!initFile@{initFile}}
+\index{initFile@{initFile}!SRMediaOutput@{SRMediaOutput}}
+\doxysubsubsection{\texorpdfstring{initFile()}{initFile()}}
+{\footnotesize\ttfamily int SRMedia\+Output\+::init\+File (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+The method initializes the output file
+
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \mbox{\hyperlink{class_output_format_exception}{Output\+Format\+Exception}}} & if the output format cannot be guessed from the filename \\
+\hline
+{\em \mbox{\hyperlink{class_output_context_allocation_exception}{Output\+Context\+Allocation\+Exception}}} & if the allocation of the output context fails \\
+\hline
+{\em \mbox{\hyperlink{class_file_opening_exception}{File\+Opening\+Exception}}} & if the creation and opening of the output file fails \\
+\hline
+{\em \mbox{\hyperlink{class_no_valid_streams_exception}{No\+Valid\+Streams\+Exception}}} & if the output file doesn\textquotesingle{}t contain any stream \\
+\hline
+{\em \mbox{\hyperlink{class_output_header_writing_exception}{Output\+Header\+Writing\+Exception}}} & if an error occurs while writing the headers of the file \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{class_s_r_media_output_a640d9287e8ec640b59cfe434b790573b}\label{class_s_r_media_output_a640d9287e8ec640b59cfe434b790573b}} 
+\index{SRMediaOutput@{SRMediaOutput}!set@{set}}
+\index{set@{set}!SRMediaOutput@{SRMediaOutput}}
+\doxysubsubsection{\texorpdfstring{set()}{set()}}
+{\footnotesize\ttfamily void SRMedia\+Output\+::set (\begin{DoxyParamCaption}\item[{string}]{o\+\_\+filename,  }\item[{\mbox{\hyperlink{struct_a}{SROutput\+Settings}}}]{o\+\_\+settings }\end{DoxyParamCaption})}
+
+The set method allows to configure the default \mbox{\hyperlink{class_s_r_media_output}{SRMedia\+Output}} device by setting the following parameters
+
+
+\begin{DoxyParams}{Parameters}
+{\em o\+\_\+filename} & indicates the output filename \\
+\hline
+{\em o\+\_\+settings} & indicates the settings set by the user \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_s_r_media_output_ae6b199218d9e1b697f46bdd3288af96e}\label{class_s_r_media_output_ae6b199218d9e1b697f46bdd3288af96e}} 
+\index{SRMediaOutput@{SRMediaOutput}!writePacket@{writePacket}}
+\index{writePacket@{writePacket}!SRMediaOutput@{SRMediaOutput}}
+\doxysubsubsection{\texorpdfstring{writePacket()}{writePacket()}}
+{\footnotesize\ttfamily int SRMedia\+Output\+::write\+Packet (\begin{DoxyParamCaption}\item[{AVPacket $\ast$}]{packet,  }\item[{media\+\_\+type}]{type }\end{DoxyParamCaption})}
+
+The method writes a packet to an output media file after doing a rescale on the packet depending on the output context
+
+
+\begin{DoxyParams}{Parameters}
+{\em packet} & indicates the packet that is going to be written \\
+\hline
+{\em type} & indicates the type of frame to be written (audio or video) \\
+\hline
+\end{DoxyParams}
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
 /\+Users/giuliocarota/\+CLion\+Projects/screenreclib/include/muxing/SRMedia\+Output.\+h\item 
-/\+Users/giuliocarota/\+CLion\+Projects/screenreclib/lib/SRMedia\+Output.\+cpp\end{DoxyCompactItemize}
+/\+Users/giuliocarota/\+CLion\+Projects/screenreclib/src/SRMedia\+Output.\+cpp\end{DoxyCompactItemize}

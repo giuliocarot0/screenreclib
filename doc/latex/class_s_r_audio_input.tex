@@ -29,6 +29,19 @@ The method opens the device, defines a codec context for decoding the audio stre
 the device context 
 \end{DoxyReturn}
 
+\begin{DoxyExceptions}{Exceptions}
+{\em \mbox{\hyperlink{class_s_r_device_exception}{SRDevice\+Exception}}} & if the device, selected with the device\+\_\+src and device\+\_\+url strings, cannot be opened \\
+\hline
+{\em \mbox{\hyperlink{class_s_r_stream_information_exception}{SRStream\+Information\+Exception}}} & if information about the input format context cannot be found \\
+\hline
+{\em \mbox{\hyperlink{class_s_r_stream_index_exception}{SRStream\+Index\+Exception}}} & if the index of the audio stream cannot be found \\
+\hline
+{\em \mbox{\hyperlink{classfind_decoder_exception}{find\+Decoder\+Exception}}} & if the input codec cannot be found \\
+\hline
+{\em \mbox{\hyperlink{classopen_a_v_codec_exception}{open\+AVCodec\+Exception}}} & if the codec context generated from the decoder cannot be opened \\
+\hline
+\end{DoxyExceptions}
+
 
 Implements \mbox{\hyperlink{class_s_r_input}{SRInput}}.
 
@@ -52,4 +65,4 @@ The set method allows to configure the default \mbox{\hyperlink{class_s_r_audio_
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
 /\+Users/giuliocarota/\+CLion\+Projects/screenreclib/include/demuxing/SRAudio\+Input.\+h\item 
-/\+Users/giuliocarota/\+CLion\+Projects/screenreclib/lib/SRAudio\+Input.\+cpp\end{DoxyCompactItemize}
+/\+Users/giuliocarota/\+CLion\+Projects/screenreclib/src/SRAudio\+Input.\+cpp\end{DoxyCompactItemize}
