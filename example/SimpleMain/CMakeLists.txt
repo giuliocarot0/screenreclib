@@ -17,6 +17,12 @@ if(APPLE)
     include_directories(${PATH_TO_FFMPEG}include)
 endif()
 
+if (UNIX AND NOT APPLE)
+    link_directories(/usr/local/ffmpeg/lib)
+    include_directories(/usr/local/ffmpeg/include)
+endif()
+
+
 include_directories(../../include)
 add_executable(SimpleMain
         main.cpp
@@ -39,18 +45,34 @@ add_executable(SimpleMain
         ../../src/SRAudioFilter.cpp
         ../../src/SRRecorder.cpp
         ../../include/SRRecorder.h)
-
-target_link_libraries(
-        SimpleMain
-        avformat
-        avutil
-        avdevice
-        avfilter
-        avcodec
-        swscale
-        #pthread
-        swresample
-)
+if (UNIX AND NOT APPLE)
+    target_link_libraries(QTExampleApp PRIVATE
+            Qt::Core
+            Qt::Gui
+            Qt::Widgets
+            avformat
+            avdevice
+            avfilter
+            avcodec
+            avutil
+            swscale
+            swresample
+            z
+            xcb
+            pulse
+            )
+else()
+    target_link_libraries(
+            SimpleMain
+            avformat
+            avutil
+            avdevice
+            avfilter
+            avcodec
+            swscale
+            #pthread
+            swresample
+    )
 
 
 

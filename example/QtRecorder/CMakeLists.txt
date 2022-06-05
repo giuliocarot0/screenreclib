@@ -29,7 +29,7 @@ if(APPLE)
 
 endif()
 
-if (UNIX)
+if (UNIX AND NOT APPLE)
     set(CMAKE_PREFIX_PATH  /home/ale/Qt/6.2.4/gcc_64/lib/cmake)
     link_directories(/usr/local/ffmpeg/lib)
     include_directories(/usr/local/ffmpeg/include)
@@ -64,7 +64,7 @@ add_executable(QTExampleApp
         ../../src/SRRecorder.cpp
         ../../include/SRRecorder.h)
 
-if (UNIX)
+if (UNIX AND NOT APPLE)
     target_link_libraries(QTExampleApp PRIVATE
         Qt::Core
         Qt::Gui
