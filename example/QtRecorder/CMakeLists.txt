@@ -10,13 +10,11 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 if(WIN32)
-    set(PATH_TO_FFMPEG C:\\Users\\aless\\Desktop\\ffmpeg-4.4-full_build-shared\\)
+    set(PATH_TO_FFMPEG C:\\Users\\aless\\Desktop\\ffmpeg-4.4.1-full_build-shared)
 
-    set(CMAKE_PREFIX_PATH C:\\Qt\\6.2.3\\msvc2019_64\\)
-    link_directories(${PATH_TO_FFMPEG}\\ffmpeg-4.4-full_build-shared\\lib)
-    include_directories(${PATH_TO_FFMPEG}\\ffmpeg-4.4-full_build-shared\\include)
-    #add_library(avformat C:/Users/aless/Desktop/ffmpeg-4.4-full_build-shared/ffmpeg-4.4-full_build-shared/bin/avformat-58.dll)
-    #set_target_properties(avformat PROPERTIES LINKER_LANGUAGE C++)
+    set(CMAKE_PREFIX_PATH C:\\Qt\\6.2.4\\mingw_64\\lib\\cmake)
+    link_directories(${PATH_TO_FFMPEG}\\lib)
+    include_directories(${PATH_TO_FFMPEG}\\include)
     find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets)
 
 endif()
@@ -30,6 +28,15 @@ if(APPLE)
     find_package(Qt5 REQUIRED COMPONENTS Core Gui Widgets)
 
 endif()
+
+if (UNIX)
+    set(CMAKE_PREFIX_PATH  /home/ale/Qt/6.2.4/gcc_64/lib/cmake)
+    link_directories(/usr/local/ffmpeg/lib)
+    include_directories(/usr/local/ffmpeg/include)
+    find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets)
+
+endif()
+
 
 include_directories(../../include)
 add_executable(QTExampleApp
@@ -57,19 +64,36 @@ add_executable(QTExampleApp
         ../../src/SRRecorder.cpp
         ../../include/SRRecorder.h)
 
-
-target_link_libraries(QTExampleApp PRIVATE
+if (UNIX)
+    target_link_libraries(QTExampleApp PRIVATE
         Qt::Core
         Qt::Gui
         Qt::Widgets
         avformat
-        avutil
         avdevice
         avfilter
         avcodec
+        avutil
         swscale
-        #pthread
         swresample
+        z
+        xcb
+        pulse
         )
+else()
+    target_link_libraries(QTExampleApp PRIVATE
+            Qt::Core
+            Qt::Gui
+            Qt::Widgets
+            avformat
+            avdevice
+            avfilter
+            avcodec
+            avutil
+            swscale
+            #pthread
+            swresample
+            )
+endif()
 
 

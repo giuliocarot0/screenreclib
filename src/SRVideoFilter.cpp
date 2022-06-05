@@ -27,7 +27,7 @@ AVFrame* SRVideoFilter::filterFrame(AVFrame* input_frame) {
     scaled_frame->height = encoder->height;
     scaled_frame->format = encoder->pix_fmt;
     scaled_frame->pts = input_frame->best_effort_timestamp;
-    scaled_frame->pkt_dts=input_frame->pkt_dts;
+    scaled_frame->pkt_dts = input_frame->pkt_dts;
     scaled_frame->pkt_duration = input_frame->pkt_duration;
 
 

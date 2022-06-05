@@ -20,8 +20,11 @@ AVFormatContext* SRAudioInput::open(){
     //if one of them != nullptr then input already initialized
     if(inFormatContext != nullptr || inCodecContext!= nullptr || streamIndex != -1)
         return inFormatContext;
-
+    #if __linux__
+    const AVInputFormat* inAInputFormat =nullptr;
+    #else
     AVInputFormat* inAInputFormat =nullptr;
+    #endif
     int value = 0;
 
     inFormatContext = avformat_alloc_context();
@@ -56,7 +59,7 @@ AVFormatContext* SRAudioInput::open(){
     }
 
     AVCodecParameters *params = inFormatContext->streams[streamIndex]->codecpar;
-    AVCodec *inACodec = avcodec_find_decoder(params->codec_id);
+    const AVCodec *inACodec = avcodec_find_decoder(params->codec_id);
     if (inACodec == nullptr) {
         throw findDecoderException("Cannot find the decoder.");
 
