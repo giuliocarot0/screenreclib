@@ -13,23 +13,44 @@ if(APPLE)
     link_directories(/usr/local/Cellar/ffmpeg/4.4.1_5/lib)
     include_directories(/usr/local/Cellar/ffmpeg/4.4.1_5/include)
 endif()
+    link_directories(/usr/local/Cellar/ffmpeg/4.4.1_5/lib)
+    include_directories(/usr/local/Cellar/ffmpeg/4.4.1_5/include)
+
+if (UNIX AND NOT APPLE)
+    link_directories(/usr/local/ffmpeg/lib)
+    include_directories(/usr/local/ffmpeg/include)
+endif()
 
 include_directories(include)
 
 #compile the library
 add_library(screenreclib src/SRDecoder.cpp include/transcoding/SRDecoder.h src/SREncoder.cpp include/transcoding/SREncoder.h src/SRMediaOutput.cpp include/muxing/SRMediaOutput.h src/SRVideoInput.cpp include/demuxing/SRVideoInput.h src/SRAudioInput.cpp include/demuxing/SRAudioInput.h include/SRTools.h src/SRInput.cpp include/exceptions/SRExceptions.h src/SRVideoFilter.cpp include/transcoding/SRVideoFilter.h include/transcoding/SRAudioFilter.h src/SRAudioFilter.cpp src/SRRecorder.cpp include/SRRecorder.h)
-target_link_libraries(
-        screenreclib
-        avformat
-        avutil
-        avdevice
-        avfilter
-        avcodec
-        swscale
-        #pthread
-        swresample
-)
-
+if (UNIX)
+    target_link_libraries(screenreclib
+            avformat
+            avdevice
+            avfilter
+            avcodec
+            avutil
+            swscale
+            swresample
+            z
+            xcb
+            pulse
+            )
+else()
+    target_link_libraries(
+            screenreclib
+            avformat
+            avutil
+            avdevice
+            avfilter
+            avcodec
+            swscale
+            #pthread
+            swresample
+    )
+endif()
 
 
 
