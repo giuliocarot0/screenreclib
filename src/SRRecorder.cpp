@@ -68,16 +68,13 @@ void SRRecorder::videoLoop() {
                     break;
                 r_lock.unlock();
             }
-            /* set an additive offset to readPacket*/
-            if (!last_state)
-                pause_dur = pause_pts - last_pts;
-            else pause_dur = 0;
 
-            if (videoInput->readPacket(inPacket, pause_dur) >= 0) {
+            if (videoInput->readPacket(inPacket, pause_pts) >= 0) {
                 if (last_state) {
                     last_pts = inPacket->pts;
+                    pause_pts = 0;
                 } else {
-                    pause_pts = inPacket->pts;
+                    pause_pts = inPacket->pts - last_pts;
                     continue;
                 }
 
@@ -128,16 +125,14 @@ void SRRecorder::audioLoop() {
                     break;
                 r_lock.unlock();
             }
-            /* set an additive offset to readPacket*/
-            if (!last_state)
-                pause_dur = pause_pts - last_pts;
-            else pause_dur = 0;
 
-            if (audioInput->readPacket(inPacket, pause_dur) >= 0) {
+
+            if (audioInput->readPacket(inPacket, pause_pts) >= 0) {
                 if (last_state) {
                     last_pts = inPacket->pts;
+                    pause_pts = 0;
                 } else {
-                    pause_pts = inPacket->pts;
+                    pause_pts = inPacket->pts - last_pts;
                     continue;
                 }
 

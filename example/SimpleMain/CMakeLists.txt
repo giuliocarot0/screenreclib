@@ -12,8 +12,9 @@ endif()
 
 
 if(APPLE)
-    link_directories(/usr/local/Cellar/ffmpeg/4.4.1_5/lib)
-    include_directories(/usr/local/Cellar/ffmpeg/4.4.1_5/include)
+    set(PATH_TO_FFMPEG /usr/local/Cellar/ffmpeg@4/4.4.2_2/)
+    link_directories(${PATH_TO_FFMPEG}/lib)
+    include_directories(${PATH_TO_FFMPEG}include)
 endif()
 
 include_directories(../../include)

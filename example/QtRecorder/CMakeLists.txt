@@ -24,8 +24,9 @@ endif()
 
 if(APPLE)
     set(CMAKE_PREFIX_PATH  /Users/giuliocarota/Qt/QtDesignStudio/qt5_design_studio_reduced_version/lib/cmake/)
-    link_directories(/usr/local/Cellar/ffmpeg/4.4.1_5/lib)
-    include_directories(/usr/local/Cellar/ffmpeg/4.4.1_5/include)
+    set(PATH_TO_FFMPEG /usr/local/Cellar/ffmpeg@4/4.4.2_2/)
+    link_directories(${PATH_TO_FFMPEG}/lib)
+    include_directories(${PATH_TO_FFMPEG}include)
     find_package(Qt5 REQUIRED COMPONENTS Core Gui Widgets)
 
 endif()
