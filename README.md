@@ -1,6 +1,7 @@
 # screenreclib c++ library
 <p> <img alt="c++" src="https://img.shields.io/badge/C++-17-blue.svg?style=flat&logo=c%2B%2B"/> 
 <p/>
+[![build](https://github.com/giuliocarot0/screenreclib/actions/workflows/build.yml/badge.svg)](https://github.com/giuliocarot0/screenreclib/actions/workflows/build.yml)
 
 **Screenreclib** is a multiplatform library which allows to record your desktop and capture some audio at the same time. Users can exploit its simple and intuitive interfaces.
 The library wraps FFMPEG functionalities and adapts them for screen capturing purposes. 
