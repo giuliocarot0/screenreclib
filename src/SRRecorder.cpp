@@ -81,8 +81,6 @@ void SRRecorder::videoLoop() {
                 videoDecoder->decodePacket(inPacket);
                 while (videoDecoder->getDecodedFrame(rawFrame) >= 0) {
                     scaled_frame = videoFilter->filterFrame(rawFrame);
-                    scaled_frame->pts+=1;
-                    scaled_frame->pkt_dts+=1;
                     if (videoEncoder->encodeFrame(scaled_frame) < 0)
                         printf("DROPPED\n");
                     while (videoEncoder->getEncodedPacket(outPacket) >= 0) {

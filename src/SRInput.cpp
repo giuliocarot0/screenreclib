@@ -38,6 +38,7 @@ int SRInput::readPacket(AVPacket* read_packet, long long int pts_offset) {
         if(pts_offset>0){
             first_pts = first_pts + pts_offset;
         }
+        read_packet->dts -= first_pts;
         read_packet->pts -= first_pts;
         return ret;
     } else
