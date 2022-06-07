@@ -1,0 +1,66 @@
+ 
+
+{\bfseries{Screenreclib}} is a multiplatform library which allows to record your desktop and capture some audio at the same time. Users can exploit its simple and intuitive interfaces. The library wraps FFMPEG functionalities and adapts them for screen capturing purposes.\hypertarget{md___users_giuliocarota__c_lion_projects_screenreclib__r_e_a_d_m_e_autotoc_md1}{}\doxysection{Requirements}\label{md___users_giuliocarota__c_lion_projects_screenreclib__r_e_a_d_m_e_autotoc_md1}
+The screenreclib itself has only few dependencies which can be easily installed on Linux/mac\+OS/\+Windows
+
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{2}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Dependency   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Version    }\\\cline{1-2}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Dependency   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Version    }\\\cline{1-2}
+\endhead
+cmake   &\texorpdfstring{$>$}{>}= 3.\+20    \\\cline{1-2}
+ffmpeg   &\texorpdfstring{$>$}{>}= 4.\+4.\+x   \\\cline{1-2}
+\end{longtabu}
+\hypertarget{md___users_giuliocarota__c_lion_projects_screenreclib__r_e_a_d_m_e_autotoc_md2}{}\doxysubsection{Install ffmpeg}\label{md___users_giuliocarota__c_lion_projects_screenreclib__r_e_a_d_m_e_autotoc_md2}
+For {\bfseries{Linux}} users the ffmpeg can be installed by using official repositories. The following example refers to debian-\/based OSs which use atp as packet manager 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{sudo apt-\/get update \&\& sudo apt-\/get -\/y install cmake libsdl2-\/dev libavcodec-\/dev libavfilter-\/dev libpostproc-\/dev libavformat-\/dev libavutil-\/dev  libswresample-\/dev libswscale-\/dev libavdevice-\/dev}
+
+\end{DoxyCode}
+ For {\bfseries{Windows}} users, ffmpeg can be installed by downloading the precompiled library \href{https://www.gyan.dev/ffmpeg/builds/packages/ffmpeg-4.4.1-full_build-shared.7z}{\texttt{ here}}. The cmake file has to be changed according to your installation path. See the Cmake\+List file from the official repo to understand how to link ffmpeg.
+
+{\bfseries{mac\+OS}} users can install ffmpeg from their terminal using brew. Please ensure that both brew and the XCode Command Line Tools are correctly installed on your mac. 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{brew install cmake ffmpeg}
+
+\end{DoxyCode}
+ \hypertarget{md___users_giuliocarota__c_lion_projects_screenreclib__r_e_a_d_m_e_autotoc_md3}{}\doxysection{Building the library}\label{md___users_giuliocarota__c_lion_projects_screenreclib__r_e_a_d_m_e_autotoc_md3}
+The installation procedure is almost trivial and it is based on few steps.
+
+Clone the repository from github by prompting the following command 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{mkdir screenreclib}
+\DoxyCodeLine{cd screenreclib}
+\DoxyCodeLine{git clone www.github.com/giuliocarot0/screenreclib}
+
+\end{DoxyCode}
+ Ensure that the macros that define the devices are set correctly based on your configuration a and use the Cmake\+List.\+txt in the root directory to build the library. 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd screenreclib}
+\DoxyCodeLine{cmake . }
+
+\end{DoxyCode}
+ The cmake procedure will output a directory called cmake-\/build-\/debug in which the builded library will be stored\hypertarget{md___users_giuliocarota__c_lion_projects_screenreclib__r_e_a_d_m_e_autotoc_md4}{}\doxysection{Modules}\label{md___users_giuliocarota__c_lion_projects_screenreclib__r_e_a_d_m_e_autotoc_md4}
+\hypertarget{md___users_giuliocarota__c_lion_projects_screenreclib__r_e_a_d_m_e_autotoc_md5}{}\doxysection{Examples}\label{md___users_giuliocarota__c_lion_projects_screenreclib__r_e_a_d_m_e_autotoc_md5}
+The library comes with some examples. Each example has a CMake\+Lists.\+txt file that allows to build it by using cmake. These CMake\+Lists.\+txt files are written to build both the entire lib and the example app. So if you want to take a try there is no need for prebuilding the lib.\hypertarget{md___users_giuliocarota__c_lion_projects_screenreclib__r_e_a_d_m_e_autotoc_md6}{}\doxysubsection{Qt\+Recorder}\label{md___users_giuliocarota__c_lion_projects_screenreclib__r_e_a_d_m_e_autotoc_md6}
+The \mbox{\hyperlink{class_qt_recorder}{Qt\+Recorder}} is a Qt app which requires Qt version \texorpdfstring{$>$}{>}= 5 to work well. Before building it please ensure to write the exact Qt\+Cmake path in the relative CMake\+Lists.\+txt. To use this example
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd screenreclib\(\backslash\)example}
+\DoxyCodeLine{cmake QtRecorder}
+
+\end{DoxyCode}
+ \hypertarget{md___users_giuliocarota__c_lion_projects_screenreclib__r_e_a_d_m_e_autotoc_md7}{}\doxysubsection{Simple\+Main}\label{md___users_giuliocarota__c_lion_projects_screenreclib__r_e_a_d_m_e_autotoc_md7}
+Simple\+Main is a simple console applications which executes a recording routing automatically. 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd screenreclib\(\backslash\)example}
+\DoxyCodeLine{cmake SimpleMain}
+
+\end{DoxyCode}
+ 

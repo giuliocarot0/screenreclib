@@ -1,0 +1,68 @@
+\hypertarget{class_s_r_audio_input}{}\doxysection{SRAudio\+Input Class Reference}
+\label{class_s_r_audio_input}\index{SRAudioInput@{SRAudioInput}}
+Inheritance diagram for SRAudio\+Input\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_s_r_audio_input}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_s_r_audio_input_aab2fa996559c599fa148f438165c227d}{set}} (char $\ast$audio\+\_\+src, char $\ast$audio\+\_\+url)
+\item 
+AVFormat\+Context $\ast$ \mbox{\hyperlink{class_s_r_audio_input_a765ad291f0ffb4352a121b76b54b49a8}{open}} () override
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_s_r_audio_input_a765ad291f0ffb4352a121b76b54b49a8}\label{class_s_r_audio_input_a765ad291f0ffb4352a121b76b54b49a8}} 
+\index{SRAudioInput@{SRAudioInput}!open@{open}}
+\index{open@{open}!SRAudioInput@{SRAudioInput}}
+\doxysubsubsection{\texorpdfstring{open()}{open()}}
+{\footnotesize\ttfamily AVFormat\+Context $\ast$ SRAudio\+Input\+::open (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+The method opens the device, defines a codec context for decoding the audio stream and starts putting data in the device buffer.
+
+@override \begin{DoxyReturn}{Returns}
+the device context 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \mbox{\hyperlink{class_s_r_device_exception}{SRDevice\+Exception}}} & if the device, selected with the device\+\_\+src and device\+\_\+url strings, cannot be opened \\
+\hline
+{\em \mbox{\hyperlink{class_s_r_stream_information_exception}{SRStream\+Information\+Exception}}} & if information about the input format context cannot be found \\
+\hline
+{\em \mbox{\hyperlink{class_s_r_stream_index_exception}{SRStream\+Index\+Exception}}} & if the index of the audio stream cannot be found \\
+\hline
+{\em \mbox{\hyperlink{classfind_decoder_exception}{find\+Decoder\+Exception}}} & if the input codec cannot be found \\
+\hline
+{\em \mbox{\hyperlink{classopen_a_v_codec_exception}{open\+AVCodec\+Exception}}} & if the codec context generated from the decoder cannot be opened \\
+\hline
+\end{DoxyExceptions}
+
+
+Implements \mbox{\hyperlink{class_s_r_input}{SRInput}}.
+
+\mbox{\Hypertarget{class_s_r_audio_input_aab2fa996559c599fa148f438165c227d}\label{class_s_r_audio_input_aab2fa996559c599fa148f438165c227d}} 
+\index{SRAudioInput@{SRAudioInput}!set@{set}}
+\index{set@{set}!SRAudioInput@{SRAudioInput}}
+\doxysubsubsection{\texorpdfstring{set()}{set()}}
+{\footnotesize\ttfamily void SRAudio\+Input\+::set (\begin{DoxyParamCaption}\item[{char $\ast$}]{audio\+\_\+src,  }\item[{char $\ast$}]{audio\+\_\+url }\end{DoxyParamCaption})}
+
+The set method allows to configure the default \mbox{\hyperlink{class_s_r_audio_input}{SRAudio\+Input}} device by setting the following parameters
+
+
+\begin{DoxyParams}{Parameters}
+{\em audio\+\_\+src} & indicates the source device \\
+\hline
+{\em audio\+\_\+url} & indicates the device internal path \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/giuliocarota/\+CLion\+Projects/screenreclib/include/demuxing/SRAudio\+Input.\+h\item 
+/\+Users/giuliocarota/\+CLion\+Projects/screenreclib/src/SRAudio\+Input.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,30 @@
+\hypertarget{_s_r_video_input_8h_source}{}\doxysection{SRVideo\+Input.\+h}
+\label{_s_r_video_input_8h_source}\index{/Users/giuliocarota/CLionProjects/screenreclib/include/demuxing/SRVideoInput.h@{/Users/giuliocarota/CLionProjects/screenreclib/include/demuxing/SRVideoInput.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by Giulio Carota on 17/10/21.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef SCREENRECLIB\_SRVIDEOINPUT\_H}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define SCREENRECLIB\_SRVIDEOINPUT\_H}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}SRInput.h"{}}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 \textcolor{keyword}{class }\mbox{\hyperlink{class_s_r_video_input}{SRVideoInput}}: \textcolor{keyword}{public} \mbox{\hyperlink{class_s_r_input}{SRInput}}\{}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \textcolor{keyword}{private}:}
+\DoxyCodeLine{13     \textcolor{keywordtype}{int} fps;}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15 \textcolor{keyword}{public}:}
+\DoxyCodeLine{16 }
+\DoxyCodeLine{17     \mbox{\hyperlink{class_s_r_video_input}{SRVideoInput}}() :fps(-\/1), \mbox{\hyperlink{class_s_r_input_af58af0322317ead55324cf41e8c9ead2}{SRInput}}() \{\};}
+\DoxyCodeLine{18     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_s_r_video_input_adef598ba633075dd213bdfa80593dbe4}{set}}(\textcolor{keywordtype}{char} *deviceSrc,\textcolor{keywordtype}{char} *deviceUrl, \mbox{\hyperlink{struct_s}{SRResolution}} \_res, \textcolor{keywordtype}{int} \_fps);}
+\DoxyCodeLine{19     AVFormatContext* \mbox{\hyperlink{class_s_r_video_input_a89d8be11627bee46ace0da2f53f77ba1}{open}}() \textcolor{keyword}{override};}
+\DoxyCodeLine{20     \mbox{\hyperlink{struct_s}{SRResolution}} \mbox{\hyperlink{class_s_r_video_input_a64c3a28a05a445057fbbeb3f64205db6}{getInputResolution}}();}
+\DoxyCodeLine{21 \};}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23 }
+\DoxyCodeLine{24 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//SCREENRECLIB\_SRVIDEOINPUT\_H}}
+
+\end{DoxyCode}

@@ -1,0 +1,88 @@
+\hypertarget{class_s_r_video_filter}{}\doxysection{SRVideo\+Filter Class Reference}
+\label{class_s_r_video_filter}\index{SRVideoFilter@{SRVideoFilter}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_s_r_video_filter_a18a0ce0deadaa0218ecc68472163a35f}{set}} (AVCodec\+Context $\ast$v\+\_\+encoder, AVCodec\+Context $\ast$v\+\_\+decoder, \mbox{\hyperlink{struct_a}{SROutput\+Settings}} v\+\_\+settings)
+\item 
+void \mbox{\hyperlink{class_s_r_video_filter_a43142a94f7880fad9da2954bc2012eaf}{enable\+Basic}} ()
+\item 
+void \mbox{\hyperlink{class_s_r_video_filter_a8d60037a3ea87f82532592dff74ca588}{enable\+Cropper}} ()
+\item 
+AVFrame $\ast$ \mbox{\hyperlink{class_s_r_video_filter_a8c89f2094e02c52bea3941b82ec7d717}{filter\+Frame}} (AVFrame $\ast$input\+\_\+frame)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_s_r_video_filter_a43142a94f7880fad9da2954bc2012eaf}\label{class_s_r_video_filter_a43142a94f7880fad9da2954bc2012eaf}} 
+\index{SRVideoFilter@{SRVideoFilter}!enableBasic@{enableBasic}}
+\index{enableBasic@{enableBasic}!SRVideoFilter@{SRVideoFilter}}
+\doxysubsubsection{\texorpdfstring{enableBasic()}{enableBasic()}}
+{\footnotesize\ttfamily void SRVideo\+Filter\+::enable\+Basic (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+This method adds the basic\+Filter to the filters chain. When the method is called, all the necessary modules and object to support the filter are instantiated. The filter is set up by using information both from the input codec context and both from the output codec context, to understand how the frame has to be processed.
+
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \mbox{\hyperlink{class_invalid_filter_parameters_exception}{Invalid\+Filter\+Parameters\+Exception}}} & if the decoder or the encoder are not correctly initialized \\
+\hline
+{\em \mbox{\hyperlink{class_buffer_allocation_exception}{Buffer\+Allocation\+Exception}}} & if the malloc for allocation the video buffer fails \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{class_s_r_video_filter_a8d60037a3ea87f82532592dff74ca588}\label{class_s_r_video_filter_a8d60037a3ea87f82532592dff74ca588}} 
+\index{SRVideoFilter@{SRVideoFilter}!enableCropper@{enableCropper}}
+\index{enableCropper@{enableCropper}!SRVideoFilter@{SRVideoFilter}}
+\doxysubsubsection{\texorpdfstring{enableCropper()}{enableCropper()}}
+{\footnotesize\ttfamily void SRVideo\+Filter\+::enable\+Cropper (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+This method adds the crop\+Filter to the filters chain. When the method is called, all the necessary modules and object to support the filter are instantiated. The filter is set up by using information from the input codec context (to understand the input resolution and pixel format) from the output codec context (which has to be set with the cropped resolution before calling this method) and from the crop settings to understand the crop offset.
+
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \mbox{\hyperlink{class_s_r_filter_exception}{SRFilter\+Exception}}} & if the crop filter cannot be initialized \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{class_s_r_video_filter_a8c89f2094e02c52bea3941b82ec7d717}\label{class_s_r_video_filter_a8c89f2094e02c52bea3941b82ec7d717}} 
+\index{SRVideoFilter@{SRVideoFilter}!filterFrame@{filterFrame}}
+\index{filterFrame@{filterFrame}!SRVideoFilter@{SRVideoFilter}}
+\doxysubsubsection{\texorpdfstring{filterFrame()}{filterFrame()}}
+{\footnotesize\ttfamily AVFrame $\ast$ SRVideo\+Filter\+::filter\+Frame (\begin{DoxyParamCaption}\item[{AVFrame $\ast$}]{input\+\_\+frame }\end{DoxyParamCaption})}
+
+The \mbox{\hyperlink{class_s_r_video_filter_a8c89f2094e02c52bea3941b82ec7d717}{filter\+Frame()}} method is responsible for processing the frame according to the defined filters chain. The filters chain can be created by using the basic filter (responsible for preparing the decoded frame for the encoder) and the crop filter (responsible for cropping the frame). At least basic\+Filter has to be enabled. The input frame is deleted after the process and cannot be used anymore.
+
+
+\begin{DoxyParams}{Parameters}
+{\em input\+\_\+frame} & is the raw frame received from the decoder \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \mbox{\hyperlink{class_cropper_exception}{Cropper\+Exception}}} & if an error while enabling the video cropper occurs \\
+\hline
+\end{DoxyExceptions}
+\begin{DoxyReturn}{Returns}
+the pointer to the processed frame 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_s_r_video_filter_a18a0ce0deadaa0218ecc68472163a35f}\label{class_s_r_video_filter_a18a0ce0deadaa0218ecc68472163a35f}} 
+\index{SRVideoFilter@{SRVideoFilter}!set@{set}}
+\index{set@{set}!SRVideoFilter@{SRVideoFilter}}
+\doxysubsubsection{\texorpdfstring{set()}{set()}}
+{\footnotesize\ttfamily void SRVideo\+Filter\+::set (\begin{DoxyParamCaption}\item[{AVCodec\+Context $\ast$}]{v\+\_\+encoder,  }\item[{AVCodec\+Context $\ast$}]{v\+\_\+decoder,  }\item[{\mbox{\hyperlink{struct_a}{SROutput\+Settings}}}]{v\+\_\+settings }\end{DoxyParamCaption})}
+
+\mbox{\hyperlink{class_s_r_video_filter_a18a0ce0deadaa0218ecc68472163a35f}{set()}} allows the caller to pass information about the transcoding and processing.
+
+
+\begin{DoxyParams}{Parameters}
+{\em v\+\_\+encoder} & is a pointer to a valid encoding context \\
+\hline
+{\em v\+\_\+decoder} & is a pointer to a valid decoding context \\
+\hline
+{\em v\+\_\+settings} & is a struct containing information concerning the crop setup. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/giuliocarota/\+CLion\+Projects/screenreclib/include/transcoding/SRVideo\+Filter.\+h\item 
+/\+Users/giuliocarota/\+CLion\+Projects/screenreclib/src/SRVideo\+Filter.\+cpp\end{DoxyCompactItemize}

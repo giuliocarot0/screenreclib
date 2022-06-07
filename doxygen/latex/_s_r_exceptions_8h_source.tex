@@ -1,0 +1,168 @@
+\hypertarget{_s_r_exceptions_8h_source}{}\doxysection{SRExceptions.\+h}
+\label{_s_r_exceptions_8h_source}\index{/Users/giuliocarota/CLionProjects/screenreclib/include/exceptions/SRExceptions.h@{/Users/giuliocarota/CLionProjects/screenreclib/include/exceptions/SRExceptions.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by Alex on 05/01/2022.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 }
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#ifndef SCREENRECLIB\_SREXCEPTIONS\_H}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#define SCREENRECLIB\_SREXCEPTIONS\_H}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <exception>}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 \textcolor{keyword}{class }\mbox{\hyperlink{class_s_r_exception}{SRException}}: \textcolor{keyword}{public} std::exception \{}
+\DoxyCodeLine{11 \textcolor{keyword}{protected}:}
+\DoxyCodeLine{12     \textcolor{keyword}{const} \textcolor{keywordtype}{char}* exception\_message;}
+\DoxyCodeLine{13 \textcolor{keyword}{public}:}
+\DoxyCodeLine{14     \textcolor{keyword}{explicit} \mbox{\hyperlink{class_s_r_exception}{SRException}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* msg): std::exception(), exception\_message(msg)\{\};}
+\DoxyCodeLine{15     \textcolor{keyword}{const} \textcolor{keywordtype}{char} * what() \textcolor{keyword}{const} \textcolor{keyword}{noexcept} \textcolor{keyword}{override} \{}
+\DoxyCodeLine{16         \textcolor{keywordflow}{return} exception\_message;}
+\DoxyCodeLine{17     \}}
+\DoxyCodeLine{18 \};}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20 \textcolor{keyword}{class }\mbox{\hyperlink{class_s_r_non_joinable_exception}{SRNonJoinableException}}: \textcolor{keyword}{public} \mbox{\hyperlink{class_s_r_exception}{SRException}}\{}
+\DoxyCodeLine{21 \textcolor{keyword}{public}:}
+\DoxyCodeLine{22     \textcolor{keyword}{explicit} \mbox{\hyperlink{class_s_r_non_joinable_exception}{SRNonJoinableException}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* msg): \mbox{\hyperlink{class_s_r_exception}{SRException}}(msg)\{\};}
+\DoxyCodeLine{23 \};}
+\DoxyCodeLine{24 \textcolor{keyword}{class }\mbox{\hyperlink{class_s_r_device_dictionary_exception}{SRDeviceDictionaryException}}: \textcolor{keyword}{public} \mbox{\hyperlink{class_s_r_exception}{SRException}}\{}
+\DoxyCodeLine{25 \textcolor{keyword}{public}:}
+\DoxyCodeLine{26     \textcolor{keyword}{explicit} \mbox{\hyperlink{class_s_r_device_dictionary_exception}{SRDeviceDictionaryException}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* msg): \mbox{\hyperlink{class_s_r_exception}{SRException}}(msg)\{\};}
+\DoxyCodeLine{27 \};}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{29 \textcolor{keyword}{class }\mbox{\hyperlink{class_s_r_device_exception}{SRDeviceException}}: \textcolor{keyword}{public} \mbox{\hyperlink{class_s_r_exception}{SRException}}\{}
+\DoxyCodeLine{30 \textcolor{keyword}{public}:}
+\DoxyCodeLine{31     \textcolor{keyword}{explicit} \mbox{\hyperlink{class_s_r_device_exception}{SRDeviceException}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* msg): \mbox{\hyperlink{class_s_r_exception}{SRException}}(msg)\{\};}
+\DoxyCodeLine{32 \};}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34 \textcolor{keyword}{class }\mbox{\hyperlink{class_s_r_stream_information_exception}{SRStreamInformationException}}: \textcolor{keyword}{public} \mbox{\hyperlink{class_s_r_exception}{SRException}}\{}
+\DoxyCodeLine{35 \textcolor{keyword}{public}:}
+\DoxyCodeLine{36     \textcolor{keyword}{explicit} \mbox{\hyperlink{class_s_r_stream_information_exception}{SRStreamInformationException}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* msg): \mbox{\hyperlink{class_s_r_exception}{SRException}}(msg)\{\};}
+\DoxyCodeLine{37 \};}
+\DoxyCodeLine{38 }
+\DoxyCodeLine{39 \textcolor{keyword}{class }\mbox{\hyperlink{class_s_r_stream_index_exception}{SRStreamIndexException}}: \textcolor{keyword}{public} \mbox{\hyperlink{class_s_r_exception}{SRException}}\{}
+\DoxyCodeLine{40 \textcolor{keyword}{public}:}
+\DoxyCodeLine{41     \textcolor{keyword}{explicit} \mbox{\hyperlink{class_s_r_stream_index_exception}{SRStreamIndexException}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* msg): \mbox{\hyperlink{class_s_r_exception}{SRException}}(msg)\{\};}
+\DoxyCodeLine{42 \};}
+\DoxyCodeLine{43 }
+\DoxyCodeLine{44 \textcolor{keyword}{class }\mbox{\hyperlink{classfind_decoder_exception}{findDecoderException}}: \textcolor{keyword}{public} \mbox{\hyperlink{class_s_r_exception}{SRException}}\{}
+\DoxyCodeLine{45 \textcolor{keyword}{public}:}
+\DoxyCodeLine{46     \textcolor{keyword}{explicit} \mbox{\hyperlink{classfind_decoder_exception}{findDecoderException}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* msg): \mbox{\hyperlink{class_s_r_exception}{SRException}}(msg)\{\};}
+\DoxyCodeLine{47 \};}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{49 \textcolor{keyword}{class }\mbox{\hyperlink{classopen_a_v_codec_exception}{openAVCodecException}}: \textcolor{keyword}{public} \mbox{\hyperlink{class_s_r_exception}{SRException}}\{}
+\DoxyCodeLine{50 \textcolor{keyword}{public}:}
+\DoxyCodeLine{51     \textcolor{keyword}{explicit} \mbox{\hyperlink{classopen_a_v_codec_exception}{openAVCodecException}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* msg): \mbox{\hyperlink{class_s_r_exception}{SRException}}(msg)\{\};}
+\DoxyCodeLine{52 \};}
+\DoxyCodeLine{53 }
+\DoxyCodeLine{54 \textcolor{keyword}{class }\mbox{\hyperlink{class_configuration_parser_exception}{ConfigurationParserException}}: \textcolor{keyword}{public} \mbox{\hyperlink{class_s_r_exception}{SRException}}\{}
+\DoxyCodeLine{55 \textcolor{keyword}{public}:}
+\DoxyCodeLine{56     \textcolor{keyword}{explicit} \mbox{\hyperlink{class_configuration_parser_exception}{ConfigurationParserException}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* msg): \mbox{\hyperlink{class_s_r_exception}{SRException}}(msg)\{\};}
+\DoxyCodeLine{57 \};}
+\DoxyCodeLine{58 }
+\DoxyCodeLine{59 \textcolor{keyword}{class }\mbox{\hyperlink{class_s_r_null_input_exception}{SRNullInputException}}: \textcolor{keyword}{public} \mbox{\hyperlink{class_s_r_exception}{SRException}}\{}
+\DoxyCodeLine{60 \textcolor{keyword}{public}:}
+\DoxyCodeLine{61     \textcolor{keyword}{explicit} \mbox{\hyperlink{class_s_r_null_input_exception}{SRNullInputException}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* msg): \mbox{\hyperlink{class_s_r_exception}{SRException}}(msg)\{\};}
+\DoxyCodeLine{62 \};}
+\DoxyCodeLine{63 \textcolor{keyword}{class }\mbox{\hyperlink{class_s_r_filter_exception}{SRFilterException}}: \textcolor{keyword}{public} \mbox{\hyperlink{class_s_r_exception}{SRException}}\{}
+\DoxyCodeLine{64 \textcolor{keyword}{public}:}
+\DoxyCodeLine{65     \textcolor{keyword}{explicit} \mbox{\hyperlink{class_s_r_filter_exception}{SRFilterException}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* msg): \mbox{\hyperlink{class_s_r_exception}{SRException}}(msg)\{\};}
+\DoxyCodeLine{66 \};}
+\DoxyCodeLine{67 \textcolor{keyword}{class }\mbox{\hyperlink{class_decoder_exception}{DecoderException}}: \textcolor{keyword}{public} \mbox{\hyperlink{class_s_r_exception}{SRException}}\{}
+\DoxyCodeLine{68 \textcolor{keyword}{public}:}
+\DoxyCodeLine{69     \textcolor{keyword}{explicit} \mbox{\hyperlink{class_decoder_exception}{DecoderException}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* msg): \mbox{\hyperlink{class_s_r_exception}{SRException}}(msg)\{\};}
+\DoxyCodeLine{70 \};}
+\DoxyCodeLine{71 }
+\DoxyCodeLine{72 \textcolor{keyword}{class }\mbox{\hyperlink{class_encoder_exception}{EncoderException}}: \textcolor{keyword}{public} \mbox{\hyperlink{class_s_r_exception}{SRException}}\{}
+\DoxyCodeLine{73 \textcolor{keyword}{public}:}
+\DoxyCodeLine{74     \textcolor{keyword}{explicit} \mbox{\hyperlink{class_encoder_exception}{EncoderException}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* msg): \mbox{\hyperlink{class_s_r_exception}{SRException}}(msg)\{\};}
+\DoxyCodeLine{75 \};}
+\DoxyCodeLine{76 }
+\DoxyCodeLine{77 \textcolor{keyword}{class }\mbox{\hyperlink{class_uninitialized_filter_exception}{UninitializedFilterException}}: \textcolor{keyword}{public} \mbox{\hyperlink{class_s_r_exception}{SRException}}\{}
+\DoxyCodeLine{78 \textcolor{keyword}{public}:}
+\DoxyCodeLine{79     \textcolor{keyword}{explicit} \mbox{\hyperlink{class_uninitialized_filter_exception}{UninitializedFilterException}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* msg): \mbox{\hyperlink{class_s_r_exception}{SRException}}(msg)\{\};}
+\DoxyCodeLine{80 \};}
+\DoxyCodeLine{81 }
+\DoxyCodeLine{82 \textcolor{keyword}{class }\mbox{\hyperlink{class_cropper_exception}{CropperException}}: \textcolor{keyword}{public} \mbox{\hyperlink{class_s_r_exception}{SRException}}\{}
+\DoxyCodeLine{83 \textcolor{keyword}{public}:}
+\DoxyCodeLine{84     \textcolor{keyword}{explicit} \mbox{\hyperlink{class_cropper_exception}{CropperException}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* msg): \mbox{\hyperlink{class_s_r_exception}{SRException}}(msg)\{\};}
+\DoxyCodeLine{85 \};}
+\DoxyCodeLine{86 }
+\DoxyCodeLine{87 }
+\DoxyCodeLine{88 \textcolor{keyword}{class }\mbox{\hyperlink{class_invalid_filter_parameters_exception}{InvalidFilterParametersException}}: \textcolor{keyword}{public} \mbox{\hyperlink{class_s_r_exception}{SRException}}\{}
+\DoxyCodeLine{89 \textcolor{keyword}{public}:}
+\DoxyCodeLine{90     \textcolor{keyword}{explicit} \mbox{\hyperlink{class_invalid_filter_parameters_exception}{InvalidFilterParametersException}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* msg): \mbox{\hyperlink{class_s_r_exception}{SRException}}(msg)\{\};}
+\DoxyCodeLine{91 \};}
+\DoxyCodeLine{92 }
+\DoxyCodeLine{93 \textcolor{keyword}{class }\mbox{\hyperlink{class_buffer_allocation_exception}{BufferAllocationException}}: \textcolor{keyword}{public} \mbox{\hyperlink{class_s_r_exception}{SRException}}\{}
+\DoxyCodeLine{94 \textcolor{keyword}{public}:}
+\DoxyCodeLine{95     \textcolor{keyword}{explicit} \mbox{\hyperlink{class_buffer_allocation_exception}{BufferAllocationException}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* msg): \mbox{\hyperlink{class_s_r_exception}{SRException}}(msg)\{\};}
+\DoxyCodeLine{96 \};}
+\DoxyCodeLine{97 }
+\DoxyCodeLine{98 \textcolor{keyword}{class }\mbox{\hyperlink{class_output_format_exception}{OutputFormatException}}: \textcolor{keyword}{public} \mbox{\hyperlink{class_s_r_exception}{SRException}}\{}
+\DoxyCodeLine{99 \textcolor{keyword}{public}:}
+\DoxyCodeLine{100     \textcolor{keyword}{explicit} \mbox{\hyperlink{class_output_format_exception}{OutputFormatException}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* msg): \mbox{\hyperlink{class_s_r_exception}{SRException}}(msg)\{\};}
+\DoxyCodeLine{101 \};}
+\DoxyCodeLine{102 }
+\DoxyCodeLine{103 \textcolor{keyword}{class }\mbox{\hyperlink{class_output_context_allocation_exception}{OutputContextAllocationException}}: \textcolor{keyword}{public} \mbox{\hyperlink{class_s_r_exception}{SRException}}\{}
+\DoxyCodeLine{104 \textcolor{keyword}{public}:}
+\DoxyCodeLine{105     \textcolor{keyword}{explicit} \mbox{\hyperlink{class_output_context_allocation_exception}{OutputContextAllocationException}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* msg): \mbox{\hyperlink{class_s_r_exception}{SRException}}(msg)\{\};}
+\DoxyCodeLine{106 \};}
+\DoxyCodeLine{107 }
+\DoxyCodeLine{108 \textcolor{keyword}{class }\mbox{\hyperlink{class_file_opening_exception}{FileOpeningException}}: \textcolor{keyword}{public} \mbox{\hyperlink{class_s_r_exception}{SRException}}\{}
+\DoxyCodeLine{109 \textcolor{keyword}{public}:}
+\DoxyCodeLine{110     \textcolor{keyword}{explicit} \mbox{\hyperlink{class_file_opening_exception}{FileOpeningException}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* msg): \mbox{\hyperlink{class_s_r_exception}{SRException}}(msg)\{\};}
+\DoxyCodeLine{111 \};}
+\DoxyCodeLine{112 }
+\DoxyCodeLine{113 \textcolor{keyword}{class }\mbox{\hyperlink{class_no_valid_streams_exception}{NoValidStreamsException}}: \textcolor{keyword}{public} \mbox{\hyperlink{class_s_r_exception}{SRException}}\{}
+\DoxyCodeLine{114 \textcolor{keyword}{public}:}
+\DoxyCodeLine{115     \textcolor{keyword}{explicit} \mbox{\hyperlink{class_no_valid_streams_exception}{NoValidStreamsException}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* msg): \mbox{\hyperlink{class_s_r_exception}{SRException}}(msg)\{\};}
+\DoxyCodeLine{116 \};}
+\DoxyCodeLine{117 }
+\DoxyCodeLine{118 \textcolor{keyword}{class }\mbox{\hyperlink{class_output_header_writing_exception}{OutputHeaderWritingException}}: \textcolor{keyword}{public} \mbox{\hyperlink{class_s_r_exception}{SRException}}\{}
+\DoxyCodeLine{119 \textcolor{keyword}{public}:}
+\DoxyCodeLine{120     \textcolor{keyword}{explicit} \mbox{\hyperlink{class_output_header_writing_exception}{OutputHeaderWritingException}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* msg): \mbox{\hyperlink{class_s_r_exception}{SRException}}(msg)\{\};}
+\DoxyCodeLine{121 \};}
+\DoxyCodeLine{122 }
+\DoxyCodeLine{123 \textcolor{keyword}{class }\mbox{\hyperlink{class_stream_exception}{StreamException}}: \textcolor{keyword}{public} \mbox{\hyperlink{class_s_r_exception}{SRException}}\{}
+\DoxyCodeLine{124 \textcolor{keyword}{public}:}
+\DoxyCodeLine{125     \textcolor{keyword}{explicit} \mbox{\hyperlink{class_stream_exception}{StreamException}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* msg): \mbox{\hyperlink{class_s_r_exception}{SRException}}(msg)\{\};}
+\DoxyCodeLine{126 \};}
+\DoxyCodeLine{127 }
+\DoxyCodeLine{128 \textcolor{keyword}{class }\mbox{\hyperlink{class_find_encoder_exception}{FindEncoderException}}: \textcolor{keyword}{public} \mbox{\hyperlink{class_s_r_exception}{SRException}}\{}
+\DoxyCodeLine{129 \textcolor{keyword}{public}:}
+\DoxyCodeLine{130     \textcolor{keyword}{explicit} \mbox{\hyperlink{class_find_encoder_exception}{FindEncoderException}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* msg): \mbox{\hyperlink{class_s_r_exception}{SRException}}(msg)\{\};}
+\DoxyCodeLine{131 \};}
+\DoxyCodeLine{132 }
+\DoxyCodeLine{133 \textcolor{keyword}{class }\mbox{\hyperlink{class_a_v_codec_allocation_exception}{AVCodecAllocationException}}: \textcolor{keyword}{public} \mbox{\hyperlink{class_s_r_exception}{SRException}}\{}
+\DoxyCodeLine{134 \textcolor{keyword}{public}:}
+\DoxyCodeLine{135     \textcolor{keyword}{explicit} \mbox{\hyperlink{class_a_v_codec_allocation_exception}{AVCodecAllocationException}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* msg): \mbox{\hyperlink{class_s_r_exception}{SRException}}(msg)\{\};}
+\DoxyCodeLine{136 \};}
+\DoxyCodeLine{137 }
+\DoxyCodeLine{138 \textcolor{keyword}{class }\mbox{\hyperlink{class_codec_opening_exception}{CodecOpeningException}}: \textcolor{keyword}{public} \mbox{\hyperlink{class_s_r_exception}{SRException}}\{}
+\DoxyCodeLine{139 \textcolor{keyword}{public}:}
+\DoxyCodeLine{140     \textcolor{keyword}{explicit} \mbox{\hyperlink{class_codec_opening_exception}{CodecOpeningException}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* msg): \mbox{\hyperlink{class_s_r_exception}{SRException}}(msg)\{\};}
+\DoxyCodeLine{141 \};}
+\DoxyCodeLine{142 }
+\DoxyCodeLine{143 \textcolor{keyword}{class }\mbox{\hyperlink{class_no_free_stream_exception}{NoFreeStreamException}}: \textcolor{keyword}{public} \mbox{\hyperlink{class_s_r_exception}{SRException}}\{}
+\DoxyCodeLine{144 \textcolor{keyword}{public}:}
+\DoxyCodeLine{145     \textcolor{keyword}{explicit} \mbox{\hyperlink{class_no_free_stream_exception}{NoFreeStreamException}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* msg): \mbox{\hyperlink{class_s_r_exception}{SRException}}(msg)\{\};}
+\DoxyCodeLine{146 \};}
+\DoxyCodeLine{147 }
+\DoxyCodeLine{148 \textcolor{keyword}{class }\mbox{\hyperlink{class_s_r_null_frame_exception}{SRNullFrameException}}: \textcolor{keyword}{public} \mbox{\hyperlink{class_s_r_exception}{SRException}}\{}
+\DoxyCodeLine{149 \textcolor{keyword}{public}:}
+\DoxyCodeLine{150     \textcolor{keyword}{explicit} \mbox{\hyperlink{class_s_r_null_frame_exception}{SRNullFrameException}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* msg): \mbox{\hyperlink{class_s_r_exception}{SRException}}(msg)\{\};}
+\DoxyCodeLine{151 \};}
+\DoxyCodeLine{152 }
+\DoxyCodeLine{153 \textcolor{keyword}{class }\mbox{\hyperlink{class_s_r_null_packet_exception}{SRNullPacketException}}: \textcolor{keyword}{public} \mbox{\hyperlink{class_s_r_exception}{SRException}}\{}
+\DoxyCodeLine{154 \textcolor{keyword}{public}:}
+\DoxyCodeLine{155     \textcolor{keyword}{explicit} \mbox{\hyperlink{class_s_r_null_packet_exception}{SRNullPacketException}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* msg): \mbox{\hyperlink{class_s_r_exception}{SRException}}(msg)\{\};}
+\DoxyCodeLine{156 \};}
+\DoxyCodeLine{157 }
+\DoxyCodeLine{158 \textcolor{keyword}{class }\mbox{\hyperlink{class_s_r_null_context_exception}{SRNullContextException}}: \textcolor{keyword}{public} \mbox{\hyperlink{class_s_r_exception}{SRException}}\{}
+\DoxyCodeLine{159 \textcolor{keyword}{public}:}
+\DoxyCodeLine{160     \textcolor{keyword}{explicit} \mbox{\hyperlink{class_s_r_null_context_exception}{SRNullContextException}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* msg): \mbox{\hyperlink{class_s_r_exception}{SRException}}(msg)\{\};}
+\DoxyCodeLine{161 \};}
+\DoxyCodeLine{162 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//SCREENRECLIB\_SREXCEPTIONS\_H}}
+
+\end{DoxyCode}

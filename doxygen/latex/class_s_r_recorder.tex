@@ -1,0 +1,84 @@
+\hypertarget{class_s_r_recorder}{}\doxysection{SRRecorder Class Reference}
+\label{class_s_r_recorder}\index{SRRecorder@{SRRecorder}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{class_s_r_recorder_a0bdaa85f44e67995a7d750f9fbe7400b}{$\sim$\+SRRecorder}} ()
+\item 
+\mbox{\hyperlink{class_s_r_recorder_a811aa8309ec4ec9f53230322baf5501a}{SRRecorder}} (\mbox{\hyperlink{struct_b}{SRConfiguration}} configuration)
+\item 
+void \mbox{\hyperlink{class_s_r_recorder_ae9cef8d8ec4521fe4b99001fdba13ae3}{init\+Capture}} ()
+\item 
+void \mbox{\hyperlink{class_s_r_recorder_a401882644b9f88a74b704d4f5783cd85}{start\+Capture}} ()
+\item 
+void \mbox{\hyperlink{class_s_r_recorder_a5dffe329bceaf65d4d5c7bcd3cb6504c}{stop\+Caputure}} ()
+\item 
+void \mbox{\hyperlink{class_s_r_recorder_a1f8dc07c63a76d9df592360556f4830d}{pause\+Capture}} ()
+\item 
+\mbox{\Hypertarget{class_s_r_recorder_a99fc5e769dc9845a32a9544f99952924}\label{class_s_r_recorder_a99fc5e769dc9845a32a9544f99952924}} 
+void {\bfseries resume\+Capture} ()
+\item 
+\mbox{\Hypertarget{class_s_r_recorder_a36e9fca46c1240369856c736395c86e8}\label{class_s_r_recorder_a36e9fca46c1240369856c736395c86e8}} 
+bool {\bfseries is\+Recording} ()
+\item 
+\mbox{\Hypertarget{class_s_r_recorder_a6e64a0f958ef87d3bfcca7cd9ae7e754}\label{class_s_r_recorder_a6e64a0f958ef87d3bfcca7cd9ae7e754}} 
+bool {\bfseries is\+Paused} ()
+\item 
+\mbox{\Hypertarget{class_s_r_recorder_ae35c95f2742f14a3771beb7923f06d7a}\label{class_s_r_recorder_ae35c95f2742f14a3771beb7923f06d7a}} 
+bool {\bfseries is\+Initialized} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_s_r_recorder_a0bdaa85f44e67995a7d750f9fbe7400b}\label{class_s_r_recorder_a0bdaa85f44e67995a7d750f9fbe7400b}} 
+\index{SRRecorder@{SRRecorder}!````~SRRecorder@{$\sim$SRRecorder}}
+\index{````~SRRecorder@{$\sim$SRRecorder}!SRRecorder@{SRRecorder}}
+\doxysubsubsection{\texorpdfstring{$\sim$SRRecorder()}{~SRRecorder()}}
+{\footnotesize\ttfamily SRRecorder\+::$\sim$\+SRRecorder (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+\mbox{\hyperlink{class_s_r_recorder}{SRRecorder}} destructor. The destructor waits for the termination of the audio and video threads using the join method
+
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \mbox{\hyperlink{class_s_r_non_joinable_exception}{SRNon\+Joinable\+Exception}}} & if the join of the threads fails \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{class_s_r_recorder_a811aa8309ec4ec9f53230322baf5501a}\label{class_s_r_recorder_a811aa8309ec4ec9f53230322baf5501a}} 
+\index{SRRecorder@{SRRecorder}!SRRecorder@{SRRecorder}}
+\index{SRRecorder@{SRRecorder}!SRRecorder@{SRRecorder}}
+\doxysubsubsection{\texorpdfstring{SRRecorder()}{SRRecorder()}}
+{\footnotesize\ttfamily SRRecorder\+::\+SRRecorder (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_b}{SRConfiguration}}}]{configuration }\end{DoxyParamCaption})}
+
+\mbox{\hyperlink{class_s_r_recorder}{SRRecorder}} constructor. The constructor sets the inputs and open them to get their capabilities 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_s_r_recorder_ae9cef8d8ec4521fe4b99001fdba13ae3}\label{class_s_r_recorder_ae9cef8d8ec4521fe4b99001fdba13ae3}} 
+\index{SRRecorder@{SRRecorder}!initCapture@{initCapture}}
+\index{initCapture@{initCapture}!SRRecorder@{SRRecorder}}
+\doxysubsubsection{\texorpdfstring{initCapture()}{initCapture()}}
+{\footnotesize\ttfamily void SRRecorder\+::init\+Capture (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+This method sets the configuration of the output file and the video filter and then creates the two threads which will loop on the audio and video cycles \mbox{\Hypertarget{class_s_r_recorder_a1f8dc07c63a76d9df592360556f4830d}\label{class_s_r_recorder_a1f8dc07c63a76d9df592360556f4830d}} 
+\index{SRRecorder@{SRRecorder}!pauseCapture@{pauseCapture}}
+\index{pauseCapture@{pauseCapture}!SRRecorder@{SRRecorder}}
+\doxysubsubsection{\texorpdfstring{pauseCapture()}{pauseCapture()}}
+{\footnotesize\ttfamily void SRRecorder\+::pause\+Capture (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+This method pauses the threads setting the value of the capture\+\_\+switch to false \mbox{\Hypertarget{class_s_r_recorder_a401882644b9f88a74b704d4f5783cd85}\label{class_s_r_recorder_a401882644b9f88a74b704d4f5783cd85}} 
+\index{SRRecorder@{SRRecorder}!startCapture@{startCapture}}
+\index{startCapture@{startCapture}!SRRecorder@{SRRecorder}}
+\doxysubsubsection{\texorpdfstring{startCapture()}{startCapture()}}
+{\footnotesize\ttfamily void SRRecorder\+::start\+Capture (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+This method starts the threads setting the value of the capture\+\_\+switch to true \mbox{\Hypertarget{class_s_r_recorder_a5dffe329bceaf65d4d5c7bcd3cb6504c}\label{class_s_r_recorder_a5dffe329bceaf65d4d5c7bcd3cb6504c}} 
+\index{SRRecorder@{SRRecorder}!stopCaputure@{stopCaputure}}
+\index{stopCaputure@{stopCaputure}!SRRecorder@{SRRecorder}}
+\doxysubsubsection{\texorpdfstring{stopCaputure()}{stopCaputure()}}
+{\footnotesize\ttfamily void SRRecorder\+::stop\+Caputure (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+This method stops the threads setting the value of the kill\+\_\+switch to true 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/giuliocarota/\+CLion\+Projects/screenreclib/include/SRRecorder.\+h\item 
+/\+Users/giuliocarota/\+CLion\+Projects/screenreclib/src/SRRecorder.\+cpp\end{DoxyCompactItemize}
