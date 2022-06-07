@@ -10,11 +10,9 @@ endif()
 
 
 if(APPLE)
-    link_directories(/usr/local/Cellar/ffmpeg/4.4.1_5/lib)
-    include_directories(/usr/local/Cellar/ffmpeg/4.4.1_5/include)
+    link_directories(/usr/local/Cellar/ffmpeg/5.0.1_2/lib)
+    include_directories(/usr/local/Cellar/ffmpeg/5.0.1_2/include)
 endif()
-    link_directories(/usr/local/Cellar/ffmpeg/4.4.1_5/lib)
-    include_directories(/usr/local/Cellar/ffmpeg/4.4.1_5/include)
 
 if (UNIX AND NOT APPLE)
     link_directories(/usr/local/ffmpeg/lib)

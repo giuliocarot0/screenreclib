@@ -20,7 +20,7 @@ AVFormatContext* SRAudioInput::open(){
     //if one of them != nullptr then input already initialized
     if(inFormatContext != nullptr || inCodecContext!= nullptr || streamIndex != -1)
         return inFormatContext;
-    #if __linux__
+    #if(LIBAVFORMAT_VERSION_INT > AV_VERSION_INT(59,0,0))
     const AVInputFormat* inAInputFormat =nullptr;
     #else
     AVInputFormat* inAInputFormat =nullptr;

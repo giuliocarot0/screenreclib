@@ -84,8 +84,8 @@ AVFormatContext* SRVideoInput::open(){
     //if one of them != nullptr then input already initialized
     if(inFormatContext != nullptr || inCodecContext!= nullptr || streamIndex != -1)
         return inFormatContext;
-    #if __linux__
-    const AVInputFormat* inVInputFormat =nullptr;
+    #if(LIBAVFORMAT_VERSION_INT > AV_VERSION_INT(59,0,0))
+        const AVInputFormat* inVInputFormat =nullptr;
     #else
     AVInputFormat* inVInputFormat =nullptr;
     #endif

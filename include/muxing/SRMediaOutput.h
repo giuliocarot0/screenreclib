@@ -14,7 +14,7 @@ class SRMediaOutput {
 private:
     bool video_recorded;
     bool audio_recorded;
-    #if __linux__
+    #if(LIBAVFORMAT_VERSION_INT > AV_VERSION_INT(59,0,0))
     const AVOutputFormat* outputFormat;
     #else
     AVOutputFormat* outputFormat;
